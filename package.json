@@ -1,0 +1,58 @@
+{
+  "name": "scopetrace",
+  "version": "0.1.0",
+  "description": "Local, evidence-based static analysis of GitHub OAuth App scopes for JavaScript and TypeScript.",
+  "type": "module",
+  "bin": {
+    "scopetrace": "dist/cli/main.js"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "rules",
+    "schemas",
+    "docs",
+    "examples",
+    "README.md",
+    "README.ru.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    ".github/workflows/ci.yml"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sinzbtw/scopetrace.git"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "check": "npm run typecheck && npm run lint && npm run coverage && npm run build",
+    "smoke": "node dist/cli/main.js --version"
+  },
+  "dependencies": {
+    "picomatch": "^4.0.3",
+    "typescript": "~5.9.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/picomatch": "^4.0.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "ajv": "^8.20.0",
+    "eslint": "^10.13.0",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.0.5"
+  },
+  "types": "dist/index.d.ts"
+}

@@ -1,0 +1,360 @@
+{
+  "version": "2026-10-29.1",
+  "provider": "github-oauth",
+  "verified": "2026-10-29",
+  "scopes": [
+    "repo",
+    "repo:status",
+    "repo_deployment",
+    "public_repo",
+    "repo:invite",
+    "security_events",
+    "admin:repo_hook",
+    "write:repo_hook",
+    "read:repo_hook",
+    "admin:org",
+    "write:org",
+    "read:org",
+    "admin:public_key",
+    "write:public_key",
+    "read:public_key",
+    "admin:org_hook",
+    "gist",
+    "notifications",
+    "user",
+    "read:user",
+    "user:email",
+    "user:follow",
+    "project",
+    "read:project",
+    "delete_repo",
+    "write:packages",
+    "read:packages",
+    "delete:packages",
+    "admin:gpg_key",
+    "write:gpg_key",
+    "read:gpg_key",
+    "codespace",
+    "workflow",
+    "read:audit_log",
+    "offline_access"
+  ],
+  "implies": {
+    "repo": [
+      "repo:status",
+      "repo_deployment",
+      "public_repo",
+      "repo:invite",
+      "security_events",
+      "admin:repo_hook"
+    ],
+    "public_repo": [
+      "admin:repo_hook"
+    ],
+    "admin:repo_hook": [
+      "write:repo_hook"
+    ],
+    "write:repo_hook": [
+      "read:repo_hook"
+    ],
+    "admin:org": [
+      "write:org"
+    ],
+    "write:org": [
+      "read:org"
+    ],
+    "admin:public_key": [
+      "write:public_key"
+    ],
+    "write:public_key": [
+      "read:public_key"
+    ],
+    "user": [
+      "read:user",
+      "user:email",
+      "user:follow"
+    ],
+    "project": [
+      "read:project"
+    ],
+    "admin:gpg_key": [
+      "write:gpg_key"
+    ],
+    "write:gpg_key": [
+      "read:gpg_key"
+    ]
+  },
+  "rules": [
+    {
+      "id": "gh.email.list",
+      "method": "GET",
+      "endpoint": "/user/emails",
+      "octokit": [
+        "users.listEmailsForAuthenticatedUser"
+      ],
+      "alternatives": [
+        [
+          "user:email"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Listing the authenticated user's email addresses requires user:email; user includes that scope.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/emails#list-email-addresses-for-the-authenticated-user",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.email.add",
+      "method": "POST",
+      "endpoint": "/user/emails",
+      "octokit": [
+        "users.addEmailForAuthenticatedUser"
+      ],
+      "alternatives": [
+        [
+          "user"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Adding an email address requires the broader user scope.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/emails#add-an-email-address-for-the-authenticated-user",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.email.delete",
+      "method": "DELETE",
+      "endpoint": "/user/emails",
+      "octokit": [
+        "users.deleteEmailForAuthenticatedUser"
+      ],
+      "alternatives": [
+        [
+          "user"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Deleting an email address requires the user scope.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/emails#delete-an-email-address-for-the-authenticated-user",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.user.follow",
+      "method": "PUT",
+      "endpoint": "/user/following/{username}",
+      "octokit": [
+        "users.follow"
+      ],
+      "alternatives": [
+        [
+          "user:follow"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Following or unfollowing a user requires user:follow.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/followers#follow-a-user",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.user.unfollow",
+      "method": "DELETE",
+      "endpoint": "/user/following/{username}",
+      "octokit": [
+        "users.unfollow"
+      ],
+      "alternatives": [
+        [
+          "user:follow"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Following or unfollowing a user requires user:follow.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/followers#unfollow-a-user",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.gist.create",
+      "method": "POST",
+      "endpoint": "/gists",
+      "octokit": [
+        "gists.create"
+      ],
+      "alternatives": [
+        [
+          "gist"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Writing gists on a user's behalf requires the gist OAuth scope.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists#create-a-gist",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.gist.update",
+      "method": "PATCH",
+      "endpoint": "/gists/{gist_id}",
+      "octokit": [
+        "gists.update"
+      ],
+      "alternatives": [
+        [
+          "gist"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Writing gists on a user's behalf requires the gist OAuth scope.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists#update-a-gist",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.gist.delete",
+      "method": "DELETE",
+      "endpoint": "/gists/{gist_id}",
+      "octokit": [
+        "gists.delete"
+      ],
+      "alternatives": [
+        [
+          "gist"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Writing gists on a user's behalf requires the gist OAuth scope.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists#delete-a-gist",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.repo.delete",
+      "method": "DELETE",
+      "endpoint": "/repos/{owner}/{repo}",
+      "octokit": [
+        "repos.delete"
+      ],
+      "alternatives": [
+        [
+          "delete_repo"
+        ]
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Deleting a repository requires delete_repo and repository administration access; repo does not imply delete_repo.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/repos#delete-a-repository",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.repo.read",
+      "method": "GET",
+      "endpoint": "/repos/{owner}/{repo}",
+      "octokit": [
+        "repos.get"
+      ],
+      "alternatives": [
+        [],
+        [
+          "repo"
+        ]
+      ],
+      "condition": "repository-read",
+      "confidence": "high",
+      "rationale": "Public repository metadata needs no scope. Reading a private repository requires repo; configured visibility is an assumption.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/repos#get-a-repository",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.contents.read",
+      "method": "GET",
+      "endpoint": "/repos/{owner}/{repo}/contents/{path}",
+      "octokit": [
+        "repos.getContent"
+      ],
+      "alternatives": [
+        [],
+        [
+          "repo"
+        ]
+      ],
+      "condition": "repository-read",
+      "confidence": "high",
+      "rationale": "Public repository contents need no scope. Private contents require repo; configured visibility is an assumption.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/contents#get-repository-content",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.user.public",
+      "method": "GET",
+      "endpoint": "/users/{username}",
+      "octokit": [
+        "users.getByUsername"
+      ],
+      "alternatives": [
+        []
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Public user profile information does not require an OAuth scope; access restrictions may still apply.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/users#get-a-user",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gh.gist.public",
+      "method": "GET",
+      "endpoint": "/gists/{gist_id}",
+      "octokit": [
+        "gists.get"
+      ],
+      "alternatives": [
+        []
+      ],
+      "condition": "always",
+      "confidence": "high",
+      "rationale": "Reading a public gist anonymously needs no scope. This rule covers public gist reads only; secret gist access is outside the rule.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists#get-a-gist",
+        "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps"
+      ],
+      "verified": "2026-10-29"
+    }
+  ]
+}

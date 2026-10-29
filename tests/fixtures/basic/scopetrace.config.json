@@ -1,0 +1,11 @@
+{
+  "provider": "github-oauth",
+  "declaredScopes": [
+    "user:email",
+    "workflow"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "repositoryVisibility": "public"
+}

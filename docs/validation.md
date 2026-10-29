@@ -1,0 +1,14 @@
+# Validation
+
+Before v0.1.0 publication, the complete Windows local checks passed:
+- TypeScript typecheck, ESLint and build.
+- Unit/integration/contract tests with enforced coverage gates.
+- Full dependency audit, including development dependencies.
+- CLI version, real fixture scan, JSON/Markdown export and confidence-aware exit code.
+- Report validation against JSON Schema; bilingual README section/link checks.
+- Installation of the packed build into an isolated local prefix.
+- Credential-pattern inspection of tracked files and complete Git history.
+
+CI is authoritative for Linux and additional Node versions. Coverage percentages and job outcomes are visible in the CI logs rather than hard-coded as product guarantees.
+
+Review boundaries: the credential check is pattern-based, not proof of the absence of every possible secret. Only synthetic fixtures are intentionally included; no user project or environment file is part of the published source. Findings do not establish safe scope removal.
