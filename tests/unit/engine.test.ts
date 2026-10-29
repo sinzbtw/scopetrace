@@ -16,6 +16,8 @@ describe('OAuth scope model and engine', () => {
   expect(covers('repo','delete_repo')).toBe(false);
   expect(covers('repo','workflow')).toBe(false);
   expect(covers('public_repo','repo')).toBe(false);
+  expect(covers('public_repo','admin:repo_hook')).toBe(false);
+  expect(normalizeScopes(['public_repo','admin:repo_hook'])).toEqual(['admin:repo_hook','public_repo']);
   expect(covers('write:org','repo')).toBe(false);
   expect(normalizeScopes(['user:email','user','gist','user'])).toEqual(['gist','user']);
  });

@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-29.1",
+  "version": "2026-10-29.2",
   "provider": "github-oauth",
   "verified": "2026-10-29",
   "scopes": [
@@ -46,9 +46,6 @@
       "public_repo",
       "repo:invite",
       "security_events",
-      "admin:repo_hook"
-    ],
-    "public_repo": [
       "admin:repo_hook"
     ],
     "admin:repo_hook": [

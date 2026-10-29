@@ -1,6 +1,6 @@
 # GitHub OAuth rule catalog
 
-Catalog 2026-10-29.1, verified on 2026-10-29: [catalog JSON](../rules/github-oauth.json).
+Catalog 2026-10-29.2, verified on 2026-10-29: [catalog JSON](../rules/github-oauth.json).
 
 Applies only to **GitHub OAuth Apps**. Fine-grained permission tables on an endpoint page do not establish OAuth scope requirements. Evidence is explicit OAuth wording, or the scope reference combined with documented endpoint behavior.
 
@@ -28,7 +28,7 @@ Each rule contains a unique id, uppercase method, template endpoint, Octokit met
 
 Alternatives are OR sets of AND scopes: [[a,b],[c]] means (a AND b) OR c. [[]] models no scope. Condition is always or repository-read; the engine selects the public/private branch for repository reads. Unknown visibility blocks inference.
 
-Implication edges represent verified coverage. Repo covers repository subscopes, but never delete_repo or workflow. User includes read:user, user:email and user:follow. Other nested families support normalization; recognizing a scope name does not imply endpoint coverage. We do not infer unrelated notifications/package scope relationships.
+Implication edges represent verified coverage. Repo covers repository subscopes, but never delete_repo or workflow. User includes read:user, user:email and user:follow. Other nested families support normalization; recognizing a scope name does not imply endpoint coverage. We do not infer unrelated notifications/package scope relationships. Public_repo does not globally imply admin:repo_hook: public-only hook access cannot cover private-repository hooks.
 
 ## Evidence and exclusions
 
