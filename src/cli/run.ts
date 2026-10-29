@@ -1,19 +1,20 @@
 import { lstat, open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
-import { defaultConfig, loadConfig } from '../config/index.js';
+import { defaultConfig, defaultAppConfig, loadConfig } from '../config/index.js';
 import { evaluate, shouldFail, VERSION } from '../engine/index.js';
+import { appCatalog } from '../providers/github-app/index.js';
 import { catalog } from '../providers/github/index.js';
 import { render, type Format } from '../reporters/index.js';
 import { scanProject } from '../scanner/index.js';
 import type { Severity } from '../types.js';
-const help = `ScopeTrace — static GitHub OAuth App scope analysis (Node.js 22+)
+const help = `ScopeTrace — static GitHub OAuth and GitHub App permission analysis (Node.js 22+)
 
 Usage:
-  scopetrace init
+  scopetrace init [--provider github-oauth|github-app]
   scopetrace scan [--config FILE] [--format text|json|markdown] [--output FILE]
                   [--fail-on info|low|medium|high]
-  scopetrace rules
+  scopetrace rules [--provider github-oauth|github-app]
   scopetrace --help
   scopetrace --version
 
@@ -40,7 +41,7 @@ export async function runCli(args: string[], cwd: string, io: CliIO): Promise<nu
  try {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, strict: true, options: {
    help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
-   config: { type: 'string' }, format: { type: 'string' }, output: { type: 'string' }, 'fail-on': { type: 'string' }
+   provider: { type: 'string' }, config: { type: 'string' }, format: { type: 'string' }, output: { type: 'string' }, 'fail-on': { type: 'string' }
   } });
   if (values.help) { io.stdout(help); return 0; }
   if (values.version) { io.stdout(VERSION + '\n'); return 0; }
@@ -48,12 +49,15 @@ export async function runCli(args: string[], cwd: string, io: CliIO): Promise<nu
   if (!command && args.length === 0) { io.stdout(help); return 0; }
   if (positionals.length !== 1 || !['init', 'scan', 'rules'].includes(command ?? '')) throw new Error('Expected one command: init, scan or rules. See --help.');
   if (command !== 'scan' && ['config', 'format', 'output', 'fail-on'].some(k => k in values)) throw new Error('Scan options are only valid with scan.');
+  if (values.provider && !['github-oauth', 'github-app'].includes(values.provider)) throw new Error('Provider must be github-oauth or github-app.');
+  if (command === 'scan' && values.provider) throw new Error('Select the scan provider in the JSON config.');
   if (command === 'init') {
-   await writeNew(path.join(cwd, 'scopetrace.config.json'), JSON.stringify(defaultConfig, null, 2) + '\n');
-   io.stdout('Created scopetrace.config.json. Set declaredScopes and review include patterns.\n'); return 0;
+   await writeNew(path.join(cwd, 'scopetrace.config.json'), JSON.stringify(values.provider === 'github-app' ? defaultAppConfig : defaultConfig, null, 2) + '\n');
+   io.stdout('Created scopetrace.config.json. Set the declarations and review include patterns.\n'); return 0;
   }
   if (command === 'rules') {
-   io.stdout('GitHub OAuth catalog ' + catalog.version + '\n' + catalog.rules.map(r =>
+   const selected = values.provider === 'github-app' ? appCatalog : catalog;
+   io.stdout(selected.provider + ' catalog ' + selected.version + '\n' + selected.rules.map(r =>
     r.id + ' ' + r.method + ' ' + r.endpoint + '\n  ' + r.rationale + '\n  Condition: ' + r.condition +
     '\n  Alternatives: ' + JSON.stringify(r.alternatives) + '\n  Verified: ' + r.verified + '\n  ' + r.docs.join('\n  ')).join('\n') + '\n');
    return 0;

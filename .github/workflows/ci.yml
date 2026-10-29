@@ -35,3 +35,15 @@ jobs:
           code=$?
           set -e
           test "$code" -eq 1
+
+      - name: Built GitHub App report and gate
+        shell: bash
+        working-directory: tests/fixtures/github-app
+        run: |
+          node ../../../dist/cli/main.js scan --format json --output ../../../work-ci-app-report.json
+          node -e "const r=require('../../../work-ci-app-report.json'); if(r.provider!=='github-app'||r.schemaVersion!=='2.0.0'||r.operations.length!==2) process.exit(1)"
+          set +e
+          node ../../../dist/cli/main.js scan --fail-on high
+          code=$?
+          set -e
+          test "$code" -eq 1

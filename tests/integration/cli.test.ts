@@ -17,7 +17,7 @@ describe('CLI integration',()=>{
   const dir=await fixture();
   expect((await run([],dir)).stdout).toContain('Usage:');
   expect((await run(['--help'],dir)).code).toBe(0);
-  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.1.0');
+  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.2.0');
   const rules=await run(['rules'],dir);expect(rules.code).toBe(0);expect(rules.stdout).toContain('gh.email.list');expect(rules.stdout).toContain('https://docs.github.com/');
  });
  it('initializes exclusively and rejects command/options errors',async()=>{
@@ -60,4 +60,36 @@ describe('CLI integration',()=>{
   await symlink(external,path.join(dir,'link'),'junction');
   const result=await run(['scan','--output','link/out.json'],dir);expect(result.code).toBe(2);expect(result.stderr).toContain('symbolic link');
  });
+ it('initializes and lists an explicit GitHub App provider',async()=>{
+  const dir=await fixture();
+  expect((await run(['init','--provider','github-app'],dir)).code).toBe(0);
+  const config=JSON.parse(await readFile(path.join(dir,'scopetrace.config.json'),'utf8'));
+  expect(config.provider).toBe('github-app');expect(config.tokenType).toBe('installation');
+  expect(config).not.toHaveProperty('declaredScopes');
+  const rules=await run(['rules','--provider','github-app'],dir);
+  expect(rules.code).toBe(0);expect(rules.stdout).toContain('gha.issues.create');expect(rules.stdout).toContain('"level":"write"');
+ });
+ it('rejects provider typos and scan-time model overrides',async()=>{
+  const dir=await fixture();
+  for(const args of [['init','--provider','unknown'],['rules','--provider','fine-grained-pat'],['scan','--provider','github-app']]){
+   expect((await run(args,dir)).code).toBe(2);
+  }
+ });
+ it('scans Apps with level evidence, confidence gates and both export reporters',async()=>{
+  const dir=path.resolve('tests/fixtures/github-app');
+  const result=await run(['scan','--format','json','--fail-on','high'],dir);
+  expect(result.code).toBe(1);expect(result.stderr).toBe('');
+  const report=JSON.parse(result.stdout);
+  expect(report.provider).toBe('github-app');expect(report.schemaVersion).toBe('2.0.0');
+  expect(report.findings.some((f:{category:string,declaredLevel:string,requiredLevel:string})=>f.category==='insufficient'&&f.declaredLevel==='read'&&f.requiredLevel==='write')).toBe(true);
+  expect(report.findings.some((f:{suggestedLevel?:string})=>f.suggestedLevel==='read')).toBe(true);
+  expect((await run(['scan','--format','markdown'],dir)).stdout).toContain('Provider: github-app');
+  expect((await run(['scan'],dir)).code).toBe(0);
+ });
+ it('sanitizes invalid permission-key errors rather than echoing names',async()=>{
+  const dir=await fixture();
+  await writeFile(path.join(dir,'scopetrace.config.json'),JSON.stringify({provider:'github-app',tokenType:'user',declaredPermissions:{account:{SENTINEL:'write'}}}));
+  const result=await run(['scan'],dir);expect(result.code).toBe(2);expect(result.stderr).not.toContain('SENTINEL');
+ });
+
 });

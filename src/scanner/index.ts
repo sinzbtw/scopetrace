@@ -56,7 +56,7 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
      totalBytes += bytesRead;
      result.filesScanned++;
      try {
-      const parsed = parseSource(buffer.subarray(0, bytesRead).toString('utf8'), relative);
+      const parsed = parseSource(buffer.subarray(0, bytesRead).toString('utf8'), relative, config.provider);
       result.operations.push(...parsed.operations);
       result.notices.push(...parsed.notices);
       if (parsed.notices.length) result.complete = false;

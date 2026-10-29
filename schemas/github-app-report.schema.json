@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/sinzbtw/scopetrace/blob/main/schemas/github-app-report.schema.json",
+  "title": "ScopeTrace GitHub App report v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "toolVersion",
+    "provider",
+    "catalogVersion",
+    "analysis",
+    "operations",
+    "findings",
+    "tokenType",
+    "declaredPermissions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "toolVersion": {
+      "type": "string"
+    },
+    "provider": {
+      "const": "github-app"
+    },
+    "catalogVersion": {
+      "type": "string"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filesScanned",
+        "complete",
+        "notices",
+        "limitations"
+      ],
+      "properties": {
+        "filesScanned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/notice"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "tokenType": {
+      "enum": [
+        "installation",
+        "user"
+      ]
+    },
+    "declaredPermissions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/requirement"
+      }
+    }
+  },
+  "$defs": {
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "line",
+        "column"
+      ],
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "method",
+        "endpoint",
+        "source",
+        "location",
+        "confidence"
+      ],
+      "properties": {
+        "provider": {
+          "const": "github-app"
+        },
+        "method": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "fetch",
+            "octokit-rest",
+            "octokit-request",
+            "octokit-graphql"
+          ]
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "severity",
+        "confidence",
+        "message",
+        "docs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ST-[a-f0-9]{16}$"
+        },
+        "category": {
+          "enum": [
+            "observed",
+            "possibly_excessive",
+            "insufficient",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "operation": {
+          "$ref": "#/$defs/operation"
+        },
+        "ruleId": {
+          "type": "string"
+        },
+        "docs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "permission": {
+          "$ref": "#/$defs/permission"
+        },
+        "declaredLevel": {
+          "enum": [
+            "none",
+            "read",
+            "write"
+          ]
+        },
+        "requiredLevel": {
+          "enum": [
+            "read",
+            "write"
+          ]
+        },
+        "suggestedLevel": {
+          "enum": [
+            "read",
+            "write"
+          ]
+        },
+        "permissionAlternatives": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/requirement"
+            }
+          }
+        }
+      }
+    },
+    "permission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain",
+        "name"
+      ],
+      "properties": {
+        "domain": {
+          "enum": [
+            "repository",
+            "organization",
+            "account"
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain",
+        "name",
+        "level"
+      ],
+      "properties": {
+        "domain": {
+          "enum": [
+            "repository",
+            "organization",
+            "account"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "level": {
+          "enum": [
+            "read",
+            "write"
+          ]
+        }
+      }
+    }
+  }
+}

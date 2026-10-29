@@ -1,14 +1,14 @@
 import { lstat, readFile, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
+import { appCatalog } from '../providers/github-app/index.js';
+import type { PermissionDomain } from '../types.js';
 
 const pattern = z.string().min(1).max(256).refine(p =>
  !p.includes('\\') && !p.startsWith('/') && !/^[A-Za-z]:/.test(p) &&
  !p.split('/').includes('..') && !/[\x00-\x1f]/.test(p),
  'Use relative forward-slash glob patterns without parent traversal');
-export const configSchema = z.strictObject({
- provider: z.literal('github-oauth'),
- declaredScopes: z.array(z.string().regex(/^[a-z][a-z0-9_:]*$/).max(80)).max(100),
+const common = {
  include: z.array(pattern).min(1).max(100).default(['**/*.{js,jsx,ts,tsx}']),
  exclude: z.array(pattern).max(100).default(['**/*.test.*', '**/*.spec.*']),
  repositoryVisibility: z.enum(['unknown', 'public', 'private']).default('unknown'),
@@ -19,11 +19,37 @@ export const configSchema = z.strictObject({
   maxEntries: z.number().int().min(1).max(200000).default(50000),
   maxDepth: z.number().int().min(1).max(64).default(32)
  }).default({ maxFiles: 2000, maxFileBytes: 524288, maxTotalBytes: 20971520, maxEntries: 50000, maxDepth: 32 })
+};
+const levels = z.enum(['read', 'write']);
+function permissions(domain: PermissionDomain) {
+ return z.unknown().superRefine((input, ctx) => {
+  if (input !== null && typeof input === 'object' && Object.keys(input).some(name => !Object.hasOwn(appCatalog.permissions[domain], name))) {
+   ctx.addIssue({ code: 'custom', message: 'Unsupported permission name for this domain.' });
+  }
+ }).pipe(z.partialRecord(z.enum(Object.keys(appCatalog.permissions[domain]) as [string, ...string[]]), levels)).superRefine((values, ctx) => {
+  if (Object.keys(values).length > 100 || Object.entries(values).some(([name, level]) => level === undefined || !appCatalog.permissions[domain][name]?.includes(level))) {
+   ctx.addIssue({ code: 'custom', message: 'Unsupported permission name or level for this domain.' });
+  }
+ }).default({});
+}
+export const oauthConfigSchema = z.strictObject({
+ ...common, provider: z.literal('github-oauth'),
+ declaredScopes: z.array(z.string().regex(/^[a-z][a-z0-9_:]*$/).max(80)).max(100)
 });
-export type Config = z.infer<typeof configSchema>;
+export const appConfigSchema = z.strictObject({
+ ...common, provider: z.literal('github-app'), tokenType: z.enum(['installation', 'user']),
+ declaredPermissions: z.strictObject({ repository: permissions('repository'), organization: permissions('organization'), account: permissions('account') })
+});
+export const configSchema = z.discriminatedUnion('provider', [oauthConfigSchema, appConfigSchema]);
+export type OAuthConfig = z.infer<typeof oauthConfigSchema>;
+export type AppConfig = z.infer<typeof appConfigSchema>;
+export type Config = OAuthConfig | AppConfig;
 export const defaultConfig = { provider: 'github-oauth', declaredScopes: [],
  include: ['src/**/*.{js,jsx,ts,tsx}'], exclude: ['**/*.test.*', '**/*.spec.*'],
  repositoryVisibility: 'unknown' };
+export const defaultAppConfig = { provider: 'github-app', tokenType: 'installation',
+ declaredPermissions: { repository: { contents: 'read', issues: 'read', metadata: 'read' }, organization: {}, account: {} },
+ include: ['src/**/*.{js,jsx,ts,tsx}'], exclude: ['**/*.test.*', '**/*.spec.*'], repositoryVisibility: 'unknown' };
 export function within(root: string, candidate: string): boolean {
  const rel = path.relative(root, candidate);
  return rel === '' || (!rel.startsWith('..' + path.sep) && rel !== '..' && !path.isAbsolute(rel));
@@ -37,6 +63,6 @@ export async function loadConfig(root: string, filename = 'scopetrace.config.jso
  let input: unknown;
  try { input = JSON.parse(await readFile(target, 'utf8')); } catch { throw new Error('Config is not valid JSON.'); }
  const parsed = configSchema.safeParse(input);
- if (!parsed.success) throw new Error('Invalid config: ' + parsed.error.issues.map(i => i.path.join('.') + ': ' + i.code).join('; '));
+ if (!parsed.success) throw new Error('Invalid config: ' + parsed.error.issues.map(i => i.path.slice(0, 2).join('.') + ': ' + i.code).join('; '));
  return parsed.data;
 }

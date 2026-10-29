@@ -2,7 +2,7 @@
 
 ## Supported release
 
-Security fixes target 0.1.x. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
+Security fixes target 0.2.x; users on 0.1.x should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
 
 ## Private reporting
 
@@ -16,7 +16,7 @@ An attacker may control a stable repository's filenames, text, configuration, li
 
 JSON config is strict and bounded to 64 KiB. Traversal skips environment files, key names, dependencies, VCS metadata and build outputs. Source bytes, entries, file count and depth are bounded. Symlinks and junctions are skipped; real paths are checked against the root; opened regular-file identity is rechecked; reads use bounded buffers. Failures produce sanitized notices without source snippets.
 
-Reports retain relative filenames, positions and known scope names. They omit source fragments, bodies, raw arbitrary endpoints, queries, auth options and headers. Unrecognized scope names are redacted. Markdown and terminal output escape untrusted filename characters.
+Reports retain relative filenames, positions and known scope/permission names. They omit source fragments, bodies, raw arbitrary endpoints, queries, auth options and headers. Unrecognized scope names are redacted. Markdown and terminal output escape untrusted filename characters.
 
 Scan does not change source files. Explicit report export and init create files exclusively. Resolved directory symlinks in output paths are rejected.
 
@@ -29,3 +29,5 @@ The runtime needs no GitHub credential. Maintainer publishing is a separate auth
 ## Maintainer checks
 
 Before releases: tests, typecheck, lint, build, dependency audit, staged-file and full-history credential review. CI uses read-only contents permissions, pinned Actions and no privileged pull-request workflow.
+
+GitHub App analysis uses an explicitly configured installation/user token kind and one declaration. It does not read credentials, contact GitHub, infer effective grants, inspect webhook subscriptions or prove that a write-to-read downgrade is safe. Conditional workflow rights and implicit metadata are handled conservatively.

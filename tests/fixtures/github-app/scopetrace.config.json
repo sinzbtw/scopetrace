@@ -1,0 +1,17 @@
+{
+  "provider": "github-app",
+  "tokenType": "installation",
+  "declaredPermissions": {
+    "repository": {
+      "contents": "write",
+      "issues": "read",
+      "metadata": "read"
+    },
+    "organization": {},
+    "account": {}
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "repositoryVisibility": "private"
+}

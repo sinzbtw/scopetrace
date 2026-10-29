@@ -1,10 +1,10 @@
 import ts from 'typescript';
-import { catalog, normalizeEndpoint } from '../providers/github/index.js';
-import type { Operation, ScanNotice } from '../types.js';
+import { operationRules, normalizeEndpoint } from '../providers/github/index.js';
+import type { Operation, Provider, ScanNotice } from '../types.js';
 
 const octokitPackages = new Set(['octokit', '@octokit/rest', '@octokit/core']);
 type Ref = { kind: 'ctor' | 'module' | 'client' | 'custom'; chain: string[] };
-export function parseSource(text: string, file: string): { operations: Operation[]; notices: ScanNotice[] } {
+export function parseSource(text: string, file: string, provider: Provider = 'github-oauth'): { operations: Operation[]; notices: ScanNotice[] } {
  const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
  // No module resolution, library reads, tsconfig loading or project code execution.
  const host: ts.CompilerHost = {
@@ -121,7 +121,7 @@ export function parseSource(text: string, file: string): { operations: Operation
   return undefined;
  }
  function add(n: ts.CallExpression, from: Operation['source'], method: string, endpoint: string, reason?: string) {
-  operations.push({ provider: 'github-oauth', method, endpoint, source: from, location: loc(n),
+  operations.push({ provider, method, endpoint, source: from, location: loc(n),
    confidence: reason ? 'low' : 'high', ...(reason ? { reason } : {}) });
  }
  for (const n of nodes) {
@@ -131,7 +131,7 @@ export function parseSource(text: string, file: string): { operations: Operation
   if (isFetch) {
    const url = literal(n.arguments[0]);
    if (url === undefined) { add(n, 'fetch', 'UNKNOWN', '/<dynamic>', 'Dynamic fetch target may be GitHub or another provider.'); continue; }
-   const endpoint = normalizeEndpoint(url, true);
+   const endpoint = normalizeEndpoint(url, true, provider);
    if (!endpoint) continue;
    let method: string | undefined = 'GET';
    if (n.arguments[1]) {
@@ -160,12 +160,12 @@ export function parseSource(text: string, file: string): { operations: Operation
    if (!safeOptions(n.arguments[1]) || ['method', 'url'].some(k => property(n.arguments[1], k))) {
     add(n, 'octokit-request', 'UNKNOWN', '/<dynamic>', 'Octokit request options can override the route.'); continue;
    }
-   const endpoint = match ? normalizeEndpoint(match[2]!) : undefined;
+   const endpoint = match ? normalizeEndpoint(match[2]!, false, provider) : undefined;
    if (!match || !endpoint) add(n, 'octokit-request', 'UNKNOWN', '/<dynamic>', 'Octokit route is outside the supported request syntax.');
    else add(n, 'octokit-request', match[1]!, endpoint, endpoint === '/<unsupported>' ? 'Endpoint is outside the supported REST catalog.' : undefined);
    continue;
   }
-  const rule = catalog.rules.find(item => item.octokit.includes(chain.replace(/^rest\./, '')));
+  const rule = operationRules(provider).find(item => item.octokit.includes(chain.replace(/^rest\./, '')));
   if (rule && safeOptions(n.arguments[0]) && !['method', 'url'].some(k => property(n.arguments[0], k))) add(n, 'octokit-rest', rule.method, rule.endpoint);
   else add(n, 'octokit-rest', 'UNKNOWN', '/<unsupported>', 'Octokit method or overriding options are outside the supported catalog.');
  }

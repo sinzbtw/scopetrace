@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 — 2026-10-29
+
+- Separate GitHub App provider with installation/user token kinds and repository, organization and account permission domains.
+- Read/write sufficiency, unused-grant review and low-confidence write-to-read suggestions.
+- 26 source-verified App operation rules, alternatives, token incompatibility and conservative public/metadata/workflow conditions.
+- Provider-selectable init/rules, App examples and CLI/contract regressions.
+- Independent App report schema 2.0.0; OAuth report schema 1.0.0 remains compatible.
+- Still local, token-free and unpublished on npm.
+
 ## 0.1.0 — 2026-10-29
 
 - Local GitHub OAuth App scope analysis CLI.

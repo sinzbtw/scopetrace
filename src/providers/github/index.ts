@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 const raw: unknown = JSON.parse(readFileSync(new URL('../../../rules/github-oauth.json', import.meta.url), 'utf8'));
-import type { Catalog, Rule } from '../../types.js';
+import { appCatalog } from '../github-app/index.js';
+import type { AppRule, Provider, Catalog, Rule } from '../../types.js';
 export const catalog = raw as Catalog;
 export function covers(grant: string, required: string, seen = new Set<string>()): boolean {
  if (grant === required) return true;
@@ -15,7 +16,8 @@ export function normalizeScopes(scopes: string[]): string[] {
 export function ruleFor(method: string, endpoint: string): Rule | undefined {
  return catalog.rules.find(r => r.method === method && r.endpoint === endpoint);
 }
-export function normalizeEndpoint(input: string, absolute = false): string | undefined {
+export function operationRules(provider: Provider = 'github-oauth'): (Rule | AppRule)[] { return provider === 'github-app' ? appCatalog.rules : catalog.rules; }
+export function normalizeEndpoint(input: string, absolute = false, provider: Provider = 'github-oauth'): string | undefined {
  let pathname: string;
  try {
   if (absolute) {
@@ -28,7 +30,7 @@ export function normalizeEndpoint(input: string, absolute = false): string | und
   }
  } catch { return undefined; }
  pathname = pathname.replace(/\/$/, '') || '/';
- for (const rule of catalog.rules) {
+ for (const rule of operationRules(provider)) {
   const template = rule.endpoint.split('/');
   const parts = pathname.split('/');
   const wildcard = template.indexOf('{path}');

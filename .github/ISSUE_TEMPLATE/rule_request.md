@@ -1,12 +1,12 @@
 ---
-name: OAuth rule or detection correction
-about: Request a verified GitHub OAuth operation rule or report an incorrect finding.
+name: Authorization rule or detection correction
+about: Request a verified OAuth/App permission rule or report an incorrect finding.
 title: "[Rule]: "
 labels: enhancement
 assignees: ""
 ---
 
-English and Russian reports are welcome. This MVP models GitHub OAuth Apps. GitHub App and fine-grained PAT permission tables are not equivalent evidence.
+English and Russian reports are welcome. State whether the report concerns github-oauth scopes or github-app permissions. These models and fine-grained PATs are not equivalent evidence.
 
 For security-sensitive findings, use [private reporting](https://github.com/sinzbtw/scopetrace/security/advisories/new).
 
@@ -16,13 +16,13 @@ For security-sensitive findings, use [private reporting](https://github.com/sinz
 - Octokit method, if applicable:
 - Existing rule ID, if applicable:
 
-## Official OAuth evidence
+## Official authorization evidence
 
-Link to the official GitHub endpoint and OAuth scope documentation. Quote only the short relevant requirement; explain whether it is specific to OAuth Apps.
+Link to the official GitHub endpoint and OAuth scope documentation. Quote only the short relevant requirement; explain whether it is specific to OAuth Apps or GitHub Apps.
 
 ## Scope requirements and conditions
 
-Describe alternative scopes, public/private resource behavior, extra access conditions, and unresolved uncertainty. If the requirement cannot be verified, say so.
+Describe alternative scopes or domain-specific read/write permissions, accepted App token types, public/private resource behavior, extra conditions, and unresolved uncertainty. If the requirement cannot be verified, say so.
 
 ## Minimal synthetic example
 

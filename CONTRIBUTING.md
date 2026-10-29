@@ -8,7 +8,7 @@ Keep PRs focused. Describe the problem, a reproduction, resulting behavior, limi
 
 ## Rules
 
-Edit `rules/github-oauth.json`. Each rule needs a unique ID, HTTP method, normalized endpoint, Octokit mapping, alternatives (OR of AND scope sets), applicability condition, confidence, rationale, official documentation and verification date. Do not translate GitHub App permission tables into OAuth scopes.
+Edit `rules/github-oauth.json` or `rules/github-app.json`, keeping their authorization models separate. Each rule needs a unique ID, HTTP method, normalized endpoint, Octokit mapping, alternatives (OR of AND scope sets), applicability condition, confidence, rationale, official documentation and verification date. Do not translate GitHub App permission tables into OAuth scopes. App rules need documented permission domains, levels, token types and applicability conditions. See [the App guide](docs/github-apps.md).
 
 Add positive, insufficient, public/private/unknown and hierarchy tests as appropriate. Uncertain behavior stays unknown. Implication edges require separate evidence; similar names are insufficient. Bump the catalog version and update docs.
 

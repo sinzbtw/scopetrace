@@ -12,3 +12,7 @@ Before v0.1.0 publication, the complete Windows local checks passed:
 CI is authoritative for Linux and additional Node versions. Coverage percentages and job outcomes are visible in the CI logs rather than hard-coded as product guarantees.
 
 Review boundaries: the credential check is pattern-based, not proof of the absence of every possible secret. Only synthetic fixtures are intentionally included; no user project or environment file is part of the published source. Findings do not establish safe scope removal.
+
+## 0.2.0
+
+Adds App-specific AST, permission-level, domain, token-kind, alternative, privacy, CLI and JSON-schema regression tests. Both authorization models run through the same safe traversal and formatting paths. CI runs both built fixtures on Windows/Linux and Node.js 22/24/26. Release-specific results are recorded in the release notes and CI logs.

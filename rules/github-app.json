@@ -1,0 +1,826 @@
+{
+  "version": "2026-10-29.1",
+  "provider": "github-app",
+  "verified": "2026-10-29",
+  "permissions": {
+    "repository": {
+      "contents": [
+        "read",
+        "write"
+      ],
+      "issues": [
+        "read",
+        "write"
+      ],
+      "pull_requests": [
+        "read",
+        "write"
+      ],
+      "administration": [
+        "read",
+        "write"
+      ],
+      "metadata": [
+        "read",
+        "write"
+      ],
+      "workflows": [
+        "write"
+      ]
+    },
+    "organization": {
+      "members": [
+        "read",
+        "write"
+      ]
+    },
+    "account": {
+      "emails": [
+        "read",
+        "write"
+      ],
+      "followers": [
+        "read",
+        "write"
+      ],
+      "gists": [
+        "read",
+        "write"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "gha.repo.read",
+      "method": "GET",
+      "endpoint": "/repos/{owner}/{repo}",
+      "octokit": [
+        "repos.get"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "metadata",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "repository-read",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Repository metadata is documented under Metadata read. Missing metadata declarations are treated as unknown because effective access may be implicit.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/repos#get-a-repository",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.repo.delete",
+      "method": "DELETE",
+      "endpoint": "/repos/{owner}/{repo}",
+      "octokit": [
+        "repos.delete"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "administration",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Repository deletion requires Administration write; Contents write does not cover it.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/repos#delete-a-repository",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.contents.read",
+      "method": "GET",
+      "endpoint": "/repos/{owner}/{repo}/contents/{path}",
+      "octokit": [
+        "repos.getContent"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "repository-read",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Private repository file reads require Contents read. Public-only reads can require no permission.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/contents#get-repository-content",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.issues.read",
+      "method": "GET",
+      "endpoint": "/repos/{owner}/{repo}/issues/{issue_number}",
+      "octokit": [
+        "issues.get"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "issues",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "repository-read",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Reading a private issue requires Issues read.",
+      "docs": [
+        "https://docs.github.com/en/rest/issues/issues#get-an-issue",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.issues.create",
+      "method": "POST",
+      "endpoint": "/repos/{owner}/{repo}/issues",
+      "octokit": [
+        "issues.create"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "issues",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Creating an issue requires Issues write.",
+      "docs": [
+        "https://docs.github.com/en/rest/issues/issues#create-an-issue",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.issues.update",
+      "method": "PATCH",
+      "endpoint": "/repos/{owner}/{repo}/issues/{issue_number}",
+      "octokit": [
+        "issues.update"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "issues",
+            "level": "write"
+          }
+        ],
+        [
+          {
+            "domain": "repository",
+            "name": "pull_requests",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "The endpoint documents Issues write or Pull requests write as alternatives.",
+      "docs": [
+        "https://docs.github.com/en/rest/issues/issues#update-an-issue",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.pulls.read",
+      "method": "GET",
+      "endpoint": "/repos/{owner}/{repo}/pulls/{pull_number}",
+      "octokit": [
+        "pulls.get"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "pull_requests",
+            "level": "read"
+          }
+        ],
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "repository-read",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Private pull-request reads accept Pull requests read or Contents read.",
+      "docs": [
+        "https://docs.github.com/en/rest/pulls/pulls#get-a-pull-request",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.pulls.create",
+      "method": "POST",
+      "endpoint": "/repos/{owner}/{repo}/pulls",
+      "octokit": [
+        "pulls.create"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "pull_requests",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Creating a pull request requires Pull requests write.",
+      "docs": [
+        "https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.pulls.update",
+      "method": "PATCH",
+      "endpoint": "/repos/{owner}/{repo}/pulls/{pull_number}",
+      "octokit": [
+        "pulls.update"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "pull_requests",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Updating a pull request requires Pull requests write.",
+      "docs": [
+        "https://docs.github.com/en/rest/pulls/pulls#update-a-pull-request",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.pulls.merge",
+      "method": "PUT",
+      "endpoint": "/repos/{owner}/{repo}/pulls/{pull_number}/merge",
+      "octokit": [
+        "pulls.merge"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Merging a pull request requires Contents write, not merely Pull requests write.",
+      "docs": [
+        "https://docs.github.com/en/rest/pulls/pulls#merge-a-pull-request",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.email.list",
+      "method": "GET",
+      "endpoint": "/user/emails",
+      "octokit": [
+        "users.listEmailsForAuthenticatedUser"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "emails",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Email address operations require the matching Email addresses user permission and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/emails",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.email.add",
+      "method": "POST",
+      "endpoint": "/user/emails",
+      "octokit": [
+        "users.addEmailForAuthenticatedUser"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "emails",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Email address operations require the matching Email addresses user permission and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/emails",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.email.delete",
+      "method": "DELETE",
+      "endpoint": "/user/emails",
+      "octokit": [
+        "users.deleteEmailForAuthenticatedUser"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "emails",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Email address operations require the matching Email addresses user permission and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/emails",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.user.follow",
+      "method": "PUT",
+      "endpoint": "/user/following/{username}",
+      "octokit": [
+        "users.follow"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "followers",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Following and unfollowing require Followers write and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/followers",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.user.unfollow",
+      "method": "DELETE",
+      "endpoint": "/user/following/{username}",
+      "octokit": [
+        "users.unfollow"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "followers",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Following and unfollowing require Followers write and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/followers",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.gist.create",
+      "method": "POST",
+      "endpoint": "/gists",
+      "octokit": [
+        "gists.create"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "gists",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Gist writes require Gists write and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.gist.update",
+      "method": "PATCH",
+      "endpoint": "/gists/{gist_id}",
+      "octokit": [
+        "gists.update"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "gists",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Gist writes require Gists write and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.gist.delete",
+      "method": "DELETE",
+      "endpoint": "/gists/{gist_id}",
+      "octokit": [
+        "gists.delete"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "account",
+            "name": "gists",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Gist writes require Gists write and a GitHub App user token.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.user.public",
+      "method": "GET",
+      "endpoint": "/users/{username}",
+      "octokit": [
+        "users.getByUsername"
+      ],
+      "alternatives": [
+        []
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "The modeled public user profile read does not establish a permission requirement.",
+      "docs": [
+        "https://docs.github.com/en/rest/users/users#get-a-user",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.gist.public",
+      "method": "GET",
+      "endpoint": "/gists/{gist_id}",
+      "octokit": [
+        "gists.get"
+      ],
+      "alternatives": [
+        []
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "The modeled public gist read does not establish a permission requirement.",
+      "docs": [
+        "https://docs.github.com/en/rest/gists/gists#get-a-gist",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.org.members",
+      "method": "GET",
+      "endpoint": "/orgs/{org}/members",
+      "octokit": [
+        "orgs.listMembers"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "organization",
+            "name": "members",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "organization-members",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "Organization member listing may return public membership without permission; private membership intent is not inferred.",
+      "docs": [
+        "https://docs.github.com/en/rest/orgs/members#list-organization-members",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.org.membership.read",
+      "method": "GET",
+      "endpoint": "/orgs/{org}/memberships/{username}",
+      "octokit": [
+        "orgs.getMembershipForUser"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "organization",
+            "name": "members",
+            "level": "read"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "This organization membership endpoint requires Members read. Organization role and access constraints still apply.",
+      "docs": [
+        "https://docs.github.com/en/rest/orgs/members",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.org.membership.set",
+      "method": "PUT",
+      "endpoint": "/orgs/{org}/memberships/{username}",
+      "octokit": [
+        "orgs.setMembershipForUser"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "organization",
+            "name": "members",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "This organization membership endpoint requires Members write. Organization role and access constraints still apply.",
+      "docs": [
+        "https://docs.github.com/en/rest/orgs/members",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.org.membership.remove",
+      "method": "DELETE",
+      "endpoint": "/orgs/{org}/memberships/{username}",
+      "octokit": [
+        "orgs.removeMembershipForUser"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "organization",
+            "name": "members",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "always",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "This organization membership endpoint requires Members write. Organization role and access constraints still apply.",
+      "docs": [
+        "https://docs.github.com/en/rest/orgs/members",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.contents.write",
+      "method": "PUT",
+      "endpoint": "/repos/{owner}/{repo}/contents/{path}",
+      "octokit": [
+        "repos.createOrUpdateFileContents"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "write"
+          }
+        ],
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "write"
+          },
+          {
+            "domain": "repository",
+            "name": "workflows",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "content-write",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "File writes require Contents write. Workflows write can additionally be required for workflow files; the target path is not resolved by this analyzer.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/contents",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    },
+    {
+      "id": "gha.contents.delete",
+      "method": "DELETE",
+      "endpoint": "/repos/{owner}/{repo}/contents/{path}",
+      "octokit": [
+        "repos.deleteFile"
+      ],
+      "alternatives": [
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "write"
+          }
+        ],
+        [
+          {
+            "domain": "repository",
+            "name": "contents",
+            "level": "write"
+          },
+          {
+            "domain": "repository",
+            "name": "workflows",
+            "level": "write"
+          }
+        ]
+      ],
+      "condition": "content-write",
+      "tokenTypes": [
+        "installation",
+        "user"
+      ],
+      "confidence": "high",
+      "rationale": "File writes require Contents write. Workflows write can additionally be required for workflow files; the target path is not resolved by this analyzer.",
+      "docs": [
+        "https://docs.github.com/en/rest/repos/contents",
+        "https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps"
+      ],
+      "verified": "2026-10-29"
+    }
+  ]
+}

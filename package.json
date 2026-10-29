@@ -1,7 +1,7 @@
 {
   "name": "scopetrace",
-  "version": "0.1.0",
-  "description": "Local, evidence-based static analysis of GitHub OAuth App scopes for JavaScript and TypeScript.",
+  "version": "0.2.0",
+  "description": "Local, evidence-based static analysis of GitHub OAuth scopes and GitHub App read/write permissions.",
   "type": "module",
   "bin": {
     "scopetrace": "dist/cli/main.js"

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { configSchema } from '../../src/config/index.js';
+import { oauthConfigSchema as configSchema } from '../../src/config/index.js';
 import { evaluate, findingId, shouldFail } from '../../src/engine/index.js';
 import { catalog, covers, normalizeScopes } from '../../src/providers/github/index.js';
 import { parseSource } from '../../src/scanner/ast.js';
