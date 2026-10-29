@@ -1,5 +1,5 @@
 # Copy into your application's .github/workflows.
-# Replace REPLACE_WITH_REVIEWED_COMMIT_SHA with a full reviewed ScopeTrace commit.
+# Pinned to a reviewed implementation commit; update only after review.
 name: OAuth scope review
 on: [push, pull_request]
 permissions:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: sinzbtw/scopetrace
-          ref: REPLACE_WITH_REVIEWED_COMMIT_SHA
+          ref: ab5df0b01b7a3d57d201337eb688f1321e02ff94
           path: tool
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0

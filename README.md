@@ -2,6 +2,8 @@
 
 # ScopeTrace
 
+[![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Local static analysis of **GitHub OAuth App scopes** in JavaScript and TypeScript. Compare declared permissions with supported API operations, with source locations, rationale and official documentation.
 
 [MIT license](LICENSE) · Node.js 22+ · Version 0.1.0
@@ -145,7 +147,7 @@ Categories: observed, possibly_excessive, insufficient, unknown, not_applicable.
 
 [CI](.github/workflows/ci.yml) checks Windows/Linux on Node.js 22/24/26: typecheck, ESLint, unit/integration coverage tests, build and built CLI smoke/gate tests. Permissions are read-only and Actions are pinned.
 
-For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. Copy [the CI example](examples/github-actions.yml), replace REPLACE_WITH_REVIEWED_COMMIT_SHA and commit your app config. This uses available source, not an unpublished registry package.
+For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. Copy [the CI example](examples/github-actions.yml) and commit your app config. It pins a reviewed implementation commit; update that SHA only after review. This uses available source, not an unpublished registry package.
 
 ## Development and tests
 

@@ -52,6 +52,7 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
      const { bytesRead } = await fd.read(buffer, 0, buffer.length, 0);
      if (bytesRead > config.limits.maxFileBytes) { notice('file-size-limit', 'A source file exceeded the byte limit.'); continue; }
      if (totalBytes + bytesRead > config.limits.maxTotalBytes) { notice('total-size-limit', 'Total source byte limit reached.'); stopped = true; break; }
+     if (bytesRead < opened.size) { notice('short-read', 'A source file could not be read completely.'); continue; }
      totalBytes += bytesRead;
      result.filesScanned++;
      try {

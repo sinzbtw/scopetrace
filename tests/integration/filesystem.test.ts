@@ -87,6 +87,11 @@ describe('safe, bounded deterministic traversal',()=>{
   const empty=await scanProject(dir,cfg({include:['none/**/*.ts']}));
   expect(empty.notices[0]?.code).toBe('no-files');
  });
+ it('contains parser stack failures from deeply nested hostile syntax',async()=>{
+  const dir=await project({'nested.ts':'('.repeat(25000)+'value'+')'.repeat(25000)});
+  const result=await scanProject(dir,cfg());
+  expect(result.complete).toBe(false);expect(result.notices.some(n=>n.code==='parser-limit')).toBe(true);
+ });
  it('has deterministic output independent of directory creation order',async()=>{
   const a=await project({'z.ts':call,'a.ts':call}), b=await project({'a.ts':call,'z.ts':call});
   expect(await scanProject(a,cfg())).toEqual(await scanProject(b,cfg()));

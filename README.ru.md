@@ -2,6 +2,8 @@
 
 # ScopeTrace
 
+[![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Локальный статический анализ **scopes GitHub OAuth Apps** в JavaScript и TypeScript. Сопоставление объявленных прав с поддерживаемыми API-операциями: позиции в коде, обоснования и официальная документация.
 
 [Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.1.0
@@ -145,7 +147,7 @@ ID показан схематично: реальные значения зав
 
 [CI](.github/workflows/ci.yml) проверяет Windows/Linux на Node.js 22/24/26: типизацию, ESLint, unit/integration-тесты с покрытием, сборку и запуск/gate собранного CLI. Права ограничены чтением, Actions закреплены по SHA.
 
-Для стороннего репозитория соберите эти исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. Скопируйте [пример CI](examples/github-actions.yml), замените REPLACE_WITH_REVIEWED_COMMIT_SHA и сохраните конфигурацию приложения. Используются доступные исходники, а не неопубликованный пакет из реестра.
+Для стороннего репозитория соберите эти исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. Скопируйте [пример CI](examples/github-actions.yml) и сохраните конфигурацию приложения. Пример закреплён на проверенном коммите реализации; меняйте SHA после ревью. Используются доступные исходники, а не неопубликованный пакет из реестра.
 
 ## Разработка и тесты
 
