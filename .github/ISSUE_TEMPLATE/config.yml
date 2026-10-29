@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability / Уязвимость
+    url: https://github.com/sinzbtw/scopetrace/security/advisories/new
+    about: Report vulnerabilities privately. Do not publish credentials or exploit details in an issue.
+  - name: Community conduct / Нормы общения
+    url: https://github.com/sinzbtw/scopetrace/blob/main/CODE_OF_CONDUCT.md#reporting
+    about: Read the conduct policy and reporting options before sharing incident details.

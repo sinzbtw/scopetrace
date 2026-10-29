@@ -1,5 +1,7 @@
 # Contributing
 
+Participation follows our [Code of Conduct](CODE_OF_CONDUCT.md). Use the issue templates for bugs, feature proposals and OAuth rule corrections, and the PR template to describe changes and validation.
+
 Use Node.js 22.13+ or current 24/26, then `npm ci --ignore-scripts` and `npm run check`. Runtime: Node.js 22+. No token is needed for development or scanning.
 
 Keep PRs focused. Describe the problem, a reproduction, resulting behavior, limitations and relevant validation. All checks must pass on Windows/Linux. Never add real credentials, private source excerpts or generated dependencies.

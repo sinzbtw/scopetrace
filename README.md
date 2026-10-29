@@ -168,7 +168,7 @@ Links/junctions are skipped; real paths, regular-file identity and byte limits a
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/architecture.md) and [rule maintenance](docs/rules.md). New mappings require official OAuth evidence and regression tests.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [architecture](docs/architecture.md) and [rule maintenance](docs/rules.md). New mappings require official OAuth evidence and regression tests. Participation follows our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
