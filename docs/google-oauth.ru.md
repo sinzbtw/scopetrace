@@ -101,3 +101,5 @@ Google JSON использует [schemaVersion 3.0.0](../schemas/google-oauth-r
 - [Официальный Node SDK](https://github.com/googleapis/google-api-nodejs-client)
 
 Документация методов и Discovery URL/ревизии сохранены в каталоге. Загрузка публичной документации при разработке отделена от полностью локального scan.
+
+Скрытая appDataFolder требует drive.appdata. При контексте app-data широкий drive и обычные per-file scopes не считаются достаточными. [Официальная граница доступа](https://developers.google.com/workspace/drive/api/guides/appdata).

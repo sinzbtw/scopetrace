@@ -101,3 +101,5 @@ No code runs, no token is read and no network request occurs during scan. Only c
 - [Official Node SDK](https://github.com/googleapis/google-api-nodejs-client)
 
 Per-method documentation and Discovery URLs/revisions are stored in the catalog. Development downloads of public documentation are separate from the offline scan runtime.
+
+The hidden appDataFolder requires drive.appdata. With app-data context, broad drive and ordinary per-file grants are not treated as sufficient. [Official access boundary](https://developers.google.com/workspace/drive/api/guides/appdata).

@@ -59,7 +59,7 @@ export interface GoogleOperationFacts {
  gmailQuery?: 'present' | 'absent' | 'unknown';
  driveResponse?: 'metadata' | 'media' | 'unknown'; driveWrite?: 'metadata' | 'content' | 'unknown';
 }
-export type GoogleCondition = 'always' | 'gmail-metadata' | 'drive-metadata' | 'drive-metadata-write' | 'drive-file' | 'drive-appdata' |
+export type GoogleCondition = 'always' | 'drive-general' | 'gmail-metadata' | 'drive-metadata' | 'drive-metadata-write' | 'drive-file' | 'drive-appdata' |
  'calendar-owned' | 'calendar-app-created' | 'calendar-public' | 'calendar-availability' | 'unmodeled-context';
 export interface GoogleAlternative { scopes: string[]; condition: GoogleCondition }
 export interface GoogleScopeInfo { uri: string; service: GoogleService; sensitivity: ScopeSensitivity; docs: string[]; verified: string; classificationNote: string; sufficiency?: 'unmodeled' }

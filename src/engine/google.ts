@@ -5,8 +5,10 @@ import { findingId, VERSION } from './shared.js';
 type Certainty = true | false | 'unknown';
 export function googleCondition(condition: GoogleAlternative['condition'], op: Operation, config: GoogleConfig): Certainty {
  const facts: GoogleOperationFacts = op.google ?? {};
+ if (op.endpoint.startsWith('/drive/') && config.googleContext.driveAccess === 'app-data' && condition !== 'drive-appdata') return false;
  switch (condition) {
   case 'always': return true;
+  case 'drive-general': return true;
   case 'gmail-metadata':
    if (op.endpoint.endsWith('/messages')) return facts.gmailQuery === 'absent' ? true : facts.gmailQuery === 'present' ? false : 'unknown';
    return facts.gmailFormat === 'metadata' || facts.gmailFormat === 'minimal' ? true : facts.gmailFormat === 'full' || facts.gmailFormat === 'raw' ? false : 'unknown';
@@ -49,13 +51,13 @@ export function evaluateGoogle(scan: ScanResult, config: GoogleConfig): GoogleRe
   const uncertain = config.declaredScopes.some(s => !vocabulary.has(s)) || granted.some(a => googleCondition(a.condition, op, config) === 'unknown') ||
    declared.some(s => vocabulary.get(s)?.sufficiency === 'unmodeled' && vocabulary.get(s)?.service === rule.service);
   if (proven) {
-   add(key, { ...evidence, category: 'observed', severity: 'info', confidence: provenAlternatives.some(a => ['always', 'gmail-metadata', 'drive-metadata', 'drive-metadata-write'].includes(a.condition)) ? rule.confidence : 'medium',
+   add(key, { ...evidence, category: 'observed', severity: 'info', confidence: provenAlternatives.some(a => ['always', 'drive-general', 'gmail-metadata', 'drive-metadata', 'drive-metadata-write'].includes(a.condition)) ? rule.confidence : 'medium',
     message: 'A documented Google OAuth alternative is declared and its modeled conditions hold. Actual token grants, user access and response use are not verified.' });
   } else if (uncertain || (rule.service === 'calendar' && config.googleContext.calendarResources === 'public' && op.method === 'GET')) {
    add(key, { ...evidence, category: 'unknown', severity: 'info', confidence: 'low',
     message: 'A declared scope may cover this operation, but its parameter, resource or authorization-context conditions are not proven. No broader grant is demanded.' });
   } else {
-   add(key, { ...evidence, category: 'insufficient', severity: op.method === 'GET' ? 'medium' : 'high', confidence: 'high',
+   add(key, { ...evidence, category: 'insufficient', severity: op.method === 'GET' ? 'medium' : 'high', confidence: rule.service === 'drive' && config.googleContext.driveAccess === 'app-data' ? 'medium' : 'high',
     message: 'No known declared Google OAuth alternative satisfies this operation and its modeled conditions. Check documented alternatives before requesting additional access.' });
   }
  }

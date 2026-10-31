@@ -83,7 +83,7 @@ Per-rule official sources and verification dates are in the catalog. Domain/leve
 
 ## Google OAuth
 
-Catalog 2026-10-31.1: [JSON](../rules/google-oauth.json), 22 operations and 42 scope records. Checked on 2026-10-31 against official method documentation and Discovery revisions: {"gmail":"20261026","drive":"20261028","calendar":"20261028"}.
+Catalog 2026-10-31.2: [JSON](../rules/google-oauth.json), 22 operations and 42 scope records, verified on 2026-10-31. Exact alternatives come from official method/Discovery sources, with explicit resource and parameter conditions.
 
 | Service | SDK operation | HTTP operation | Conditions |
 | --- | --- | --- | --- |
@@ -96,11 +96,11 @@ Catalog 2026-10-31.1: [JSON](../rules/google-oauth.json), 22 operations and 42 s
 | gmail | users.labels.list | GET /gmail/v1/users/{userId}/labels | always |
 | gmail | users.labels.create | POST /gmail/v1/users/{userId}/labels | always |
 | gmail | users.getProfile | GET /gmail/v1/users/{userId}/profile | always |
-| drive | files.list | GET /drive/v3/files | always, drive-appdata, drive-file, unmodeled-context |
-| drive | files.get | GET /drive/v3/files/{fileId} | always, drive-appdata, drive-file, unmodeled-context, drive-metadata |
-| drive | files.create | POST /drive/v3/files | always, drive-appdata |
-| drive | files.update | PATCH /drive/v3/files/{fileId} | always, drive-appdata, drive-file, drive-metadata-write, unmodeled-context |
-| drive | files.delete | DELETE /drive/v3/files/{fileId} | always, drive-appdata, drive-file |
+| drive | files.list | GET /drive/v3/files | drive-general, drive-appdata, drive-file, unmodeled-context |
+| drive | files.get | GET /drive/v3/files/{fileId} | drive-general, drive-appdata, drive-file, unmodeled-context, drive-metadata |
+| drive | files.create | POST /drive/v3/files | drive-general, drive-appdata |
+| drive | files.update | PATCH /drive/v3/files/{fileId} | drive-general, drive-appdata, drive-file, drive-metadata-write, unmodeled-context |
+| drive | files.delete | DELETE /drive/v3/files/{fileId} | drive-general, drive-appdata, drive-file |
 | calendar | events.list | GET /calendar/v3/calendars/{calendarId}/events | always, calendar-app-created, calendar-availability, calendar-owned, calendar-public |
 | calendar | events.get | GET /calendar/v3/calendars/{calendarId}/events/{eventId} | always, calendar-app-created, calendar-availability, calendar-owned, calendar-public |
 | calendar | events.insert | POST /calendar/v3/calendars/{calendarId}/events | always, calendar-app-created, calendar-owned |
@@ -110,4 +110,4 @@ Catalog 2026-10-31.1: [JSON](../rules/google-oauth.json), 22 operations and 42 s
 | calendar | calendars.get | GET /calendar/v3/calendars/{calendarId} | always, calendar-app-created |
 | calendar | freebusy.query | POST /calendar/v3/freeBusy | always |
 
-Each alternative contains exact scope URI requirements and an applicability condition. No global implication is inferred for per-file, owned-calendar or add-on scopes. Narrower candidates are checked against every relevant modeled call and stay low-confidence. Gmail/Drive sensitivity has service-guide sources; Calendar and other unverified categories remain unknown. Existing GitHub catalogs are independent. See [English](google-oauth.md) / [Русский](google-oauth.ru.md).
+Conditional scopes are not global grants. App-data context specifically requires drive.appdata; broad drive is not a replacement. Narrower candidates remain low-confidence and must cover every relevant modeled call. Gmail/Drive classification uses their service guides; unverified categories remain unknown. See [English](google-oauth.md) / [Русский](google-oauth.ru.md).

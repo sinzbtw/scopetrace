@@ -131,6 +131,14 @@ describe('Drive and Calendar scope evaluation',()=>{
   expect(report(call('drive','files.get'),[p+'drive.appfolder']).findings.some(f=>f.category==='insufficient')).toBe(false);
   expect(report(call('drive','files.get'),[p+'drive.photos.readonly']).findings.some(f=>f.category==='unknown')).toBe(true);
  });
+ it('does not treat broad Drive scopes as app-data-folder authorization',()=>{
+  const code=call('drive','files.get');
+  const broad=report(code,[p+'drive'],{driveAccess:'app-data'});
+  expect(broad.findings.some(f=>f.category==='observed')).toBe(false);
+  expect(broad.findings.find(f=>f.category==='insufficient')?.confidence).toBe('medium');
+  expect(report(code,[p+'drive.appdata'],{driveAccess:'app-data'}).findings.some(f=>f.category==='observed')).toBe(true);
+  expect(report(call('drive','files.create'),[p+'drive.file'],{driveAccess:'app-data'}).findings.some(f=>f.category==='observed')).toBe(false);
+ });
  it('requires write-capable Calendar scopes for mutations',()=>{
   const r=report(call('calendar','events.insert'),[p+'calendar.events.readonly']);
   expect(r.findings.some(f=>f.category==='insufficient')).toBe(true);
@@ -194,7 +202,7 @@ describe('Google classifications, unknown states and data contracts',()=>{
   expect(new Set(googleCatalog.scopes.map(s=>s.uri)).size).toBe(googleCatalog.scopes.length);
   for(const r of googleCatalog.rules){
    expect(r.docs.every(url=>new URL(url).hostname==='developers.google.com')).toBe(true);
-   for(const a of r.alternatives)expect(['always','gmail-metadata','drive-metadata','drive-metadata-write','drive-file','drive-appdata','calendar-owned','calendar-app-created','calendar-public','calendar-availability','unmodeled-context']).toContain(a.condition);
+   for(const a of r.alternatives)expect(['always','drive-general','gmail-metadata','drive-metadata','drive-metadata-write','drive-file','drive-appdata','calendar-owned','calendar-app-created','calendar-public','calendar-availability','unmodeled-context']).toContain(a.condition);
    for(const s of r.alternatives.flatMap(a=>a.scopes))expect(googleCatalog.scopes.some(v=>v.uri===s)).toBe(true);
   }
   for(const list of Object.values(googleCatalog.narrower))for(const s of list)expect(googleCatalog.scopes.some(v=>v.uri===s)).toBe(true);

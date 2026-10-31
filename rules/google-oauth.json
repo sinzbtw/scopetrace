@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-31.1",
+  "version": "2026-10-31.2",
   "provider": "google-oauth",
   "verified": "2026-10-31",
   "discoveryRevisions": {
@@ -853,7 +853,7 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
@@ -877,13 +877,13 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive.metadata"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
             "https://www.googleapis.com/auth/drive.metadata.readonly"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
@@ -895,14 +895,15 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive.readonly"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         }
       ],
       "confidence": "high",
       "verified": "2026-10-31",
       "docs": [
         "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list",
-        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+        "https://developers.google.com/workspace/drive/api/guides/appdata"
       ],
       "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
     },
@@ -917,7 +918,7 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
@@ -959,14 +960,15 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive.readonly"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         }
       ],
       "confidence": "high",
       "verified": "2026-10-31",
       "docs": [
         "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/get",
-        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+        "https://developers.google.com/workspace/drive/api/guides/appdata"
       ],
       "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
     },
@@ -981,7 +983,7 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
@@ -993,14 +995,15 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive.file"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         }
       ],
       "confidence": "high",
       "verified": "2026-10-31",
       "docs": [
         "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/create",
-        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+        "https://developers.google.com/workspace/drive/api/guides/appdata"
       ],
       "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
     },
@@ -1015,7 +1018,7 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
@@ -1046,7 +1049,8 @@
       "verified": "2026-10-31",
       "docs": [
         "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/update",
-        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+        "https://developers.google.com/workspace/drive/api/guides/appdata"
       ],
       "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
     },
@@ -1061,7 +1065,7 @@
           "scopes": [
             "https://www.googleapis.com/auth/drive"
           ],
-          "condition": "always"
+          "condition": "drive-general"
         },
         {
           "scopes": [
@@ -1080,7 +1084,8 @@
       "verified": "2026-10-31",
       "docs": [
         "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/delete",
-        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+        "https://developers.google.com/workspace/drive/api/guides/appdata"
       ],
       "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
     },
