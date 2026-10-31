@@ -195,6 +195,7 @@ describe('Google classifications, unknown states and data contracts',()=>{
   const a=evaluate(s,cfg([full])),b=evaluate({...s,operations:[...s.operations].reverse()},cfg([full]));
   expect(a.findings.map(f=>f.id)).toEqual(b.findings.map(f=>f.id));
   expect(googleCatalog.narrower[p+'gmail.readonly']).not.toContain(p+'gmail.labels');
+  expect(googleCatalog.narrower[p+'drive']).not.toContain(p+'drive.appdata');
   expect(googleCatalog.narrower[p+'calendar.events']).not.toContain(p+'calendar.app.created');
  });
  it('keeps unique documented rules, scopes and valid condition vocabulary',()=>{
