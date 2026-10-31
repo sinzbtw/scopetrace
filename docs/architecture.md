@@ -4,9 +4,9 @@ Flow: CLI → strict discriminated JSON config → bounded walker → TypeScript
 
 ## Independent authorization models
 
-Config selects github-oauth or github-app. OAuth accepts declaredScopes; Apps accept domain-separated declaredPermissions and explicit tokenType. They cannot be combined in one config. No scope-to-permission conversion is performed.
+Config selects github-oauth, github-app or google-oauth. OAuth accepts declaredScopes; Apps accept domain-separated declaredPermissions and explicit tokenType. They cannot be combined in one config. No scope-to-permission conversion is performed.
 
-Scanner recognition uses operationRules(provider), consuming the selected catalog's endpoint and Octokit mappings. Every operation carries its selected provider. The engine dispatcher rejects provider mismatches, then delegates to engine/oauth.ts or engine/app.ts.
+Scanner recognition uses operationRules(provider), consuming the selected catalog's endpoint and Octokit mappings. Every operation carries its selected provider. The engine dispatcher rejects provider mismatches, then delegates to engine/oauth.ts, engine/app.ts or engine/google.ts.
 
 The OAuth engine retains its scope implication logic and schemaVersion 1.0.0 reports. The App engine compares read/write levels within a domain/name, checks token kinds, evaluates OR-of-AND alternatives and uses schemaVersion 2.0.0 reports. Both attach source evidence and preserve uncertainty. Shared IDs/version live in engine/shared.ts; formatting remains separate.
 
@@ -31,3 +31,9 @@ Potential excess is low-confidence advice. Public reads, unknown visibility, tok
 Add a distinct catalog, config discriminator and engine for another authorization model. Add mappings and official evidence to data rather than AST permission logic. Never dynamically load provider code from a scanned project.
 
 No interprocedural analysis, token tracking or GraphQL analysis. All calls use one declared model per scan. Traversal completeness is not whole-application completeness. Filesystem protections assume a stable untrusted checkout; they are not an OS sandbox against concurrent mutation. Output files use exclusive open; explicit export is the only scan-related write.
+
+## Google OAuth
+
+The AST scanner dispatches the Google model to scanner/google.ts while sharing the in-memory compiler, symbol identities and mutation/literal checks. Proven Google SDK bindings and allowlisted static fetch URLs become normalized routes plus categorical parameter facts. No Google SDK package is loaded.
+
+The Google catalog keeps exact documented alternatives and conditions rather than pretending URI prefixes establish hierarchy. The engine distinguishes true/false/unknown conditions, checks every relevant operation before suggesting a narrower candidate, and exposes dated classifications independently from authorization findings. Calendar/unverified categories stay unknown. The Google config omits GitHub-specific visibility/token fields, and its report uses schema 3.0.0. Existing schemas remain unchanged.

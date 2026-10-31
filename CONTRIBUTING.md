@@ -8,7 +8,7 @@ Keep PRs focused. Describe the problem, a reproduction, resulting behavior, limi
 
 ## Rules
 
-Edit `rules/github-oauth.json` or `rules/github-app.json`, keeping their authorization models separate. Each rule needs a unique ID, HTTP method, normalized endpoint, Octokit mapping, alternatives (OR of AND scope sets), applicability condition, confidence, rationale, official documentation and verification date. Do not translate GitHub App permission tables into OAuth scopes. App rules need documented permission domains, levels, token types and applicability conditions. See [the App guide](docs/github-apps.md).
+Edit `rules/github-oauth.json`, `rules/github-app.json` or `rules/google-oauth.json`, keeping their authorization models separate. Each rule needs a unique ID, HTTP method, normalized endpoint, Octokit mapping, alternatives (OR of AND scope sets), applicability condition, confidence, rationale, official documentation and verification date. Do not translate GitHub App permission tables into OAuth scopes. App rules need documented permission domains, levels, token types and applicability conditions. See [the App guide](docs/github-apps.md).
 
 Add positive, insufficient, public/private/unknown and hierarchy tests as appropriate. Uncertain behavior stays unknown. Implication edges require separate evidence; similar names are insufficient. Bump the catalog version and update docs.
 
@@ -21,3 +21,7 @@ Run `npm run check`, `npm run smoke` and `npm audit --audit-level=moderate`. Syn
 ## Security
 
 Use [SECURITY.md](SECURITY.md) for private reports; do not put secret-bearing reproductions in public issues.
+
+Google rules must record official Discovery/method sources, revision/date, exact alternatives and parameter/resource conditions. Classification needs service-guide evidence; do not guess sensitive/restricted status from a URI prefix. Test conditional metadata/body/query access, URI redaction, imports, resource scope uncertainty and backward-compatible existing schemas.
+
+The dev-toolchain minimatch override selects the patched 11.x release for GHSA-g3hv-75wg-m249. Runtime traversal uses picomatch. Recheck upstream ESLint/typescript-eslint compatibility and the full audit before removing the override.

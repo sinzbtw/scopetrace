@@ -1,7 +1,7 @@
 {
   "name": "scopetrace",
-  "version": "0.2.0",
-  "description": "Local, evidence-based static analysis of GitHub OAuth scopes and GitHub App read/write permissions.",
+  "version": "0.3.0",
+  "description": "Local, evidence-based static analysis of GitHub OAuth, GitHub App permissions and Google Gmail, Drive and Calendar OAuth scopes.",
   "type": "module",
   "bin": {
     "scopetrace": "dist/cli/main.js"
@@ -54,5 +54,8 @@
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "overrides": {
+    "minimatch": "^11.0.3"
+  }
 }

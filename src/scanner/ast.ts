@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { detectGoogle } from './google.js';
 import { operationRules, normalizeEndpoint } from '../providers/github/index.js';
 import type { Operation, Provider, ScanNotice } from '../types.js';
 
@@ -28,7 +29,7 @@ export function parseSource(text: string, file: string, provider: Provider = 'gi
  const nodes: ts.Node[] = [];
  const pending: ts.Node[] = [source];
  while (pending.length) { const n = pending.pop()!; nodes.push(n); ts.forEachChild(n, child => { pending.push(child); }); }
- const symbol = (n: ts.Node) => checker.getSymbolAtLocation(n);
+ const symbol = (n: ts.Node) => ts.isIdentifier(n) && ts.isShorthandPropertyAssignment(n.parent) ? checker.getShorthandAssignmentValueSymbol(n.parent) : checker.getSymbolAtLocation(n);
  const written = new Set<ts.Symbol>();
  const root = (n: ts.Expression): ts.Expression => ts.isPropertyAccessExpression(n) || ts.isElementAccessExpression(n) ? root(n.expression) : n;
  for (const n of nodes) {
@@ -124,6 +125,7 @@ export function parseSource(text: string, file: string, provider: Provider = 'gi
   operations.push({ provider, method, endpoint, source: from, location: loc(n),
    confidence: reason ? 'low' : 'high', ...(reason ? { reason } : {}) });
  }
+ if (provider === 'google-oauth') return { operations: detectGoogle({ source, nodes, written, symbol, literal, unbox, loc }), notices };
  for (const n of nodes) {
   if (!ts.isCallExpression(n)) continue;
   const callee = unbox(n.expression);

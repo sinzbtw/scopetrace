@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/sinzbtw/scopetrace/blob/main/schemas/google-oauth-report.schema.json",
+  "title": "ScopeTrace Google OAuth report v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "toolVersion",
+    "provider",
+    "catalogVersion",
+    "declaredScopes",
+    "normalizedScopes",
+    "analysis",
+    "operations",
+    "findings",
+    "scopeAssessments"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "3.0.0"
+    },
+    "toolVersion": {
+      "type": "string"
+    },
+    "provider": {
+      "const": "google-oauth"
+    },
+    "catalogVersion": {
+      "type": "string"
+    },
+    "declaredScopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "normalizedScopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filesScanned",
+        "complete",
+        "notices",
+        "limitations"
+      ],
+      "properties": {
+        "filesScanned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/notice"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "scopeAssessments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scopeInfo"
+      }
+    }
+  },
+  "$defs": {
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "line",
+        "column"
+      ],
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "method",
+        "endpoint",
+        "source",
+        "location",
+        "confidence"
+      ],
+      "properties": {
+        "provider": {
+          "const": "google-oauth"
+        },
+        "method": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "fetch",
+            "google-sdk"
+          ]
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "google": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "gmailFormat": {
+              "enum": [
+                "minimal",
+                "full",
+                "raw",
+                "metadata",
+                "unknown"
+              ]
+            },
+            "gmailQuery": {
+              "enum": [
+                "present",
+                "absent",
+                "unknown"
+              ]
+            },
+            "driveResponse": {
+              "enum": [
+                "metadata",
+                "media",
+                "unknown"
+              ]
+            },
+            "driveWrite": {
+              "enum": [
+                "metadata",
+                "content",
+                "unknown"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "severity",
+        "confidence",
+        "message",
+        "docs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ST-[a-f0-9]{16}$"
+        },
+        "category": {
+          "enum": [
+            "observed",
+            "possibly_excessive",
+            "insufficient",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "operation": {
+          "$ref": "#/$defs/operation"
+        },
+        "ruleId": {
+          "type": "string"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "docs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sensitivity": {
+          "enum": [
+            "non_sensitive",
+            "sensitive",
+            "restricted",
+            "unknown"
+          ]
+        },
+        "suggestedScopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "googleAlternatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/googleAlternative"
+          }
+        }
+      }
+    },
+    "scopeInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "uri",
+        "service",
+        "sensitivity",
+        "docs",
+        "verified",
+        "classificationNote"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "service": {
+          "enum": [
+            "gmail",
+            "drive",
+            "calendar"
+          ]
+        },
+        "sensitivity": {
+          "enum": [
+            "non_sensitive",
+            "sensitive",
+            "restricted",
+            "unknown"
+          ]
+        },
+        "docs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verified": {
+          "type": "string"
+        },
+        "classificationNote": {
+          "type": "string"
+        },
+        "sufficiency": {
+          "const": "unmodeled"
+        }
+      }
+    },
+    "googleAlternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scopes",
+        "condition"
+      ],
+      "properties": {
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "condition": {
+          "enum": [
+            "always",
+            "gmail-metadata",
+            "drive-metadata",
+            "drive-metadata-write",
+            "drive-file",
+            "drive-appdata",
+            "calendar-owned",
+            "calendar-app-created",
+            "calendar-public",
+            "calendar-availability",
+            "unmodeled-context"
+          ]
+        }
+      }
+    }
+  }
+}

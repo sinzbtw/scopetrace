@@ -80,3 +80,34 @@ Catalog 2026-10-29.1: [JSON](../rules/github-app.json), checked on 2026-10-29. T
 Repository-read conditions require explicit visibility; public reads can need no permission. Organization-members remains unknown without membership visibility intent. Content-write requirements are conditional: Contents write is mandatory, but the extra Workflows write grant may depend on an unresolved target path. Metadata omissions are unknown and Metadata read is not suggested for removal merely because it is unused.
 
 Per-rule official sources and verification dates are in the catalog. Domain/level checks, OR/AND alternatives, public reads, token types and unknown cases are covered by tests. See [the App guide](github-apps.md).
+
+## Google OAuth
+
+Catalog 2026-10-31.1: [JSON](../rules/google-oauth.json), 22 operations and 42 scope records. Checked on 2026-10-31 against official method documentation and Discovery revisions: {"gmail":"20261026","drive":"20261028","calendar":"20261028"}.
+
+| Service | SDK operation | HTTP operation | Conditions |
+| --- | --- | --- | --- |
+| gmail | users.messages.list | GET /gmail/v1/users/{userId}/messages | always, gmail-metadata |
+| gmail | users.messages.get | GET /gmail/v1/users/{userId}/messages/{id} | always, unmodeled-context, gmail-metadata |
+| gmail | users.messages.send | POST /gmail/v1/users/{userId}/messages/send | always, unmodeled-context |
+| gmail | users.messages.modify | POST /gmail/v1/users/{userId}/messages/{id}/modify | always |
+| gmail | users.messages.trash | POST /gmail/v1/users/{userId}/messages/{id}/trash | always |
+| gmail | users.messages.delete | DELETE /gmail/v1/users/{userId}/messages/{id} | always |
+| gmail | users.labels.list | GET /gmail/v1/users/{userId}/labels | always |
+| gmail | users.labels.create | POST /gmail/v1/users/{userId}/labels | always |
+| gmail | users.getProfile | GET /gmail/v1/users/{userId}/profile | always |
+| drive | files.list | GET /drive/v3/files | always, drive-appdata, drive-file, unmodeled-context |
+| drive | files.get | GET /drive/v3/files/{fileId} | always, drive-appdata, drive-file, unmodeled-context, drive-metadata |
+| drive | files.create | POST /drive/v3/files | always, drive-appdata |
+| drive | files.update | PATCH /drive/v3/files/{fileId} | always, drive-appdata, drive-file, drive-metadata-write, unmodeled-context |
+| drive | files.delete | DELETE /drive/v3/files/{fileId} | always, drive-appdata, drive-file |
+| calendar | events.list | GET /calendar/v3/calendars/{calendarId}/events | always, calendar-app-created, calendar-availability, calendar-owned, calendar-public |
+| calendar | events.get | GET /calendar/v3/calendars/{calendarId}/events/{eventId} | always, calendar-app-created, calendar-availability, calendar-owned, calendar-public |
+| calendar | events.insert | POST /calendar/v3/calendars/{calendarId}/events | always, calendar-app-created, calendar-owned |
+| calendar | events.update | PUT /calendar/v3/calendars/{calendarId}/events/{eventId} | always, calendar-app-created, calendar-owned |
+| calendar | events.delete | DELETE /calendar/v3/calendars/{calendarId}/events/{eventId} | always, calendar-app-created, calendar-owned |
+| calendar | calendarList.list | GET /calendar/v3/users/me/calendarList | always |
+| calendar | calendars.get | GET /calendar/v3/calendars/{calendarId} | always, calendar-app-created |
+| calendar | freebusy.query | POST /calendar/v3/freeBusy | always |
+
+Each alternative contains exact scope URI requirements and an applicability condition. No global implication is inferred for per-file, owned-calendar or add-on scopes. Narrower candidates are checked against every relevant modeled call and stay low-confidence. Gmail/Drive sensitivity has service-guide sources; Calendar and other unverified categories remain unknown. Existing GitHub catalogs are independent. See [English](google-oauth.md) / [Русский](google-oauth.ru.md).

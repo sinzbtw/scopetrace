@@ -4,9 +4,9 @@
 
 [![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Local static analysis of **GitHub OAuth App scopes** and **GitHub App read/write permissions** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
+Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
-[MIT license](LICENSE) · Node.js 22+ · Version 0.2.0
+[MIT license](LICENSE) · Node.js 22+ · Version 0.3.0
 
 ## Why ScopeTrace
 
@@ -19,14 +19,14 @@ This independent project is not affiliated with other products using the name Sc
 - TypeScript Compiler API AST analysis of JS/JSX/TS/TSX.
 - Imported Octokit constructors, aliases, CommonJS destructuring, REST methods and literal request routes.
 - Global fetch with static GitHub URLs and HTTP methods.
-- Separate catalogs: 13 OAuth rules and 26 GitHub App rules; scope normalization and domain-specific read/write evaluation.
+- Separate catalogs: 13 GitHub OAuth rules, 26 GitHub App rules and 22 Google OAuth rules, including conditional access and dated sensitivity metadata.
 - File/line/column evidence, stable finding IDs, rationale, confidence and documentation.
 - Terminal, JSON and Markdown reports; CI thresholds.
 - Local bounded traversal, secret-file exclusions and symlink/junction skipping.
 
 ## Analysis limits
 
-Select **github-oauth** for OAuth App scopes or **github-app** for GitHub App permissions. These are separate models. Fine-grained PATs and GitHub Actions YAML declarations are not modeled or translated.
+Select **github-oauth**, **github-app** or **google-oauth**. These are separate models; Google support covers Gmail v1, Drive v3 and Calendar v3. Fine-grained PATs and GitHub Actions YAML declarations are not modeled or translated.
 
 Resolution is intrafile and limited to supported const aliases/literals. Wrappers, cross-file dataflow, dynamic templates, GraphQL, custom transports, other HTTP clients, pagination helpers, default imports, constructor factories and exported clients are outside the supported forms. Some unsupported forms cannot be recognized at all. Dynamic fetch targets are reported as candidates that may use another provider.
 
@@ -64,6 +64,8 @@ scopetrace scan --fail-on high
 Without global installation, replace `scopetrace` with `node /absolute/path/to/scopetrace/dist/cli/main.js`, staying in the application's root. Use the actual Windows absolute path on Windows.
 
 For a new GitHub App config, use `scopetrace init --provider github-app` instead of the default init. See the [GitHub Apps guide](docs/github-apps.md) for configuration, read/write semantics and limitations.
+
+For Google OAuth, use `scopetrace init --provider google-oauth`. See the [Google OAuth guide](docs/google-oauth.md) for configuration, conditional resource access and sensitive/restricted scope classifications. Unverified sensitivity stays unknown.
 
 ## Configuration
 
@@ -105,6 +107,8 @@ Without include/exclude, all supported extensions are selected except test/spec 
 | `scopetrace rules` | OAuth rules, alternatives, conditions and sources |
 | `scopetrace init --provider github-app` | Create an App permission config |
 | `scopetrace rules --provider github-app` | App permission rules and sources |
+| `scopetrace init --provider google-oauth` | Create a Google URI-scope config |
+| `scopetrace rules --provider google-oauth` | Gmail/Drive/Calendar rules and classifications |
 | `scopetrace --help / --version` | Usage/version |
 
 Outputs must not exist; parent directories must exist and must not resolve through symbolic links. JSON stdout contains only the report; errors go to stderr.
@@ -143,15 +147,15 @@ It exits **1**: user:email and workflow are declared, but repository deletion ne
   Rule: gh.repo.delete
 ```
 
-The ID is illustrative; actual IDs derive from location and operation identity. OAuth JSON schemaVersion remains 1.0.0 ([schema](schemas/report.schema.json)); App reports use 2.0.0 ([schema](schemas/github-app-report.schema.json)). Both expose analysis, operations and findings, including alternatives, docs and confidence. App findings include declared/required/suggested levels. Markdown exports the same findings for review.
+The ID is illustrative; actual IDs derive from location and operation identity. OAuth JSON schemaVersion remains 1.0.0 ([schema](schemas/report.schema.json)); App reports use 2.0.0 ([schema](schemas/github-app-report.schema.json)). Both expose analysis, operations and findings, including alternatives, docs and confidence. App findings include declared/required/suggested levels. Google reports use schemaVersion 3.0.0 ([schema](schemas/google-oauth-report.schema.json)) with scopeAssessments and conditional alternatives. Markdown exports the same findings for review.
 
 Categories: observed, possibly_excessive, insufficient, unknown, not_applicable.
 
 ## CI/CD
 
-[CI](.github/workflows/ci.yml) checks Windows/Linux on Node.js 22/24/26: typecheck, ESLint, unit/integration coverage tests, build and built CLI smoke/gate tests for both models. Permissions are read-only and Actions are pinned.
+[CI](.github/workflows/ci.yml) checks Windows/Linux on Node.js 22/24/26: typecheck, ESLint, unit/integration coverage tests, build and built CLI smoke/gate tests for all three models. Permissions are read-only and Actions are pinned.
 
-For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. Copy [the CI example](examples/github-actions.yml) and commit your app config. It pins a reviewed implementation commit; update that SHA only after review. This uses available source, not an unpublished registry package.
+For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. Copy [the CI example](examples/github-actions.yml) and commit your app config. It pins a reviewed implementation commit; update that SHA only after review. This uses source, not an unpublished registry package. Before using a Google config, update the example pin to a reviewed commit containing the 0.3 implementation.
 
 ## Development and tests
 
@@ -166,7 +170,7 @@ Check runs typecheck, lint, coverage tests and build. Tests cover aliases, shado
 
 ## Security and privacy
 
-Scan needs no token, performs no network calls, never loads project modules/scripts and never changes sources. Reports retain relative filenames and normalized operation templates; source snippets, bodies, arbitrary URL segments, query values and headers are omitted. Filenames and known declared scope/permission names remain visible.
+Scan needs no token, performs no network calls, never loads project modules/scripts and never changes sources. Reports retain relative filenames and normalized operation templates; source snippets, bodies, arbitrary URL segments, query values and headers are omitted. Filenames and known declared scope/permission names remain visible. Google reports retain categorical parameter facts; addresses, resource IDs, queries, auth strings and request bodies are omitted. Sensitivity labels do not establish app-specific verification obligations.
 
 Links/junctions are skipped; real paths, regular-file identity and byte limits are checked. This protects against a stable untrusted repository, not a local process actively racing filesystem changes. Keep the scanned checkout stable. See [SECURITY.md](SECURITY.md) for the threat model and private reporting.
 

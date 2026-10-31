@@ -47,3 +47,15 @@ jobs:
           code=$?
           set -e
           test "$code" -eq 1
+
+      - name: Built Google OAuth report and gate
+        shell: bash
+        working-directory: tests/fixtures/google-oauth
+        run: |
+          node ../../../dist/cli/main.js scan --format json --output ../../../work-ci-google-report.json
+          node -e "const r=require('../../../work-ci-google-report.json'); if(r.provider!=='google-oauth'||r.schemaVersion!=='3.0.0'||r.operations.length!==3) process.exit(1)"
+          set +e
+          node ../../../dist/cli/main.js scan --fail-on high
+          code=$?
+          set -e
+          test "$code" -eq 1

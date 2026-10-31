@@ -40,16 +40,29 @@ export const appConfigSchema = z.strictObject({
  ...common, provider: z.literal('github-app'), tokenType: z.enum(['installation', 'user']),
  declaredPermissions: z.strictObject({ repository: permissions('repository'), organization: permissions('organization'), account: permissions('account') })
 });
-export const configSchema = z.discriminatedUnion('provider', [oauthConfigSchema, appConfigSchema]);
+export const googleConfigSchema = z.strictObject({
+ ...common, provider: z.literal('google-oauth'),
+ declaredScopes: z.array(z.string().min(1).max(256).regex(/^(?:https:\/\/www\.googleapis\.com\/auth\/[a-zA-Z0-9._-]+|https:\/\/mail\.google\.com\/?|openid|email|profile)$/)).max(100),
+ googleContext: z.strictObject({
+  driveAccess: z.enum(['unknown', 'app-authorized', 'app-data']).default('unknown'),
+  calendarResources: z.enum(['unknown', 'owned', 'app-created', 'public']).default('unknown'),
+  calendarData: z.enum(['unknown', 'events', 'availability']).default('unknown')
+ }).default({ driveAccess: 'unknown', calendarResources: 'unknown', calendarData: 'unknown' })
+}).omit({ repositoryVisibility: true });
+export const configSchema = z.discriminatedUnion('provider', [oauthConfigSchema, appConfigSchema, googleConfigSchema]);
 export type OAuthConfig = z.infer<typeof oauthConfigSchema>;
 export type AppConfig = z.infer<typeof appConfigSchema>;
-export type Config = OAuthConfig | AppConfig;
+export type GoogleConfig = z.infer<typeof googleConfigSchema>;
+export type Config = OAuthConfig | AppConfig | GoogleConfig;
 export const defaultConfig = { provider: 'github-oauth', declaredScopes: [],
  include: ['src/**/*.{js,jsx,ts,tsx}'], exclude: ['**/*.test.*', '**/*.spec.*'],
  repositoryVisibility: 'unknown' };
 export const defaultAppConfig = { provider: 'github-app', tokenType: 'installation',
  declaredPermissions: { repository: { contents: 'read', issues: 'read', metadata: 'read' }, organization: {}, account: {} },
  include: ['src/**/*.{js,jsx,ts,tsx}'], exclude: ['**/*.test.*', '**/*.spec.*'], repositoryVisibility: 'unknown' };
+export const defaultGoogleConfig = { provider: 'google-oauth', declaredScopes: [],
+ include: ['src/**/*.{js,jsx,ts,tsx}'], exclude: ['**/*.test.*', '**/*.spec.*'],
+ googleContext: { driveAccess: 'unknown', calendarResources: 'unknown', calendarData: 'unknown' } };
 export function within(root: string, candidate: string): boolean {
  const rel = path.relative(root, candidate);
  return rel === '' || (!rel.startsWith('..' + path.sep) && rel !== '..' && !path.isAbsolute(rel));

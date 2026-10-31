@@ -1,0 +1,1474 @@
+{
+  "version": "2026-10-31.1",
+  "provider": "google-oauth",
+  "verified": "2026-10-31",
+  "discoveryRevisions": {
+    "gmail": "20261026",
+    "drive": "20261028",
+    "calendar": "20261028"
+  },
+  "discoveryDocs": {
+    "gmail": "https://gmail.googleapis.com/$discovery/rest?version=v1",
+    "drive": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+    "calendar": "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
+  },
+  "scopes": [
+    {
+      "uri": "https://mail.google.com/",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.app.created",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.calendarlist",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.calendars",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.calendars.readonly",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.events",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.events.freebusy",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.events.owned",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.events.public.readonly",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.events.readonly",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.freebusy",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/calendar.readonly",
+      "service": "calendar",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.activity",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.activity.readonly",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.appdata",
+      "service": "drive",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.appfolder",
+      "service": "drive",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide.",
+      "sufficiency": "unmodeled"
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.apps.readonly",
+      "service": "drive",
+      "sensitivity": "sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.file",
+      "service": "drive",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.install",
+      "service": "drive",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.meet.readonly",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.metadata",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.metadata.readonly",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.photos.readonly",
+      "service": "drive",
+      "sensitivity": "unknown",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "The checked official service guide does not establish a sensitivity category for this URI; verify the current consent configuration."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.readonly",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/drive.scripts",
+      "service": "drive",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+      "service": "gmail",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.addons.current.message.action",
+      "service": "gmail",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.addons.current.message.metadata",
+      "service": "gmail",
+      "sensitivity": "sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+      "service": "gmail",
+      "sensitivity": "sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.compose",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.insert",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.labels",
+      "service": "gmail",
+      "sensitivity": "non_sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.metadata",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.modify",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.readonly",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.send",
+      "service": "gmail",
+      "sensitivity": "sensitive",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.settings.basic",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    },
+    {
+      "uri": "https://www.googleapis.com/auth/gmail.settings.sharing",
+      "service": "gmail",
+      "sensitivity": "restricted",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "verified": "2026-10-31",
+      "classificationNote": "Classification is listed in the official service scope guide."
+    }
+  ],
+  "narrower": {
+    "https://mail.google.com/": [
+      "https://www.googleapis.com/auth/gmail.modify",
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.compose",
+      "https://www.googleapis.com/auth/gmail.send",
+      "https://www.googleapis.com/auth/gmail.metadata",
+      "https://www.googleapis.com/auth/gmail.labels"
+    ],
+    "https://www.googleapis.com/auth/gmail.modify": [
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.send",
+      "https://www.googleapis.com/auth/gmail.metadata",
+      "https://www.googleapis.com/auth/gmail.labels"
+    ],
+    "https://www.googleapis.com/auth/gmail.readonly": [
+      "https://www.googleapis.com/auth/gmail.metadata"
+    ],
+    "https://www.googleapis.com/auth/gmail.compose": [
+      "https://www.googleapis.com/auth/gmail.send"
+    ],
+    "https://www.googleapis.com/auth/drive": [
+      "https://www.googleapis.com/auth/drive.readonly",
+      "https://www.googleapis.com/auth/drive.metadata",
+      "https://www.googleapis.com/auth/drive.metadata.readonly",
+      "https://www.googleapis.com/auth/drive.file",
+      "https://www.googleapis.com/auth/drive.appdata"
+    ],
+    "https://www.googleapis.com/auth/drive.readonly": [
+      "https://www.googleapis.com/auth/drive.metadata.readonly"
+    ],
+    "https://www.googleapis.com/auth/drive.metadata": [
+      "https://www.googleapis.com/auth/drive.metadata.readonly"
+    ],
+    "https://www.googleapis.com/auth/calendar": [
+      "https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/calendar.events",
+      "https://www.googleapis.com/auth/calendar.events.readonly",
+      "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+      "https://www.googleapis.com/auth/calendar.calendars.readonly",
+      "https://www.googleapis.com/auth/calendar.events.owned",
+      "https://www.googleapis.com/auth/calendar.app.created",
+      "https://www.googleapis.com/auth/calendar.freebusy"
+    ],
+    "https://www.googleapis.com/auth/calendar.readonly": [
+      "https://www.googleapis.com/auth/calendar.events.readonly",
+      "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+      "https://www.googleapis.com/auth/calendar.calendars.readonly",
+      "https://www.googleapis.com/auth/calendar.freebusy"
+    ],
+    "https://www.googleapis.com/auth/calendar.events": [
+      "https://www.googleapis.com/auth/calendar.events.readonly",
+      "https://www.googleapis.com/auth/calendar.events.owned"
+    ],
+    "https://www.googleapis.com/auth/calendar.events.owned": [
+      "https://www.googleapis.com/auth/calendar.events.owned.readonly"
+    ]
+  },
+  "rules": [
+    {
+      "id": "google.gmail.users.messages.list",
+      "service": "gmail",
+      "method": "GET",
+      "endpoint": "/gmail/v1/users/{userId}/messages",
+      "sdk": "users.messages.list",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.metadata"
+          ],
+          "condition": "gmail-metadata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/list",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.messages.get",
+      "service": "gmail",
+      "method": "GET",
+      "endpoint": "/gmail/v1/users/{userId}/messages/{id}",
+      "sdk": "users.messages.get",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.addons.current.message.action"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.addons.current.message.metadata"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.addons.current.message.readonly"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.metadata"
+          ],
+          "condition": "gmail-metadata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/get",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.messages.send",
+      "service": "gmail",
+      "method": "POST",
+      "endpoint": "/gmail/v1/users/{userId}/messages/send",
+      "sdk": "users.messages.send",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.addons.current.action.compose"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.compose"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.send"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/send",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.messages.modify",
+      "service": "gmail",
+      "method": "POST",
+      "endpoint": "/gmail/v1/users/{userId}/messages/{id}/modify",
+      "sdk": "users.messages.modify",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/modify",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.messages.trash",
+      "service": "gmail",
+      "method": "POST",
+      "endpoint": "/gmail/v1/users/{userId}/messages/{id}/trash",
+      "sdk": "users.messages.trash",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/trash",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.messages.delete",
+      "service": "gmail",
+      "method": "DELETE",
+      "endpoint": "/gmail/v1/users/{userId}/messages/{id}",
+      "sdk": "users.messages.delete",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/delete",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.labels.list",
+      "service": "gmail",
+      "method": "GET",
+      "endpoint": "/gmail/v1/users/{userId}/labels",
+      "sdk": "users.labels.list",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.labels"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.metadata"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.labels/list",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.labels.create",
+      "service": "gmail",
+      "method": "POST",
+      "endpoint": "/gmail/v1/users/{userId}/labels",
+      "sdk": "users.labels.create",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.labels"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.labels/create",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.gmail.users.getProfile",
+      "service": "gmail",
+      "method": "GET",
+      "endpoint": "/gmail/v1/users/{userId}/profile",
+      "sdk": "users.getProfile",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://mail.google.com/"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.compose"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.metadata"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.modify"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/gmail/api/reference/rest/v1/users/getProfile",
+        "https://developers.google.com/workspace/gmail/api/auth/scopes"
+      ],
+      "rationale": "The official gmail method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.drive.files.list",
+      "service": "drive",
+      "method": "GET",
+      "endpoint": "/drive/v3/files",
+      "sdk": "files.list",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.appdata"
+          ],
+          "condition": "drive-appdata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+          ],
+          "condition": "drive-file"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.meet.readonly"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.metadata"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.metadata.readonly"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.photos.readonly"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/list",
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.drive.files.get",
+      "service": "drive",
+      "method": "GET",
+      "endpoint": "/drive/v3/files/{fileId}",
+      "sdk": "files.get",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.appdata"
+          ],
+          "condition": "drive-appdata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+          ],
+          "condition": "drive-file"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.meet.readonly"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.metadata"
+          ],
+          "condition": "drive-metadata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.metadata.readonly"
+          ],
+          "condition": "drive-metadata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.photos.readonly"
+          ],
+          "condition": "unmodeled-context"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/get",
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.drive.files.create",
+      "service": "drive",
+      "method": "POST",
+      "endpoint": "/drive/v3/files",
+      "sdk": "files.create",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.appdata"
+          ],
+          "condition": "drive-appdata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/create",
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.drive.files.update",
+      "service": "drive",
+      "method": "PATCH",
+      "endpoint": "/drive/v3/files/{fileId}",
+      "sdk": "files.update",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.appdata"
+          ],
+          "condition": "drive-appdata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+          ],
+          "condition": "drive-file"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.metadata"
+          ],
+          "condition": "drive-metadata-write"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.scripts"
+          ],
+          "condition": "unmodeled-context"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/update",
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.drive.files.delete",
+      "service": "drive",
+      "method": "DELETE",
+      "endpoint": "/drive/v3/files/{fileId}",
+      "sdk": "files.delete",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.appdata"
+          ],
+          "condition": "drive-appdata"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.file"
+          ],
+          "condition": "drive-file"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/drive/api/reference/rest/v3/files/delete",
+        "https://developers.google.com/workspace/drive/api/guides/api-specific-auth"
+      ],
+      "rationale": "The official drive method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.events.list",
+      "service": "calendar",
+      "method": "GET",
+      "endpoint": "/calendar/v3/calendars/{calendarId}/events",
+      "sdk": "events.list",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.app.created"
+          ],
+          "condition": "calendar-app-created"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.freebusy"
+          ],
+          "condition": "calendar-availability"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ],
+          "condition": "calendar-owned"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly"
+          ],
+          "condition": "calendar-owned"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.public.readonly"
+          ],
+          "condition": "calendar-public"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.readonly"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/events/list",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.events.get",
+      "service": "calendar",
+      "method": "GET",
+      "endpoint": "/calendar/v3/calendars/{calendarId}/events/{eventId}",
+      "sdk": "events.get",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.app.created"
+          ],
+          "condition": "calendar-app-created"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.freebusy"
+          ],
+          "condition": "calendar-availability"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ],
+          "condition": "calendar-owned"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly"
+          ],
+          "condition": "calendar-owned"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.public.readonly"
+          ],
+          "condition": "calendar-public"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.readonly"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/events/get",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.events.insert",
+      "service": "calendar",
+      "method": "POST",
+      "endpoint": "/calendar/v3/calendars/{calendarId}/events",
+      "sdk": "events.insert",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.app.created"
+          ],
+          "condition": "calendar-app-created"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ],
+          "condition": "calendar-owned"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/events/insert",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.events.update",
+      "service": "calendar",
+      "method": "PUT",
+      "endpoint": "/calendar/v3/calendars/{calendarId}/events/{eventId}",
+      "sdk": "events.update",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.app.created"
+          ],
+          "condition": "calendar-app-created"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ],
+          "condition": "calendar-owned"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/events/update",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.events.delete",
+      "service": "calendar",
+      "method": "DELETE",
+      "endpoint": "/calendar/v3/calendars/{calendarId}/events/{eventId}",
+      "sdk": "events.delete",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.app.created"
+          ],
+          "condition": "calendar-app-created"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ],
+          "condition": "calendar-owned"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/events/delete",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.calendarList.list",
+      "service": "calendar",
+      "method": "GET",
+      "endpoint": "/calendar/v3/users/me/calendarList",
+      "sdk": "calendarList.list",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.calendarlist"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/calendarList/list",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.calendars.get",
+      "service": "calendar",
+      "method": "GET",
+      "endpoint": "/calendar/v3/calendars/{calendarId}",
+      "sdk": "calendars.get",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.app.created"
+          ],
+          "condition": "calendar-app-created"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.calendars.readonly"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/calendars/get",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    },
+    {
+      "id": "google.calendar.freebusy.query",
+      "service": "calendar",
+      "method": "POST",
+      "endpoint": "/calendar/v3/freeBusy",
+      "sdk": "freebusy.query",
+      "alternatives": [
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.events.freebusy"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.freebusy"
+          ],
+          "condition": "always"
+        },
+        {
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ],
+          "condition": "always"
+        }
+      ],
+      "confidence": "high",
+      "verified": "2026-10-31",
+      "docs": [
+        "https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query",
+        "https://developers.google.com/workspace/calendar/api/auth"
+      ],
+      "rationale": "The official calendar method documents these OAuth alternatives; resource, response and parameter conditions must also hold."
+    }
+  ]
+}

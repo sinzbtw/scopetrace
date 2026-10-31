@@ -17,7 +17,7 @@ describe('CLI integration',()=>{
   const dir=await fixture();
   expect((await run([],dir)).stdout).toContain('Usage:');
   expect((await run(['--help'],dir)).code).toBe(0);
-  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.2.0');
+  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.3.0');
   const rules=await run(['rules'],dir);expect(rules.code).toBe(0);expect(rules.stdout).toContain('gh.email.list');expect(rules.stdout).toContain('https://docs.github.com/');
  });
  it('initializes exclusively and rejects command/options errors',async()=>{
@@ -90,6 +90,40 @@ describe('CLI integration',()=>{
   const dir=await fixture();
   await writeFile(path.join(dir,'scopetrace.config.json'),JSON.stringify({provider:'github-app',tokenType:'user',declaredPermissions:{account:{SENTINEL:'write'}}}));
   const result=await run(['scan'],dir);expect(result.code).toBe(2);expect(result.stderr).not.toContain('SENTINEL');
+ });
+
+ it('initializes and lists Google OAuth independently from GitHub models',async()=>{
+  const dir=await fixture();
+  expect((await run(['init','--provider','google-oauth'],dir)).code).toBe(0);
+  const config=JSON.parse(await readFile(path.join(dir,'scopetrace.config.json'),'utf8'));
+  expect(config.provider).toBe('google-oauth');expect(config.declaredScopes).toEqual([]);
+  expect(config).not.toHaveProperty('declaredPermissions');expect(config).not.toHaveProperty('tokenType');
+  const rules=await run(['rules','--provider','google-oauth'],dir);
+  expect(rules.code).toBe(0);expect(rules.stdout).toContain('google.gmail.users.messages.send');
+  expect(rules.stdout).toContain('restricted');expect(rules.stdout).toContain('Scope classifications:');
+ });
+ it('scans Gmail, Drive and Calendar with deficiencies, scope review and honest unknowns',async()=>{
+  const dir=path.resolve('tests/fixtures/google-oauth');
+  const result=await run(['scan','--format','json','--fail-on','high'],dir);
+  expect(result.code).toBe(1);expect(result.stderr).toBe('');
+  const report=JSON.parse(result.stdout);
+  expect(report.schemaVersion).toBe('3.0.0');expect(report.provider).toBe('google-oauth');expect(report.operations).toHaveLength(3);
+  expect(report.findings.some((f:{category:string})=>f.category==='insufficient')).toBe(true);
+  expect(report.findings.some((f:{suggestedScopes?:string[]})=>f.suggestedScopes?.includes('https://www.googleapis.com/auth/gmail.send'))).toBe(true);
+  expect(report.findings.some((f:{operation?:{endpoint:string},category:string})=>f.operation?.endpoint.startsWith('/drive/')&&f.category==='unknown')).toBe(true);
+  expect((await run(['scan','--format','markdown'],dir)).stdout).toContain('## Scope classifications');
+  expect((await run(['scan'],dir)).code).toBe(0);
+ });
+ it('exports Google JSON exclusively and sanitizes invalid scope config errors',async()=>{
+  const dir=await fixture();
+  await writeFile(path.join(dir,'config.json'),JSON.stringify({provider:'google-oauth',declaredScopes:['https://www.googleapis.com/auth/gmail.send'],include:['*.ts']}));
+  await writeFile(path.join(dir,'app.ts'),"fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{method:'POST',body:'SENTINEL'});");
+  const args=['scan','--config','config.json','--format','json','--output','google.json'];
+  expect((await run(args,dir)).code).toBe(0);expect((await run(args,dir)).code).toBe(2);
+  expect(await readFile(path.join(dir,'google.json'),'utf8')).not.toContain('SENTINEL');
+  await writeFile(path.join(dir,'config.json'),JSON.stringify({provider:'google-oauth',declaredScopes:['SENTINEL']}));
+  const invalid=await run(['scan','--config','config.json'],dir);
+  expect(invalid.code).toBe(2);expect(invalid.stderr).not.toContain('SENTINEL');
  });
 
 });

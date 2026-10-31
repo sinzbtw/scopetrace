@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-31
+
+- Independent Google OAuth provider for Gmail v1, Drive v3 and Calendar v3.
+- 22 source-verified operation rules; static fetch and proven Google Node SDK imports/aliases.
+- Conditional resource/response/query scope analysis with explicit unknown cases.
+- Dated sensitive/restricted/non-sensitive classifications where verified; unverified categories remain unknown.
+- Low-confidence narrower-scope suggestions, separate Google JSON schema 3.0.0 and bilingual guides.
+- Existing GitHub OAuth/App schemas and offline safety guarantees preserved.
+
 ## 0.2.0 — 2026-10-29
 
 - Separate GitHub App provider with installation/user token kinds and repository, organization and account permission domains.

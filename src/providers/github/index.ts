@@ -16,8 +16,8 @@ export function normalizeScopes(scopes: string[]): string[] {
 export function ruleFor(method: string, endpoint: string): Rule | undefined {
  return catalog.rules.find(r => r.method === method && r.endpoint === endpoint);
 }
-export function operationRules(provider: Provider = 'github-oauth'): (Rule | AppRule)[] { return provider === 'github-app' ? appCatalog.rules : catalog.rules; }
-export function normalizeEndpoint(input: string, absolute = false, provider: Provider = 'github-oauth'): string | undefined {
+export function operationRules(provider: Exclude<Provider, 'google-oauth'> = 'github-oauth'): (Rule | AppRule)[] { return provider === 'github-app' ? appCatalog.rules : catalog.rules; }
+export function normalizeEndpoint(input: string, absolute = false, provider: Exclude<Provider, 'google-oauth'> = 'github-oauth'): string | undefined {
  let pathname: string;
  try {
   if (absolute) {

@@ -1,0 +1,20 @@
+{
+  "provider": "google-oauth",
+  "declaredScopes": [
+    "https://www.googleapis.com/auth/gmail.send",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/calendar.events.readonly"
+  ],
+  "include": [
+    "src/**/*.{js,jsx,ts,tsx}"
+  ],
+  "exclude": [
+    "**/*.test.*",
+    "**/*.spec.*"
+  ],
+  "googleContext": {
+    "driveAccess": "unknown",
+    "calendarResources": "unknown",
+    "calendarData": "unknown"
+  }
+}

@@ -1,20 +1,21 @@
 import { lstat, open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
-import { defaultConfig, defaultAppConfig, loadConfig } from '../config/index.js';
+import { defaultConfig, defaultAppConfig, defaultGoogleConfig, loadConfig } from '../config/index.js';
 import { evaluate, shouldFail, VERSION } from '../engine/index.js';
+import { googleCatalog } from '../providers/google/index.js';
 import { appCatalog } from '../providers/github-app/index.js';
 import { catalog } from '../providers/github/index.js';
 import { render, type Format } from '../reporters/index.js';
 import { scanProject } from '../scanner/index.js';
 import type { Severity } from '../types.js';
-const help = `ScopeTrace — static GitHub OAuth and GitHub App permission analysis (Node.js 22+)
+const help = `ScopeTrace — static GitHub and Google authorization analysis (Node.js 22+)
 
 Usage:
-  scopetrace init [--provider github-oauth|github-app]
+  scopetrace init [--provider github-oauth|github-app|google-oauth]
   scopetrace scan [--config FILE] [--format text|json|markdown] [--output FILE]
                   [--fail-on info|low|medium|high]
-  scopetrace rules [--provider github-oauth|github-app]
+  scopetrace rules [--provider github-oauth|github-app|google-oauth]
   scopetrace --help
   scopetrace --version
 
@@ -49,13 +50,20 @@ export async function runCli(args: string[], cwd: string, io: CliIO): Promise<nu
   if (!command && args.length === 0) { io.stdout(help); return 0; }
   if (positionals.length !== 1 || !['init', 'scan', 'rules'].includes(command ?? '')) throw new Error('Expected one command: init, scan or rules. See --help.');
   if (command !== 'scan' && ['config', 'format', 'output', 'fail-on'].some(k => k in values)) throw new Error('Scan options are only valid with scan.');
-  if (values.provider && !['github-oauth', 'github-app'].includes(values.provider)) throw new Error('Provider must be github-oauth or github-app.');
+  if (values.provider && !['github-oauth', 'github-app', 'google-oauth'].includes(values.provider)) throw new Error('Provider must be github-oauth, github-app or google-oauth.');
   if (command === 'scan' && values.provider) throw new Error('Select the scan provider in the JSON config.');
   if (command === 'init') {
-   await writeNew(path.join(cwd, 'scopetrace.config.json'), JSON.stringify(values.provider === 'github-app' ? defaultAppConfig : defaultConfig, null, 2) + '\n');
+   await writeNew(path.join(cwd, 'scopetrace.config.json'), JSON.stringify(values.provider === 'google-oauth' ? defaultGoogleConfig : values.provider === 'github-app' ? defaultAppConfig : defaultConfig, null, 2) + '\n');
    io.stdout('Created scopetrace.config.json. Set the declarations and review include patterns.\n'); return 0;
   }
   if (command === 'rules') {
+   if (values.provider === 'google-oauth') {
+    io.stdout('google-oauth catalog ' + googleCatalog.version + '\n' + googleCatalog.rules.map(r =>
+     r.id + ' ' + r.method + ' ' + r.endpoint + '\n  SDK: ' + r.service + '.' + r.sdk +
+     '\n  Alternatives: ' + JSON.stringify(r.alternatives) + '\n  Verified: ' + r.verified + '\n  ' + r.docs.join('\n  ')).join('\n') +
+     '\nScope classifications:\n' + googleCatalog.scopes.map(s => s.uri + ': ' + s.sensitivity + ' (verified ' + s.verified + ')').join('\n') + '\n');
+    return 0;
+   }
    const selected = values.provider === 'github-app' ? appCatalog : catalog;
    io.stdout(selected.provider + ' catalog ' + selected.version + '\n' + selected.rules.map(r =>
     r.id + ' ' + r.method + ' ' + r.endpoint + '\n  ' + r.rationale + '\n  Condition: ' + r.condition +

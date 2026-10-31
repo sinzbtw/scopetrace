@@ -2,7 +2,7 @@
 
 ## Supported release
 
-Security fixes target 0.2.x; users on 0.1.x should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
+Security fixes target 0.3.x; users on earlier release lines should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
 
 ## Private reporting
 
@@ -31,3 +31,5 @@ The runtime needs no GitHub credential. Maintainer publishing is a separate auth
 Before releases: tests, typecheck, lint, build, dependency audit, staged-file and full-history credential review. CI uses read-only contents permissions, pinned Actions and no privileged pull-request workflow.
 
 GitHub App analysis uses an explicitly configured installation/user token kind and one declaration. It does not read credentials, contact GitHub, infer effective grants, inspect webhook subscriptions or prove that a write-to-read downgrade is safe. Conditional workflow rights and implicit metadata are handled conservatively.
+
+Google OAuth scanning reads no tokens, executes no SDK/project modules and makes no network calls. Query/auth/body values and resource identifiers never enter reports. Scope sensitivity is dated reference metadata, not a determination of regulatory compliance or required verification. Resource context is a user assertion; service-account delegation, incremental consent and effective token identity are not verified.

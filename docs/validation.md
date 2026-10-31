@@ -16,3 +16,7 @@ Review boundaries: the credential check is pattern-based, not proof of the absen
 ## 0.2.0
 
 Adds App-specific AST, permission-level, domain, token-kind, alternative, privacy, CLI and JSON-schema regression tests. Both authorization models run through the same safe traversal and formatting paths. CI runs both built fixtures on Windows/Linux and Node.js 22/24/26. Release-specific results are recorded in the release notes and CI logs.
+
+## 0.3.0
+
+Adds Google SDK/fetch binding, conditional Gmail/Drive/Calendar scopes, classification, resource-context, redaction, CLI and schema tests. Development validation compares all 22 scope lists and methods against the saved official Discovery revisions. Scan and automated test execution require neither tokens nor Google network access. CI includes a built Google fixture alongside the GitHub fixtures.
