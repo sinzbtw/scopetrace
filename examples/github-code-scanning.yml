@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: sinzbtw/scopetrace
-          ref: e8a6b777b27a5052d4b6ab91adf4b8f7e15da6d9
+          ref: 13af5aa20bd721966a42585551e305f0626250af
           path: tool
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
