@@ -31,7 +31,7 @@ describe('SARIF 2.1.0 contract', () => {
   expect(validate(sarif), JSON.stringify(validate.errors)).toBe(true);
   expect(run.tool.driver).toMatchObject({ name: 'ScopeTrace', version: '0.4.0' });
   expect(run.columnKind).toBe('utf16CodeUnits');
-  expect(run.automationDetails.id).toBe('scopetrace/' + cfg.provider + '/');
+  expect(run).not.toHaveProperty('automationDetails');
   expect(run.results.length + run.properties.scopetrace.nonAlertFindings.length).toBe(findings.length);
   for (const f of findings) {
    const result = run.results.find(result => result.properties.scopetrace.id === f.id);
@@ -113,6 +113,15 @@ describe('SARIF 2.1.0 contract', () => {
   const r = report();r.findings = [finding('observed', 'info', 'high'), finding('not_applicable', 'info', 'medium')];
   const run = toSarif(r).runs[0]!;
   expect(run.results).toEqual([]);expect(run.properties.scopetrace.nonAlertFindings).toEqual(r.findings);
+ });
+ it('lets upload-sarif set workflow categories and supports explicit API categories', () => {
+  expect(toSarif(report()).runs[0]).not.toHaveProperty('automationDetails');
+  for (const category of ['oauth/application', 'oauth/application/']) {
+   const sarif = toSarif(report(), { category });
+   expect(sarif.runs[0]!.automationDetails).toEqual({ id: 'oauth/application/' });
+   expect(validate(sarif), JSON.stringify(validate.errors)).toBe(true);
+  }
+  for (const category of ['', ' ', '?name', 'a'.repeat(129)]) expect(() => toSarif(report(), { category })).toThrow('SARIF category');
  });
  it('keeps the confidence-aware gate independent from the output format', () => {
   const r = report();r.findings = [finding('insufficient', 'high', 'low'), finding('possibly_excessive', 'high', 'low')];

@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { Category, Finding, Report, Severity } from '../types.js';
 
-export interface SarifOptions { configFile?: string }
+export interface SarifOptions { configFile?: string; category?: string }
 const guide = 'https://github.com/sinzbtw/scopetrace/blob/v0.4.0/docs/sarif.md';
 const descriptions: Record<Category, string> = {
  insufficient: 'Declared permissions do not cover a modeled API operation',
@@ -35,6 +35,9 @@ function identity(f: Finding, uri: string): string {
 }
 export function toSarif(report: Report, options: SarifOptions = {}) {
  const configUri = artifactUri(options.configFile ?? 'scopetrace.config.json');
+ if (options.category !== undefined && (!/^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/.test(options.category) || options.category.length > 128)) {
+  throw new Error('SARIF category must be 1-128 letters, digits, dots, underscores, slashes or hyphens, starting with a letter or digit.');
+ }
  const alerts = report.findings.filter(f => !['observed', 'not_applicable'].includes(f.category));
  const entries = alerts.map(f => ({ f, id: ruleId(report, f), uri: f.operation ? artifactUri(f.operation.location.file) : configUri }));
  entries.sort((a, b) => compare(a.id, b.id) || compare(a.uri, b.uri) ||
@@ -83,7 +86,8 @@ export function toSarif(report: Report, options: SarifOptions = {}) {
   version: '2.1.0' as const,
   runs: [{ tool: { driver: { name: 'ScopeTrace', version: report.toolVersion,
    informationUri: 'https://github.com/sinzbtw/scopetrace', rules } },
-   automationDetails: { id: 'scopetrace/' + report.provider + '/' },
+   // Let upload-sarif assign its category unless an API caller explicitly sets one.
+   ...(options.category ? { automationDetails: { id: options.category.replace(/\/$/, '') + '/' } } : {}),
    columnKind: 'utf16CodeUnits' as const, results,
    invocations: [{ executionSuccessful: true,
     toolExecutionNotifications: [
