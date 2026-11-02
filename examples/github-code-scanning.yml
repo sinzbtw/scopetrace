@@ -1,0 +1,58 @@
+# Copy into your application's .github/workflows and commit scopetrace.config.json.
+# Adjust the target branch and use distinct categories for configs/monorepo slices.
+name: ScopeTrace Code Scanning
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  scopes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    steps:
+      - name: Checkout application
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: app
+          persist-credentials: false
+      - name: Checkout reviewed ScopeTrace implementation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: sinzbtw/scopetrace
+          ref: e8a6b777b27a5052d4b6ab91adf4b8f7e15da6d9
+          path: tool
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+        working-directory: tool
+      - run: npm run build
+        working-directory: tool
+      - name: Generate SARIF and capture permission gate
+        id: scan
+        shell: bash
+        working-directory: app
+        run: |
+          set +e
+          node ../tool/dist/cli/main.js scan --format sarif --output "$RUNNER_TEMP/scopetrace.sarif" --fail-on high
+          status=$?
+          set -e
+          if [ "$status" -gt 1 ]; then exit "$status"; fi
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        with:
+          sarif_file: ${{ runner.temp }}/scopetrace.sarif
+          checkout_path: app
+          category: scopetrace/application
+          wait-for-processing: true
+      - name: Enforce permission gate
+        if: always() && steps.scan.outputs.exit_code == '1'
+        run: exit 1

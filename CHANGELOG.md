@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 — 2026-11-02
+
+- SARIF 2.1.0 export via --format sarif and toSarif API for all three providers.
+- Original confidence, severity, alternatives, App read/write levels and Google classifications retained; observed/non-applicable evidence stays out of alert results.
+- Stable rule variants, line-shift-resistant fingerprints, encoded relative source URIs and honest config-level anchors.
+- Pinned GitHub Code Scanning PR/default-branch workflows for ScopeTrace itself and consuming applications upload SARIF before enforcing the existing confidence-aware gate.
+- Offline official-schema contracts, CLI/privacy/fingerprint/workflow regressions, built SARIF CI checks and bilingual SARIF/README documentation.
+- Existing provider JSON schemas and offline analysis behavior remain compatible.
+
 ## 0.3.0 — 2026-10-31
 
 - Independent Google OAuth provider for Gmail v1, Drive v3 and Calendar v3.

@@ -17,7 +17,7 @@ The OAuth engine retains its scope implication logic and schemaVersion 1.0.0 rep
 - scanner: bounded sorted traversal, fixed secret/dependency exclusions and symlink avoidance. TypeScript uses an in-memory host without module resolution or project execution. Lexical symbols distinguish imported aliases from shadowed names.
 - providers/github and providers/github-app: separate trusted JSON data and scope/level helpers.
 - engine: model dispatch, permission evaluation, stable IDs and confidence-aware CI thresholds.
-- reporters: terminal, Markdown and model-specific JSON.
+- reporters: terminal, Markdown, model-specific JSON and provider-independent SARIF 2.1.0.
 - cli: arguments, provider-selectable init/rules, config-driven scan and exclusive output creation.
 
 ## Evidence and uncertainty
@@ -37,3 +37,7 @@ No interprocedural analysis, token tracking or GraphQL analysis. All calls use o
 The AST scanner dispatches the Google model to scanner/google.ts while sharing the in-memory compiler, symbol identities and mutation/literal checks. Proven Google SDK bindings and allowlisted static fetch URLs become normalized routes plus categorical parameter facts. No Google SDK package is loaded.
 
 The Google catalog keeps exact documented alternatives and conditions rather than pretending URI prefixes establish hierarchy. The engine distinguishes true/false/unknown conditions, checks every relevant operation before suggesting a narrower candidate, and exposes dated classifications independently from authorization findings. Calendar/unverified categories stay unknown. The Google config omits GitHub-specific visibility/token fields, and its report uses schema 3.0.0. Existing schemas remain unchanged.
+
+## SARIF
+
+reporters/sarif.ts adapts the same Report without changing provider evaluation or CI gating. Structured findings preserve confidence and authorization metadata. Stable provider/catalog/category/severity/confidence rule variants keep GitHub precision honest. Relative URI encoding and source-order fingerprints are independent of source snippets and absolute roots. Declaration findings use a config-file anchor without a fabricated line. Observed/not-applicable findings remain run metadata instead of alerts. See [SARIF](sarif.md).

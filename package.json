@@ -1,6 +1,6 @@
 {
   "name": "scopetrace",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Local, evidence-based static analysis of GitHub OAuth, GitHub App permissions and Google Gmail, Drive and Calendar OAuth scopes.",
   "type": "module",
   "bin": {
@@ -50,6 +50,7 @@
     "@types/picomatch": "^4.0.2",
     "@vitest/coverage-v8": "^5.0.5",
     "ajv": "^8.20.0",
+    "ajv-draft-04": "^1.0.0",
     "eslint": "^10.13.0",
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"

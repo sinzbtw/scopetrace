@@ -59,3 +59,16 @@ jobs:
           code=$?
           set -e
           test "$code" -eq 1
+
+      - name: Built SARIF exports and gates
+        shell: bash
+        run: |
+          for fixture in basic github-app google-oauth; do
+            cd "$GITHUB_WORKSPACE/tests/fixtures/$fixture"
+            set +e
+            node ../../../dist/cli/main.js scan --format sarif --output "$GITHUB_WORKSPACE/work-ci-$fixture.sarif" --fail-on high
+            code=$?
+            set -e
+            test "$code" -eq 1
+            node -e 'const fs=require("node:fs");const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));if(r.version!=="2.1.0"||!r.runs[0].results.some(x=>x.properties.category==="insufficient"))process.exit(1)' "$GITHUB_WORKSPACE/work-ci-$fixture.sarif"
+          done

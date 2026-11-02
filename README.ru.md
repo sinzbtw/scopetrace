@@ -6,7 +6,7 @@
 
 Локальный статический анализ **scopes GitHub OAuth Apps**, **read/write permissions GitHub Apps** и **Google OAuth scopes (Gmail, Drive, Calendar)** в JavaScript и TypeScript. Сопоставление объявленных прав с поддерживаемыми API-операциями: позиции в коде, обоснования и официальная документация.
 
-[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.3.0
+[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.4.0
 
 ## Зачем нужен ScopeTrace
 
@@ -21,7 +21,7 @@
 - Глобальный fetch со статическими GitHub URL и HTTP-методами.
 - Отдельные каталоги: 13 правил GitHub OAuth, 26 правил GitHub Apps и 22 правила Google OAuth, включая условия доступа и категории scopes с датами проверки.
 - Файл/строка/столбец, стабильные ID, обоснование, уверенность и документация.
-- Терминальные, JSON- и Markdown-отчёты; пороги для CI.
+- Терминальные, JSON-, Markdown- и SARIF 2.1.0-отчёты; пороги CI с учётом уверенности и workflow GitHub Code Scanning.
 - Локальный обход с лимитами, исключением файлов секретов и пропуском ссылок/junctions.
 
 ## Ограничения анализа
@@ -58,6 +58,7 @@ scopetrace init
 scopetrace scan
 scopetrace scan --format json --output report.json
 scopetrace scan --format markdown --output report.md
+scopetrace scan --format sarif --output report.sarif
 scopetrace scan --fail-on high
 ```
 
@@ -101,7 +102,7 @@ scopetrace scan --fail-on high
 | `scopetrace init` | Создать стартовую конфигурацию |
 | `scopetrace scan` | Проверить текущий рабочий каталог |
 | `scopetrace scan --config custom.json` | Другой JSON внутри корня |
-| `scopetrace scan --format text\|json\|markdown` | Выбрать формат |
+| `scopetrace scan --format text\|json\|markdown\|sarif` | Выбрать формат |
 | `scopetrace scan --output report.json` | Создать новый файл отчёта |
 | `scopetrace scan --fail-on high` | Блокировать достаточно уверенную нехватку прав |
 | `scopetrace rules` | OAuth-правила, альтернативы, условия и источники |
@@ -111,7 +112,7 @@ scopetrace scan --fail-on high
 | `scopetrace rules --provider google-oauth` | Правила Gmail/Drive/Calendar и категории scopes |
 | `scopetrace --help / --version` | Справка/версия |
 
-Выходной файл не должен существовать; родительские каталоги должны существовать и не разрешаться через ссылки. JSON stdout содержит только отчёт, ошибки идут в stderr.
+Выходной файл не должен существовать; родительские каталоги должны существовать и не разрешаться через ссылки. JSON/SARIF stdout содержит только отчёт, ошибки идут в stderr.
 
 Код **0**: проверка завершена; **1**: недостаточность прав достигла порога важности со средней/высокой уверенностью; **2**: ошибка выполнения/конфигурации. Пороги: info, low, medium, high. Unknown и возможный избыток не вызывают код 1. Пустой/усечённый анализ явно отмечается incomplete/unknown и сам по себе не блокирует проверку.
 
@@ -155,7 +156,15 @@ ID показан схематично: реальные значения зав
 
 [CI](.github/workflows/ci.yml) проверяет Windows/Linux на Node.js 22/24/26: типизацию, ESLint, unit/integration-тесты с покрытием, сборку и запуск/gate собранного CLI для всех трёх моделей. Права ограничены чтением, Actions закреплены по SHA.
 
-Для стороннего репозитория соберите эти исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. Скопируйте [пример CI](examples/github-actions.yml) и сохраните конфигурацию приложения. Пример закреплён на проверенном коммите реализации; меняйте SHA после ревью. Используются исходники, а не неопубликованный пакет из реестра. Для Google-конфигурации сначала обновите pin примера на проверенный коммит с реализацией 0.3.
+Для стороннего репозитория соберите исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. [Пример gate с правами чтения](examples/github-actions.yml) и [пример Code Scanning](examples/github-code-scanning.yml) закрепляют проверенные коммиты реализации. Меняйте pin после ревью. Оба используют исходники, а не неопубликованный пакет реестра.
+
+## SARIF и аннотации Pull Requests
+
+В этом репозитории [Code Scanning](.github/workflows/code-scanning.yml) также проверяет собственный src/ с явной конфигурацией GitHub OAuth; обычный CI тестирует экспорт всех провайдеров.
+
+Экспорт: `scopetrace scan --format sarif --output report.sarif`. Скопируйте [workflow Code Scanning](examples/github-code-scanning.yml) в .github/workflows приложения и сохраните его конфигурацию. Отчёт загружается до проверки порога; инструмент собирается отдельно на проверенном коммите.
+
+Все три провайдера сохраняют уверенность, альтернативы и метаданные GitHub Apps/Google. Возможный избыток и unknown остаются заметками для ревью; observed/not_applicable сохраняются как метаданные без alerts. Позиции API-вызовов могут давать аннотации в добавленных/изменённых строках PR; находки без вызова привязаны к файлу конфигурации целиком. [Руководство SARIF](docs/sarif.ru.md) описывает соответствия, fingerprints, права, fork PR, категории и доступность Code Scanning.
 
 ## Разработка и тесты
 

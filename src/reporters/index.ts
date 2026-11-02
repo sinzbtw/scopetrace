@@ -1,11 +1,13 @@
+import { toSarif, type SarifOptions } from './sarif.js';
 import type { Report } from '../types.js';
-export type Format = 'text' | 'json' | 'markdown';
+export type Format = 'text' | 'json' | 'markdown' | 'sarif';
 function safe(value: string): string { return value.replace(/[\x00-\x1f\x7f-\x9f]/g, '?'); }
 function md(value: string): string { return safe(value).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]!).replace(/[\\|\x60*_\[\]]/g, c => '\\' + c); }
 function permissionEvidence(f: Report['findings'][number]): string {
  return f.permission ? f.permission.domain + '.' + f.permission.name + (f.declaredLevel ? '=' + f.declaredLevel : '') : '';
 }
-export function render(report: Report, format: Format): string {
+export function render(report: Report, format: Format, options: SarifOptions = {}): string {
+ if (format === 'sarif') return JSON.stringify(toSarif(report, options), null, 2) + '\n';
  if (format === 'json') return JSON.stringify(report, null, 2) + '\n';
  if (format === 'markdown') {
   return ['# ScopeTrace report', '', 'Provider: ' + report.provider + ' · Schema: ' + report.schemaVersion + ' · Catalog: ' + report.catalogVersion,

@@ -1,0 +1,12 @@
+{
+  "provider": "github-oauth",
+  "declaredScopes": [],
+  "include": [
+    "src/**/*.{js,jsx,ts,tsx}"
+  ],
+  "exclude": [
+    "**/*.test.*",
+    "**/*.spec.*"
+  ],
+  "repositoryVisibility": "unknown"
+}

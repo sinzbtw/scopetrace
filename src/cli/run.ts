@@ -13,7 +13,7 @@ const help = `ScopeTrace — static GitHub and Google authorization analysis (No
 
 Usage:
   scopetrace init [--provider github-oauth|github-app|google-oauth]
-  scopetrace scan [--config FILE] [--format text|json|markdown] [--output FILE]
+  scopetrace scan [--config FILE] [--format text|json|markdown|sarif] [--output FILE]
                   [--fail-on info|low|medium|high]
   scopetrace rules [--provider github-oauth|github-app|google-oauth]
   scopetrace --help
@@ -71,13 +71,13 @@ export async function runCli(args: string[], cwd: string, io: CliIO): Promise<nu
    return 0;
   }
   const format = values.format ?? 'text';
-  if (!['text', 'json', 'markdown'].includes(format)) throw new Error('Format must be text, json or markdown.');
+  if (!['text', 'json', 'markdown', 'sarif'].includes(format)) throw new Error('Format must be text, json, markdown or sarif.');
   const threshold = values['fail-on'];
   if (threshold && !['info', 'low', 'medium', 'high'].includes(threshold)) throw new Error('Invalid --fail-on severity.');
   const config = await loadConfig(cwd, values.config);
   const result = await scanProject(cwd, config);
   const report = evaluate(result, config);
-  const output = render(report, format as Format);
+  const output = render(report, format as Format, { configFile: path.relative(cwd, path.resolve(cwd, values.config ?? 'scopetrace.config.json')) });
   if (values.output) await writeNew(path.resolve(cwd, values.output), output);
   else io.stdout(output);
   return threshold && shouldFail(report, threshold as Severity) ? 1 : 0;

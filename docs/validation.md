@@ -20,3 +20,7 @@ Adds App-specific AST, permission-level, domain, token-kind, alternative, privac
 ## 0.3.0
 
 Adds Google SDK/fetch binding, conditional Gmail/Drive/Calendar scopes, classification, resource-context, redaction, CLI and schema tests. Development validation compares all 22 scope lists and methods against the saved official Discovery revisions. Scan and automated test execution require neither tokens nor Google network access. CI includes a built Google fixture alongside the GitHub fixtures.
+
+## 0.4.0
+
+Adds offline validation against the official vendored OASIS SARIF 2.1.0 Errata 01 schema for all providers; confidence/level variants, evidence preservation, URI encoding, fingerprint stability, privacy, empty/incomplete reports, CLI exclusive output and gate behavior. Workflow contracts verify pinned Actions, PR events, permissions, checkout roots and upload-before-gate order. Built SARIF smoke checks run for all providers across the existing CI matrix. Release notes record the final local and CI results.

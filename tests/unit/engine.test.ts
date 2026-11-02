@@ -95,7 +95,7 @@ describe('reporters', () => {
  });
  it('does not render source text or Authorization values in any format', () => {
   const report=evaluate(scan(pre+"api.request('GET /user/emails',{headers:{Authorization:'SENTINEL'}});"),cfg());
-  for(const format of ['text','json','markdown'] as const) {
+  for(const format of ['text','json','markdown','sarif'] as const) {
    expect(render(report,format)).not.toContain('SENTINEL');
    expect(render(report,format)).not.toContain('Authorization');
   }

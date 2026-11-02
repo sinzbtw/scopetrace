@@ -8,3 +8,7 @@ export type * from './types.js';
 export { appCatalog, levelCovers } from './providers/github-app/index.js';
 export type { Config, OAuthConfig, AppConfig, GoogleConfig } from './config/index.js';
 export { googleCatalog } from './providers/google/index.js';
+
+export { toSarif } from './reporters/sarif.js';
+export type { SarifOptions } from './reporters/sarif.js';
+export type { Format } from './reporters/index.js';

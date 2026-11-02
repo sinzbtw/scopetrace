@@ -6,7 +6,7 @@
 
 Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
-[MIT license](LICENSE) · Node.js 22+ · Version 0.3.0
+[MIT license](LICENSE) · Node.js 22+ · Version 0.4.0
 
 ## Why ScopeTrace
 
@@ -21,7 +21,7 @@ This independent project is not affiliated with other products using the name Sc
 - Global fetch with static GitHub URLs and HTTP methods.
 - Separate catalogs: 13 GitHub OAuth rules, 26 GitHub App rules and 22 Google OAuth rules, including conditional access and dated sensitivity metadata.
 - File/line/column evidence, stable finding IDs, rationale, confidence and documentation.
-- Terminal, JSON and Markdown reports; CI thresholds.
+- Terminal, JSON, Markdown and SARIF 2.1.0 reports; confidence-aware CI thresholds and GitHub Code Scanning workflow.
 - Local bounded traversal, secret-file exclusions and symlink/junction skipping.
 
 ## Analysis limits
@@ -58,6 +58,7 @@ scopetrace init
 scopetrace scan
 scopetrace scan --format json --output report.json
 scopetrace scan --format markdown --output report.md
+scopetrace scan --format sarif --output report.sarif
 scopetrace scan --fail-on high
 ```
 
@@ -101,7 +102,7 @@ Without include/exclude, all supported extensions are selected except test/spec 
 | `scopetrace init` | Create starter JSON config |
 | `scopetrace scan` | Analyze current working directory |
 | `scopetrace scan --config custom.json` | Another JSON config inside root |
-| `scopetrace scan --format text\|json\|markdown` | Choose reporter |
+| `scopetrace scan --format text\|json\|markdown\|sarif` | Choose reporter |
 | `scopetrace scan --output report.json` | Create a new output file |
 | `scopetrace scan --fail-on high` | Gate sufficiently confident insufficient grants |
 | `scopetrace rules` | OAuth rules, alternatives, conditions and sources |
@@ -111,7 +112,7 @@ Without include/exclude, all supported extensions are selected except test/spec 
 | `scopetrace rules --provider google-oauth` | Gmail/Drive/Calendar rules and classifications |
 | `scopetrace --help / --version` | Usage/version |
 
-Outputs must not exist; parent directories must exist and must not resolve through symbolic links. JSON stdout contains only the report; errors go to stderr.
+Outputs must not exist; parent directories must exist and must not resolve through symbolic links. JSON/SARIF stdout contains only the report; errors go to stderr.
 
 Exit **0**: completed; **1**: an insufficient finding meets the requested severity threshold with medium/high confidence; **2**: execution/configuration error. Thresholds: info, low, medium, high. Unknown and potential-excess findings do not trigger exit 1. An empty/truncated scan is explicitly incomplete/unknown and does not by itself block the gate.
 
@@ -155,7 +156,15 @@ Categories: observed, possibly_excessive, insufficient, unknown, not_applicable.
 
 [CI](.github/workflows/ci.yml) checks Windows/Linux on Node.js 22/24/26: typecheck, ESLint, unit/integration coverage tests, build and built CLI smoke/gate tests for all three models. Permissions are read-only and Actions are pinned.
 
-For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. Copy [the CI example](examples/github-actions.yml) and commit your app config. It pins a reviewed implementation commit; update that SHA only after review. This uses source, not an unpublished registry package. Before using a Google config, update the example pin to a reviewed commit containing the 0.3 implementation.
+For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. The [read-only gate example](examples/github-actions.yml) and [Code Scanning example](examples/github-code-scanning.yml) pin reviewed implementation commits. Update pins only after review. Both use source rather than an unpublished registry package.
+
+## SARIF and Pull Request annotations
+
+This repository also runs [Code Scanning](.github/workflows/code-scanning.yml) on its own src/ with an explicit GitHub OAuth declaration; the standard CI tests exports for every provider.
+
+Export with `scopetrace scan --format sarif --output report.sarif`. Copy the [Code Scanning workflow](examples/github-code-scanning.yml) into your application's .github/workflows and commit its config. The workflow uploads before enforcing the permission gate and uses a separate, reviewed tool checkout.
+
+All three providers retain confidence, alternatives and App/Google metadata. Possible excess and unknown cases stay review notes; observed/not-applicable findings remain metadata rather than alerts. Operation locations can annotate added/edited PR lines; declaration-only findings use a file-level config anchor. See the [SARIF guide](docs/sarif.md) for mapping, fingerprints, permissions, fork PRs, categories and Code Scanning availability.
 
 ## Development and tests
 
