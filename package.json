@@ -23,7 +23,8 @@
     "CHANGELOG.md",
     ".github/workflows/ci.yml",
     ".github/workflows/code-scanning.yml",
-    ".github/scopetrace.config.json"
+    ".github/scopetrace.config.json",
+    "CODE_OF_CONDUCT.md"
   ],
   "engines": {
     "node": ">=22"
