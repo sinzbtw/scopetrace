@@ -79,6 +79,9 @@ test('workflow isolates OIDC to a final immutable-artifact publication job', () 
  assert.equal(publish.if, "steps.artifact.outputs.decision == 'publish'");
  assert.ok(!publishSteps.some(s => /npm ci|npm run (?:build|check|test)/.test(s.run ?? '')));
  assert.doesNotMatch(text, /secrets\.|NODE_AUTH_TOKEN|NPM_TOKEN|pull_request_target|workflow_call/);
+ for (const job of Object.values(workflow.jobs)) {
+  for (const value of Object.values(job.env ?? {})) assert.doesNotMatch(String(value), /runner\./, 'runner context is unavailable in job-level env');
+ }
  for (const job of Object.values(workflow.jobs)) for (const step of job.steps) {
   if (step.uses) assert.match(step.uses, /@[0-9a-f]{40}$/);
   if (step.uses?.startsWith('actions/checkout@')) assert.equal(step.with['persist-credentials'], false);
