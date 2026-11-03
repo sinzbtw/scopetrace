@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import YAML from 'yaml';
-import { validateMetadata, compareVersions, releasePlan, registryDecision, verifyArtifact, npmResult } from './release.mjs';
+import { validateMetadata, compareVersions, releasePlan, registryDecision, verifyArtifact, npmResult, publicationState } from './release.mjs';
 const base = () => ({ pkg: JSON.parse(fs.readFileSync('package.json', 'utf8')), lock: JSON.parse(fs.readFileSync('package-lock.json', 'utf8')), config: JSON.parse(fs.readFileSync('.github/npm-publish.json', 'utf8')) });
 const ctx = overrides => ({ eventName: 'release', event: { action: 'published', release: { tag_name: 'v0.4.1', draft: false, prerelease: false } }, ref: 'refs/tags/v0.4.1', repository: 'sinzbtw/scopetrace', version: '0.4.1', enabled: 'true', ...overrides });
 test('scoped manifest, lock, public registry and trusted repository agree', () => {
@@ -100,4 +100,13 @@ test('locked dependencies cannot redirect installs outside npm or drop integrity
   const { pkg, lock, config } = base();lock.packages['node_modules/hostile'] = replacement;
   assert.throws(() => validateMetadata(pkg, lock, config), /Locked dependencies/);
  }
+});
+
+test('async registry processing stays pending, but visible integrity mismatch fails immediately', () => {
+ const manifest = { version: '0.4.2', integrity: 'sha512-expected' };
+ assert.equal(publicationState(null, manifest), 'pending');
+ assert.equal(publicationState({ versions: {}, 'dist-tags': { latest: '0.4.1' } }, manifest), 'pending');
+ assert.equal(publicationState({ versions: { '0.4.2': { dist: { integrity: manifest.integrity } } }, 'dist-tags': { latest: '0.4.1' } }, manifest), 'pending');
+ assert.equal(publicationState({ versions: { '0.4.2': { dist: { integrity: manifest.integrity } } }, 'dist-tags': { latest: '0.4.2' } }, manifest), 'published');
+ assert.throws(() => publicationState({ versions: { '0.4.2': { dist: { integrity: 'sha512-wrong' } } } }, manifest), /integrity/);
 });

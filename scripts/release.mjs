@@ -58,6 +58,12 @@ export function registryDecision(packument, manifest) {
  if (latest && stable.test(latest)) assert(compareVersions(manifest.version, latest) > 0, 'Refusing to move the latest tag backwards.');
  return 'publish';
 }
+export function publicationState(document, manifest) {
+ const entry = document?.versions?.[manifest.version];
+ if (!entry) return 'pending';
+ assert(entry.dist?.integrity === manifest.integrity, 'Published registry integrity does not match the tested archive.');
+ return document['dist-tags']?.latest === manifest.version ? 'published' : 'pending';
+}
 export function verifyArtifact(directory, manifest, pkg, sha) {
  assert(manifest.packageName === pkg.name && manifest.version === pkg.version && manifest.sourceCommit === sha, 'Artifact identity does not match the verified source.');
  assert(/^[a-z0-9-]+-\d+\.\d+\.\d+\.tgz$/.test(manifest.filename) && path.basename(manifest.filename) === manifest.filename, 'Invalid artifact filename.');
@@ -81,7 +87,7 @@ function metadata() {
  return { pkg, config };
 }
 export async function registryPackage(name) {
- const response = await fetch(REGISTRY + encodeURIComponent(name), { signal: AbortSignal.timeout(30000) });
+ const response = await fetch(REGISTRY + encodeURIComponent(name) + '?scopetrace_check=' + Date.now(), { headers: { 'cache-control': 'no-cache' }, signal: AbortSignal.timeout(30000) });
  if (response.status === 404) return null;
  assert(response.ok, 'npm registry lookup failed; refusing to treat this as an absent package.');
  const document = await response.json();
@@ -120,14 +126,14 @@ export async function main(command) {
   output('decision', decision);output('filename', manifest.filename);
  } else if (command === 'published') {
   const manifest = JSON.parse(fs.readFileSync('work/npm/release-manifest.json', 'utf8'));
-  let doc;
-  for (let attempt = 0; attempt < 6; attempt++) {
-   doc = await registryPackage(pkg.name);
-   if (doc?.versions?.[pkg.version]?.dist?.integrity === manifest.integrity && doc['dist-tags']?.latest === pkg.version) break;
-   if (attempt < 5) await new Promise(resolve => setTimeout(resolve, 2000));
+  let state = 'pending';
+  for (let attempt = 0; attempt < 61; attempt++) {
+   state = publicationState(await registryPackage(pkg.name), manifest);
+   if (state === 'published') break;
+   if (attempt % 6 === 0) console.log('npm is still processing the version/latest metadata; waiting for registry confirmation.');
+   if (attempt < 60) await new Promise(resolve => setTimeout(resolve, 5000));
   }
-  assert(doc?.versions?.[pkg.version]?.dist?.integrity === manifest.integrity, 'Published registry integrity does not match the tested archive.');
-  assert(doc['dist-tags']?.latest === pkg.version, 'Registry latest does not match the release.');
+  assert(state === 'published', 'npm has not exposed the expected version/latest within five minutes. Check processing status and safely retry the original release; do not republish different contents.');
   console.log('Registry version, latest tag and archive integrity verified.');
  } else throw new Error('Unknown release verification command.');
 }
