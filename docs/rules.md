@@ -30,13 +30,13 @@ Each rule contains a unique id, uppercase method, template endpoint, Octokit met
 
 Alternatives are OR sets of AND scopes: [[a,b],[c]] means (a AND b) OR c. [[]] models no scope. Condition is always or repository-read; the engine selects the public/private branch for repository reads. Unknown visibility blocks inference.
 
-Implication edges represent verified coverage. Repo covers repository subscopes, but never delete_repo or workflow. User includes read:user, user:email and user:follow. Other nested families support normalization; recognizing a scope name does not imply endpoint coverage. We do not infer unrelated notifications/package scope relationships. Public_repo does not globally imply admin:repo_hook: public-only hook access cannot cover private-repository hooks.
+Implication edges represent verified coverage. Repo covers repository subscopes, but never delete_repo or workflow. User includes read:user, user:email and user:follow. Other nested families support normalization; recognizing a scope name does not imply endpoint coverage. Unrelated notifications/package scope relationships are not inferred. Public_repo does not globally imply admin:repo_hook: public-only hook access cannot cover private-repository hooks.
 
 ## Evidence and exclusions
 
 Sources: [OAuth scopes](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps), [emails](https://docs.github.com/en/rest/users/emails), [follow](https://docs.github.com/en/rest/users/followers), [gists](https://docs.github.com/en/rest/gists/gists), [repositories](https://docs.github.com/en/rest/repos/repos), [contents](https://docs.github.com/en/rest/repos/contents), [users](https://docs.github.com/en/rest/users/users).
 
-We reviewed [App differences](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps), [App permissions](https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps) and [fine-grained PAT permissions](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens) to keep these models separate.
+The [App differences](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/differences-between-github-apps-and-oauth-apps), [App permissions](https://docs.github.com/en/rest/authentication/permissions-required-for-github-apps) and [fine-grained PAT permissions](https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens) describe separate authorization models.
 
 Notifications remain unknown: current [endpoint docs](https://docs.github.com/en/rest/activity/notifications) explicitly restrict authentication to classic PATs. GET /user remains unknown because response fields depend on scopes and response use is not analyzed. Workflow content writes need path/content conditions and exception handling; they remain outside the catalog.
 

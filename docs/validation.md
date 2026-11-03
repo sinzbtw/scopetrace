@@ -1,34 +1,36 @@
 # Validation
 
-Before v0.1.0 publication, the complete Windows local checks passed:
-- TypeScript typecheck, ESLint and build.
-- Unit/integration/contract tests with enforced coverage gates.
-- Full dependency audit, including development dependencies.
-- CLI version, real fixture scan, JSON/Markdown export and confidence-aware exit code.
-- Report validation against JSON Schema; bilingual README section/link checks.
-- Installation of the packed build into an isolated local prefix.
-- Credential-pattern inspection of tracked files and complete Git history.
+## Source checks
 
-CI is authoritative for Linux and additional Node versions. Coverage percentages and job outcomes are visible in the CI logs rather than hard-coded as product guarantees.
+~~~sh
+npm ci --ignore-scripts
+npm run check
+npm run smoke
+npm audit --audit-level=moderate
+~~~
 
-Review boundaries: the credential check is pattern-based, not proof of the absence of every possible secret. Only synthetic fixtures are intentionally included; no user project or environment file is part of the published source. Findings do not establish safe scope removal.
+check runs TypeScript typechecking, ESLint, coverage tests, release/workflow policy tests and the build. CI repeats validation on Windows/Linux with Node.js 22, 24 and 26, then exercises the built CLI. Current coverage and job results are recorded in [CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml).
 
-## 0.2.0
+## Analysis and report contracts
 
-Adds App-specific AST, permission-level, domain, token-kind, alternative, privacy, CLI and JSON-schema regression tests. Both authorization models run through the same safe traversal and formatting paths. CI runs both built fixtures on Windows/Linux and Node.js 22/24/26. Release-specific results are recorded in the release notes and CI logs.
+Tests cover supported AST bindings, aliases, shadowing, dynamic/unsupported calls, permission hierarchies, App read/write and token kinds, conditional Google scope requirements, sensitivity metadata and explicit uncertainty. Filesystem tests cover traversal limits, links, bounded reads and redaction. Fixtures use synthetic data and are parsed without execution.
 
-## 0.3.0
+Provider JSON reports and permission comparisons are validated against their independent schemas. SARIF exports for all providers are checked offline against the vendored official OASIS SARIF 2.1.0 Errata 01 schema. Confidence, severity, evidence, relative URIs, fingerprints, exclusive output creation and CLI exit policies have regression coverage.
 
-Adds Google SDK/fetch binding, conditional Gmail/Drive/Calendar scopes, classification, resource-context, redaction, CLI and schema tests. Development validation compares all 22 scope lists and methods against the saved official Discovery revisions. Scan and automated test execution require neither tokens nor Google network access. CI includes a built Google fixture alongside the GitHub fixtures.
+Comparison tests create local Git histories for branch tips, merge bases, PR refs, dirty files, configuration creation/deletion, malformed and oversized blobs, symlinks, replaced objects, untrusted executables and disabled lazy transports. Google scope relations are checked against saved official Discovery method/scope evidence as well as documented scope semantics.
 
-## 0.4.0
+## Package and workflow checks
 
-Adds offline validation against the official vendored OASIS SARIF 2.1.0 Errata 01 schema for all providers; confidence/level variants, evidence preservation, URI encoding, fingerprint stability, privacy, empty/incomplete reports, CLI exclusive output and gate behavior. Workflow contracts verify pinned Actions, PR events, permissions, checkout roots and upload-before-gate order. Built SARIF smoke checks run for all providers across the existing CI matrix. Release notes record the final local and CI results.
+~~~sh
+npm run package:check
+~~~
 
-## 0.4.1
+The package check installs the exact tarball in an isolated directory and exercises the compiled CLI, all providers, JSON/SARIF exports, comparison reports and gates, public API/types, allowed archive paths and packaged documentation links. Publishing checks enforce repository/version/tag identity, immutable-version integrity, artifact checksums and latest rollback prevention.
 
-Adds native release-policy tests for scoped registry identity, version/tag/repository guards, disabled publishing, immutable version integrity, latest rollback and artifact tampering. Package checks install the exact tarball, exercise all providers and JSON/SARIF gates, verify exported TypeScript declarations and packaged Markdown links, inspect allowed paths, and run npm publish --dry-run. Workflow tests assert least-privilege OIDC isolation and pinned Actions. A dry run does not verify the npm owner trust relationship or constitute a registry publish.
+Workflow contracts cover pinned Actions, PR events, minimum permissions, separate analyzer/application checkouts, SARIF upload before gating and OIDC isolation. [Publishing](publishing.md) describes the release workflow and registry verification.
 
-## 0.5.0
+## Privacy review
 
-Adds declaration-semantic tests and real local Git fixtures for branch tips, merge bases/ambiguity, PR refs, dirty copies, config creation/deletion, malformed/oversized/link blobs, replaced objects, untrusted Git executables and disabled lazy transports. Installed-archive checks validate the new JSON schema, public comparison API/types, compiled Git CLI and escalation gate. Read-only PR workflow contracts and a built comparison run join the existing Windows/Linux matrix.
+Release review includes tracked files, Git history and package contents for credentials and private local paths. Automated secret detection is supplemented by inspection of documentation, fixtures and metadata; it cannot establish the absence of every possible secret.
+
+Reports retain relative source locations and recognized permission metadata. They omit source snippets and credential values. Scope removal and actual runtime authorization remain outside the guarantees of static analysis.

@@ -12,7 +12,7 @@ scopetrace scan --format json
 scopetrace scan --fail-on high
 ```
 
-Use a built checkout or archive containing the 0.3 implementation; older release artifacts cannot scan this provider. The npm registry package remains unpublished.
+Google OAuth analysis is available in ScopeTrace 0.3.0 and later. Install @nesinz/scopetrace using the [installation guide](../README.md#install).
 
 ```json
 {

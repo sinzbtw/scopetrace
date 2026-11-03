@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Simplify maintainer release documentation, remove setup-session notes and refresh installation and validation guides.
+
 ## 0.5.0 — 2026-11-04
 
 - Add compare CLI/API for committed ScopeTrace declarations from local refs or fetched PR heads, including unique merge-base comparisons.
@@ -11,17 +15,17 @@
 
 ## 0.4.2 — 2026-11-03
 
-- Activate automatic registry releases after the owner-verified @nesinz/scopetrace bootstrap and trusted-publisher setup.
+- Enable automated registry releases for @nesinz/scopetrace through the configured Trusted Publisher.
 - Publish the checked archive through GitHub OIDC with provenance and token-based publishing disabled.
 - Document the scoped registry installation command and retain all existing provider/report behavior.
 
 ## 0.4.1 — 2026-11-03
 
 - Prepare public scoped npm identity @nesinz/scopetrace; CLI remains scopetrace. The occupied unscoped npm package is unrelated.
-- Token-free GitHub Trusted Publishing workflow with provenance, isolated OIDC publish permissions, release/tag/main guards and owner activation.
+- Token-free GitHub Trusted Publishing workflow with provenance, isolated OIDC publish permissions, release/tag/main guards and an explicit repository opt-in.
 - Exact-tarball install/API/types/provider/gate/privacy checks, package allowlist, audit and dry-run before publication.
 - SHA-256/SHA-512 artifact checks, immutable-version/retry safeguards and latest rollback prevention.
-- Native release-policy tests and bilingual npm bootstrap/trusted-publisher instructions. Existing providers and JSON/SARIF behavior remain compatible.
+- Native release-policy tests and bilingual maintainer publishing documentation. Existing providers and JSON/SARIF behavior remain compatible.
 
 ## 0.4.0 — 2026-11-02
 

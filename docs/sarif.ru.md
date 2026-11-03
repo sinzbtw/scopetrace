@@ -44,13 +44,13 @@ Fingerprints учитывают провайдера, относительный
 
 Права workflow: contents: read и security-events: write; actions: read также поддерживает private-репозитории. pull-requests: write и отдельный токен не нужны, используется GITHUB_TOKEN. Fork/Dependabot PR запускаются через pull_request с предусмотренной GitHub поддержкой загрузки при ограниченном токене; применяются настройки одобрения и Actions репозитория. Не переходите на pull_request_target и не выдавайте личный write-токен для выполнения недоверенного PR-кода.
 
-Code Scanning должен быть доступен и включён в целевом репозитории. Он доступен для публичных репозиториев GitHub.com; private/организационные возможности зависят от тарифа и настроек GitHub Code Security. Workflow не покупает и не активирует платные функции.
+Code Scanning должен быть доступен и включён в целевом репозитории. Он доступен для публичных репозиториев GitHub.com; private/организационные возможности зависят от тарифа и настроек GitHub Code Security.
 
 Inline-аннотация PR появляется, только если указанная позиция находится в добавленных/изменённых строках diff. Файловая привязка конфигурации, неизменённые строки, исключённые файлы и неподдерживаемые операции не гарантируют inline-аннотаций. Общие результаты смотрите в проверках Code Scanning и вкладке Security. Для больших отчётов учитывайте лимиты GitHub; сужайте include или делите анализ на стабильные категории.
 
 ## Проверки и источники
 
-Автономные тесты проверяют все три провайдера по неизменённой официальной схеме OASIS, уверенность, приватность, URI, fingerprints, CLI/gate и контракт workflow. CI проверяет собранный SARIF CLI на Windows/Linux с Node.js 22/24/26. Это не утверждение о live-проверке всех настроек GitHub и условий показа PR-аннотаций.
+Автономные тесты проверяют все три провайдера по неизменённой официальной схеме OASIS, уверенность, приватность, URI, fingerprints, CLI/gate и контракт workflow. CI проверяет собранный SARIF CLI на Windows/Linux с Node.js 22/24/26.
 
 - [Стандарт OASIS SARIF 2.1.0 + Errata 01](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
 - [Поддержка SARIF в GitHub: позиции, fingerprints и лимиты](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support)

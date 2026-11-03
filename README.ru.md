@@ -164,7 +164,7 @@ ID показан схематично: реальные значения зав
 
 [CI](.github/workflows/ci.yml) проверяет Windows/Linux на Node.js 22/24/26: типизацию, ESLint, unit/integration-тесты с покрытием, сборку и запуск/gate собранного CLI для всех трёх моделей. Права ограничены чтением, Actions закреплены по SHA.
 
-Для стороннего репозитория соберите исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. [Пример gate с правами чтения](examples/github-actions.yml) и [пример Code Scanning](examples/github-code-scanning.yml) закрепляют проверенные коммиты реализации. Меняйте pin после ревью. Оба используют исходники, а не неопубликованный пакет реестра.
+Для стороннего репозитория соберите исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. [Пример gate с правами чтения](examples/github-actions.yml) и [пример Code Scanning](examples/github-code-scanning.yml) закрепляют проверенные коммиты реализации. Меняйте pin после ревью. Оба отдельно собирают закреплённый анализатор и проверяют исходники приложения.
 
 ## SARIF и аннотации Pull Requests
 
@@ -187,7 +187,7 @@ scopetrace compare --base origin/main --head HEAD --merge-base --fail-on medium 
 
 ## npm-релизы
 
-[Workflow Trusted Publishing](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) использует GitHub OIDC и provenance без npm-токена в Secrets. Публикации предшествуют тесты/сборка/аудит и установка точного архива. Ручной запуск по умолчанию — dry-run; стабильные GitHub Releases публикуются автоматически только после активации владельцем. [Настройка и восстановление](docs/publishing.ru.md).
+[Workflow Trusted Publishing](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) использует GitHub OIDC и provenance без npm-токена в Secrets. Публикации предшествуют тесты/сборка/аудит и установка точного архива. Ручной запуск по умолчанию — dry-run; стабильные GitHub Releases запускают автоматическую публикацию с обязательными проверками. [Выпуск версий для сопровождающих](docs/publishing.ru.md).
 
 ## Разработка и тесты
 

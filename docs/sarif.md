@@ -52,13 +52,13 @@ The scan captures exit 1, uploads the report, then enforces the permission gate.
 
 Required workflow permissions are contents: read and security-events: write; actions: read also supports private repositories. No pull-requests: write permission or custom token is required. Use the built-in GITHUB_TOKEN. Fork/Dependabot PRs use pull_request with GitHub's restricted-token upload support, subject to repository approval and Actions settings. Do not switch to pull_request_target or provide a write-capable personal token to run untrusted PR code.
 
-Code Scanning must be available and enabled for the target repository. It is available for public GitHub.com repositories; private/organization availability depends on the plan and GitHub Code Security settings. This workflow does not purchase or enable a paid feature.
+Code Scanning must be available and enabled for the target repository. It is available for public GitHub.com repositories; private/organization availability depends on the plan and GitHub Code Security settings.
 
 GitHub shows inline PR annotations only when the reported location belongs to added/edited lines in the PR diff. File-level anchors, unchanged lines, excluded files and unsupported operations cannot guarantee inline annotations. View the Code Scanning checks and Security tab for the broader analysis. GitHub also imposes SARIF size/result limits; narrow include patterns or split large applications into stable categories if needed.
 
 ## Verification and sources
 
-Offline tests validate all three providers against the unmodified official OASIS schema, plus confidence, privacy, URI encoding, fingerprints, CLI output/gates and workflow contracts. CI exercises built SARIF exports on Windows/Linux and Node.js 22/24/26. This is not a claim that every supported repository setting or PR display condition was exercised live.
+Offline tests validate all three providers against the unmodified official OASIS schema, plus confidence, privacy, URI encoding, fingerprints, CLI output/gates and workflow contracts. CI exercises built SARIF exports on Windows/Linux and Node.js 22/24/26.
 
 - [OASIS SARIF 2.1.0 plus Errata 01](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
 - [GitHub SARIF support, locations, fingerprints and limits](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support)

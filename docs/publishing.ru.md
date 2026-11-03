@@ -1,66 +1,58 @@
-# Публикация в npm
+# Релизы в npm
 
-Наше имя: **@nesinz/scopetrace**. Команда CLI остаётся **scopetrace**. Пакет npm без scope принадлежит другому издателю; этот репозиторий не должен публиковаться под чужим именем.
+ScopeTrace публикуется под именем **@nesinz/scopetrace**. Установленная команда — **scopetrace**. Здесь описан выпуск версий для сопровождающих проекта; установка описана в [README](../README.ru.md#установка).
 
-## Граница активации
+## Порядок выпуска
 
-Владелец зарегистрировал @nesinz/scopetrace проверенным bootstrap-архивом 0.4.1 и настроил GitHub trust для npm-publish.yml/environment npm. Для пакета включены 2FA и запрет обычных токенов. Версия 0.4.2 проверяет автоматический OIDC-путь. Старый GitHub-тег v0.4.0 не меняется. Dry-run не означает публикацию: результат подтверждается job publish и метаданными реестра. NPM_PUBLISH_ENABLED — явный переключатель активации; false останавливает следующие публикации.
-
-## Устройство workflow
-
-[npm-publish.yml](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) запускается при публикации стабильного GitHub Release либо вручную. Ручной запуск по умолчанию выполняет только dry-run, без публикации и OIDC-job. Тег vX.Y.Z должен совпадать с package.json, lockfile и проверяемым коммитом, который должен входить в историю main. Для настоящей публикации дополнительно нужны стабильный опубликованный GitHub Release, ожидаемый репозиторий и NPM_PUBLISH_ENABLED=true.
-
-Шесть job проверяют Windows/Linux и Node.js 22/24/26 без OIDC-доступа. Отдельная job с npm 12.2.1 выполняет полный аудит зависимостей, сборку, упаковку без lifecycle-скриптов, изолированную установку точного архива, проверку всех провайдеров, JSON/SARIF и confidence, CLI/gate, API/типов, состава пакета и ссылок документации, а также npm publish --dry-run. В Actions artifact передаются только архив, манифест и контрольные суммы.
-
-Только финальная job получает id-token: write в GitHub environment npm. Она не устанавливает зависимости проекта и не запускает его тесты/сборочные lifecycle-скрипты. Загружается artifact своего запуска, проверяются source commit и SHA-256/SHA-512, версия/тег и состояние реестра; публикуется точный архив с --ignore-scripts и --provenance. Сбой registry блокирует публикацию: только HTTP 404 означает отсутствие пакета. Иная сборка уже занятой версии отклоняется, идентичная допускает безопасный повтор. npm 12 отклоняет и dry-run повторной версии: этот сетевой dry-run пропускается только после точного совпадения integrity в реестре, остальные проверки установки остаются обязательными. latest нельзя откатить на старую стабильную версию. Публикации идут последовательно и не отменяются посреди выполнения.
-
-NPM_TOKEN, NODE_AUTH_TOKEN, личные access tokens и npm-секреты в Actions не нужны. Нет pull_request_target, workflow_call и self-hosted publishing runner. Кеши релизной сборки отключены. Environment npm разрешает main и теги v*. Обычный CI остаётся с правами чтения.
-
-## Однократная настройка владельцем
-
-1. Создайте бесплатный npm-аккаунт nesinz, подтвердите email и включите 2FA через passkey/WebAuthn. Recovery codes сохраните у себя. Публичный scoped-пакет бесплатен; платный план не нужен.
-2. У ещё не зарегистрированного пакета нет страницы Settings. Сначала опубликуйте полностью проверенный архив через интерактивную npm-сессию с подтверждением в браузере. Automation token создавать не нужно. Для Node.js 22.22.2+ либо актуального поддерживаемого 24/26 выполните из каталога проекта:
-
-~~~powershell
-npx --yes npm@12.2.1 login --auth-type=web --registry=https://registry.npmjs.org/
-npx --yes npm@12.2.1 whoami --registry=https://registry.npmjs.org/
-# Результат whoami должен быть nesinz. Используйте архив из package:check.
-npx --yes npm@12.2.1 publish ./work/npm/nesinz-scopetrace-0.4.1.tgz --access public --ignore-scripts --registry=https://registry.npmjs.org/
-~~~
-
-Если проверенный архив ещё не подготовлен, сначала выполните npm run check и npm run package:check. Сверьте work/npm/CHECKSUMS.sha256. Первая публикация — интерактивная операция владельца, а не подтверждение работы OIDC/provenance. Следующие версии публикует workflow. npm также поддерживает первичную регистрацию через staged publish, но одну версию нельзя одновременно держать в staging и публиковать напрямую; не обходите проверки и не публикуйте пустой пакет анализатора.
-
-3. Непосредственно перед следующим стабильным релизом в Settings → Trusted publishing пакета добавьте GitHub Actions:
-
-| Поле | Точное значение |
-| --- | --- |
-| Organization or user | sinzbtw |
-| Repository | scopetrace |
-| Workflow filename | npm-publish.yml |
-| Environment name | npm |
-| Allowed action | Allow npm publish |
-
-Указывается только имя файла с расширением, без .github/workflows/. Разрешите именно прямой npm publish: stage-only недостаточно. GitHub-аккаунт sinzbtw и npm-аккаунт nesinz различаются — это ожидаемо. Альтернатива настройке через сайт, с интерактивным подтверждением владельца:
+1. Обновите версию пакета, lockfile, константы версии инструмента и проверки версии. Подготовьте CHANGELOG и оба README для релиза.
+2. Выполните проверки из корня репозитория:
 
 ~~~sh
-npx --yes npm@12.2.1 trust github @nesinz/scopetrace --file npm-publish.yml --repo sinzbtw/scopetrace --env npm --allow-publish
+npm ci --ignore-scripts
+npm run check
+npm run smoke
+npm audit --audit-level=moderate
+npm run package:check
 ~~~
 
-4. В npm Settings → Publishing access выберите **Require two-factor authentication and disallow tokens**. OIDC продолжит работать. Не переносите локальную сессию в GitHub Secrets. После однократной настройки выйдите из локальной npm-сессии.
-5. Подтвердите правильность Trusted Publisher. Установите GitHub repository variable NPM_PUBLISH_ENABLED=true. Это флаг, а не секрет. До включения настоящая публикация останавливается. Первую успешную OIDC-публикацию нужно выполнить в течение текущего двухдневного окна npm; если связь истечёт, пересоздайте её непосредственно перед новой версией.
+3. Закоммитьте проверенные изменения. Создайте стабильный тег vX.Y.Z на этом коммите в истории main и опубликуйте соответствующий GitHub Release.
+4. Проверьте [workflow публикации npm](https://github.com/sinzbtw/scopetrace/actions/workflows/npm-publish.yml), версию и latest в реестре, целостность архива и provenance.
 
-## Новые версии
+Тег, package.json, package-lock.json и исходный коммит должны соответствовать друг другу. Публикация prerelease не включена. Существующие теги и версии npm сохраняют идентичность выпущенной сборки.
 
-Согласованно обновите package.json/package-lock.json, src/engine/shared.ts, проверки версии, README RU/EN и CHANGELOG. Выполните npm run check, npm audit --audit-level=moderate и npm run package:check. По политике этого проекта коммит отправляется прямо в main. Поставьте соответствующий стабильный тег vX.Y.Z на проверенный коммит и опубликуйте GitHub Release. Workflow самостоятельно повторит проверки перед npm publish.
+## Автоматические проверки и публикация
 
-Не передвигайте старые теги и не переиспользуйте версии npm. После bootstrap следующая автоматическая публикация должна иметь новую версию. Если workflow упал после реальной публикации, повтор допустим только при совпадении содержимого. Не удаляйте npm-версию ради обхода проверки. Сам GitHub Release не доказывает публикацию npm: проверяйте результат workflow, версию/integrity в реестре и provenance на странице пакета.
+[npm-publish.yml](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) запускается при публикации GitHub Release и вручную. Для публикации нужны ожидаемый репозиторий, существующий стабильный релиз и NPM_PUBLISH_ENABLED=true.
 
-Для dry-run запустите workflow на main с publish=false и пустым tag. Настоящий ручной запуск требует publish=true и существующий стабильный release tag; сам workflow нужно запускать на этом теге, а не на main. GITHUB_SHA должен совпадать с собранным коммитом, чтобы provenance не указывал другой исходный код. Действуют те же защиты. Prerelease-каналы не включены.
+Шесть проверок выполняются на Windows/Linux с Node.js 22, 24 и 26. Этап упаковки проверяет зависимости, собирает CLI и устанавливает точный архив в изолированный каталог. Проверяются провайдеры, схемы отчётов, SARIF, сравнение прав, пороги CLI, публичные API/типы, состав пакета и ссылки документации. Архив, манифест исходного коммита и контрольные суммы передаются в одном Actions artifact.
 
-## Официальные источники (проверено 2026-11-03)
+Только финальный этап получает id-token: write в environment npm. Он не устанавливает зависимости проекта, проверяет исходный коммит и SHA-256/SHA-512 артефакта, затем публикует этот архив через GitHub OIDC с --ignore-scripts и --provenance. Секрет с npm-токеном не требуется. Запуски выполняются последовательно; публикация не отменяется посреди выполнения.
+
+## Конфигурация издателя
+
+Trusted Publisher репозитория использует следующие значения:
+
+| Параметр | Значение |
+| --- | --- |
+| Пакет npm | @nesinz/scopetrace |
+| Репозиторий GitHub | sinzbtw/scopetrace |
+| Имя workflow | npm-publish.yml |
+| GitHub environment | npm |
+| Разрешённое действие | Allow npm publish |
+| Переменная репозитория | NPM_PUBLISH_ENABLED=true |
+
+Для пакета npm включены двухфакторная аутентификация и запрет публикации по токенам. Trusted Publishing аутентифицирует workflow через OIDC. GitHub environment допускает main и теги v*; этапы тестирования и сборки не имеют OIDC-прав. Настройки издателя и environment сопровождаются отдельно от файла workflow. Значение NPM_PUBLISH_ENABLED=false отключает последующие публикации в реестр.
+
+## Проверочный запуск и повтор
+
+Ручной запуск на main с publish=false и пустым tag проверяет пакет без публикации. Ручная публикация требует publish=true, соответствующего стабильного релиза и запуска workflow на теге этого релиза, чтобы provenance указывал на собранный коммит.
+
+Обработка версии реестром может занимать несколько минут. Workflow ожидает появления версии, сверяет целостность и проверяет latest. Сбой проверки после публикации допускает повтор для того же релиза и идентичного архива. Иное содержимое существующей версии отклоняется; dry-run повторной версии в npm 12 пропускается только после точного совпадения integrity в реестре. Старая версия не может переместить latest назад.
+
+GitHub Release и успешный dry-run сами по себе не подтверждают публикацию в реестре. Её результат подтверждают этап publish и метаданные npm.
+
+## Источники
 
 - [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/)
-- [Provenance](https://docs.npmjs.com/generating-provenance-statements/)
-- [Команда npm trust](https://docs.npmjs.com/cli/v12/commands/npm-trust/)
-- [Staged publishing](https://docs.npmjs.com/staged-publishing/)
+- [npm provenance](https://docs.npmjs.com/generating-provenance-statements/)
 - [Настройка 2FA](https://docs.npmjs.com/configuring-two-factor-authentication/)

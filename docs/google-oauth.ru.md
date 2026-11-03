@@ -12,7 +12,7 @@ scopetrace scan --format json
 scopetrace scan --fail-on high
 ```
 
-Используйте собранные исходники или архив с реализацией 0.3: старые релизы не поддерживают этот провайдер. Имя npm — @nesinz/scopetrace; [публикация и Trusted Publishing](publishing.ru.md).
+Анализ Google OAuth доступен в ScopeTrace 0.3.0 и новее. Установка @nesinz/scopetrace описана в [руководстве](../README.ru.md#установка).
 
 ```json
 {

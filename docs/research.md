@@ -1,9 +1,8 @@
-# Research — 2026-10-29
+# Related work
 
-The name is used by an unrelated [audit evidence platform](https://scopetraceinc.com/). We retain the requested product name without claiming uniqueness or affiliation.
+ScopeTrace compares declared OAuth permissions with supported API operations in JavaScript and TypeScript. Its catalogs use official provider documentation; related tools do not establish permission requirements for this analyzer.
 
-Related work: [Cerberus](https://arxiv.org/abs/2110.01005) studies logical OAuth-provider vulnerabilities; [IAM Privilege Guard](https://github.com/Alongiti2/iam-privilege-guard) compares AWS grants against usage. Neither supplies this project's GitHub OAuth rules. All rule evidence is official GitHub documentation listed in rules.md.
+- [Cerberus](https://arxiv.org/abs/2110.01005) studies logical vulnerabilities in OAuth provider implementations.
+- [IAM Privilege Guard](https://github.com/Alongiti2/iam-privilege-guard) compares AWS permissions against observed usage.
 
-Implementation sequence: narrow verified catalog, strict config and AST, bounded traversal, cautious permission/evidence engine, reporters/CLI, regressions/audit, bilingual docs/CI, then public repository/release after validation.
-
-The security-best-practices skill has web-specific references but no Node CLI reference. Its secure-by-default workflow is applied directly to this CLI threat model; no unnecessary web frontend/server was introduced.
+These projects address different authorization models. ScopeTrace's rule sources, verification dates and unsupported cases are documented in [Rule catalogs](rules.md).

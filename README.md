@@ -164,7 +164,7 @@ Categories: observed, possibly_excessive, insufficient, unknown, not_applicable.
 
 [CI](.github/workflows/ci.yml) checks Windows/Linux on Node.js 22/24/26: typecheck, ESLint, unit/integration coverage tests, build and built CLI smoke/gate tests for all three models. Permissions are read-only and Actions are pinned.
 
-For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. The [read-only gate example](examples/github-actions.yml) and [Code Scanning example](examples/github-code-scanning.yml) pin reviewed implementation commits. Update pins only after review. Both use source rather than an unpublished registry package.
+For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. The [read-only gate example](examples/github-actions.yml) and [Code Scanning example](examples/github-code-scanning.yml) pin reviewed implementation commits. Update pins only after review. Both build a pinned analyzer separately from the application being checked.
 
 ## SARIF and Pull Request annotations
 
@@ -187,7 +187,7 @@ The report distinguishes added, expanded, reduced, removed, equivalent and unkno
 
 ## npm releases
 
-[Trusted Publishing workflow](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) uses GitHub OIDC and provenance, with no npm token secret. Tests/build/audit and exact-archive install checks precede publication. Manual runs default to dry-run; stable GitHub Releases publish automatically only after owner activation. See [setup and recovery](docs/publishing.md).
+[Trusted Publishing workflow](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) uses GitHub OIDC and provenance, with no npm token secret. Tests/build/audit and exact-archive install checks precede publication. Manual runs default to dry-run; stable GitHub Releases trigger guarded automatic publication. See the [maintainer release guide](docs/publishing.md).
 
 ## Development and tests
 
