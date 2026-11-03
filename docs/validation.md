@@ -24,3 +24,7 @@ Adds Google SDK/fetch binding, conditional Gmail/Drive/Calendar scopes, classifi
 ## 0.4.0
 
 Adds offline validation against the official vendored OASIS SARIF 2.1.0 Errata 01 schema for all providers; confidence/level variants, evidence preservation, URI encoding, fingerprint stability, privacy, empty/incomplete reports, CLI exclusive output and gate behavior. Workflow contracts verify pinned Actions, PR events, permissions, checkout roots and upload-before-gate order. Built SARIF smoke checks run for all providers across the existing CI matrix. Release notes record the final local and CI results.
+
+## 0.4.1
+
+Adds native release-policy tests for scoped registry identity, version/tag/repository guards, disabled publishing, immutable version integrity, latest rollback and artifact tampering. Package checks install the exact tarball, exercise all providers and JSON/SARIF gates, verify exported TypeScript declarations and packaged Markdown links, inspect allowed paths, and run npm publish --dry-run. Workflow tests assert least-privilege OIDC isolation and pinned Actions. A dry run does not verify the npm owner trust relationship or constitute a registry publish.

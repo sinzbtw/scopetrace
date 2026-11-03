@@ -16,7 +16,7 @@ Without --output, stdout contains only the SARIF JSON document. Existing output 
 Programmatic use:
 
 ~~~ts
-import { render, toSarif } from 'scopetrace';
+import { render, toSarif } from '@nesinz/scopetrace';
 const document = toSarif(report, { configFile: 'config/permissions.json' });
 const serialized = render(report, 'sarif', { configFile: 'config/permissions.json' });
 ~~~

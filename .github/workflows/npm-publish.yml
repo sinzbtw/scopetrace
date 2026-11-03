@@ -1,0 +1,136 @@
+name: npm Trusted Publishing
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing stable release tag; leave empty for a main dry run
+        required: false
+        default: ''
+        type: string
+      publish:
+        description: Publish the verified archive (requires npm setup and a stable release)
+        required: true
+        default: false
+        type: boolean
+permissions:
+  contents: read
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.plan.outputs.sha }}
+      publish: ${{ steps.plan.outputs.publish }}
+      tag: ${{ steps.plan.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag || github.event.release.tag_name || github.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Validate repository, release identity and opt-in
+        id: plan
+        run: node scripts/release.mjs plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NPM_PUBLISH_ENABLED: ${{ vars.NPM_PUBLISH_ENABLED }}
+  validate:
+    needs: plan
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24, 26]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.plan.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm run smoke
+  package:
+    needs: [plan, validate]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.plan.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --global npm@12.2.1 --ignore-scripts --registry=https://registry.npmjs.org/
+      - run: npm ci --ignore-scripts
+      - run: npm audit --audit-level=moderate --registry=https://registry.npmjs.org/
+      - run: npm run build
+      - name: Pack and verify the exact installable archive
+        run: npm run package:check
+      - name: Check registry version and tested artifact integrity
+        run: node scripts/release.mjs verify
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: verified-npm-package
+          path: |
+            work/npm/*.tgz
+            work/npm/release-manifest.json
+            work/npm/CHECKSUMS.sha256
+          if-no-files-found: error
+          retention-days: 7
+      - name: Record validation result
+        run: echo 'Archive verified. Publication is a separate OIDC job and is skipped for a dry run.' >> "$GITHUB_STEP_SUMMARY"
+  publish:
+    needs: [plan, package]
+    if: needs.plan.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/npm-publish-userconfig
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.plan.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --global npm@12.2.1 --ignore-scripts --registry=https://registry.npmjs.org/
+      - name: Recheck release immediately before publishing
+        run: node scripts/release.mjs plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NPM_PUBLISH_ENABLED: ${{ vars.NPM_PUBLISH_ENABLED }}
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: verified-npm-package
+          path: work/npm
+      - name: Verify downloaded archive and registry state
+        id: artifact
+        run: node scripts/release.mjs verify
+      - name: Publish exact archive with OIDC and provenance
+        if: steps.artifact.outputs.decision == 'publish'
+        env:
+          ARCHIVE: work/npm/${{ steps.artifact.outputs.filename }}
+        run: npm publish "$ARCHIVE" --ignore-scripts --access public --provenance --registry=https://registry.npmjs.org/
+      - name: Verify published version, latest tag and integrity
+        run: node scripts/release.mjs published

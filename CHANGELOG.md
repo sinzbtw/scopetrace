@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 — 2026-11-03
+
+- Prepare public scoped npm identity @nesinz/scopetrace; CLI remains scopetrace. The occupied unscoped npm package is unrelated.
+- Token-free GitHub Trusted Publishing workflow with provenance, isolated OIDC publish permissions, release/tag/main guards and owner activation.
+- Exact-tarball install/API/types/provider/gate/privacy checks, package allowlist, audit and dry-run before publication.
+- SHA-256/SHA-512 artifact checks, immutable-version/retry safeguards and latest rollback prevention.
+- Native release-policy tests and bilingual npm bootstrap/trusted-publisher instructions. Existing providers and JSON/SARIF behavior remain compatible.
+
 ## 0.4.0 — 2026-11-02
 
 - SARIF 2.1.0 export via --format sarif and toSarif API for all three providers.

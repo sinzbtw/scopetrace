@@ -1,0 +1,7 @@
+{
+  "packageName": "@nesinz/scopetrace",
+  "repository": "sinzbtw/scopetrace",
+  "registry": "https://registry.npmjs.org/",
+  "environment": "npm",
+  "workflow": "npm-publish.yml"
+}

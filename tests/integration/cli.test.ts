@@ -17,7 +17,7 @@ describe('CLI integration',()=>{
   const dir=await fixture();
   expect((await run([],dir)).stdout).toContain('Usage:');
   expect((await run(['--help'],dir)).code).toBe(0);
-  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.4.0');
+  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.4.1');
   const rules=await run(['rules'],dir);expect(rules.code).toBe(0);expect(rules.stdout).toContain('gh.email.list');expect(rules.stdout).toContain('https://docs.github.com/');
  });
  it('initializes exclusively and rejects command/options errors',async()=>{

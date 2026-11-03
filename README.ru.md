@@ -6,7 +6,7 @@
 
 Локальный статический анализ **scopes GitHub OAuth Apps**, **read/write permissions GitHub Apps** и **Google OAuth scopes (Gmail, Drive, Calendar)** в JavaScript и TypeScript. Сопоставление объявленных прав с поддерживаемыми API-операциями: позиции в коде, обоснования и официальная документация.
 
-[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.4.0
+[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.4.1
 
 ## Зачем нужен ScopeTrace
 
@@ -36,7 +36,7 @@
 
 ## Установка
 
-Пакет **не опубликован в npm**. Соберите публичные исходники:
+Наше имя в реестре — **@nesinz/scopetrace**, команда CLI — **scopetrace**. Для первой публикации нужна настройка владельцем: [инструкция npm](docs/publishing.ru.md). Не устанавливайте чужой npm-пакет без scope. Пока настройка не завершена, соберите публичные исходники:
 
 ```sh
 git clone https://github.com/sinzbtw/scopetrace.git
@@ -46,7 +46,7 @@ npm run build
 node dist/cli/main.js --help
 ```
 
-Для CLI нужен Node.js 22+. Для проверок разработки — Node.js 22.13+ либо актуальная версия 24/26. При желании установите собранную копию как команду через `npm install --global . --ignore-scripts`. Это не означает публикацию в реестре npm.
+Для CLI нужен Node.js 22+. Для проверок разработки — Node.js 22.13+ либо актуальная версия 24/26. При желании установите собранную копию как команду через `npm install --global . --ignore-scripts`. После появления scoped-пакета используйте `npm install --global @nesinz/scopetrace --ignore-scripts`.
 
 ## Быстрый старт
 
@@ -166,12 +166,17 @@ ID показан схематично: реальные значения зав
 
 Все три провайдера сохраняют уверенность, альтернативы и метаданные GitHub Apps/Google. Возможный избыток и unknown остаются заметками для ревью; observed/not_applicable сохраняются как метаданные без alerts. Позиции API-вызовов могут давать аннотации в добавленных/изменённых строках PR; находки без вызова привязаны к файлу конфигурации целиком. [Руководство SARIF](docs/sarif.ru.md) описывает соответствия, fingerprints, права, fork PR, категории и доступность Code Scanning.
 
+## npm-релизы
+
+[Workflow Trusted Publishing](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/npm-publish.yml) использует GitHub OIDC и provenance без npm-токена в Secrets. Публикации предшествуют тесты/сборка/аудит и установка точного архива. Ручной запуск по умолчанию — dry-run; стабильные GitHub Releases публикуются автоматически только после активации владельцем. [Настройка и восстановление](docs/publishing.ru.md).
+
 ## Разработка и тесты
 
 ```sh
 npm ci --ignore-scripts
 npm run check
 npm run smoke
+npm run package:check
 npm audit --audit-level=moderate
 ```
 

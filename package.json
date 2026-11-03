@@ -1,6 +1,6 @@
 {
-  "name": "scopetrace",
-  "version": "0.4.0",
+  "name": "@nesinz/scopetrace",
+  "version": "0.4.1",
   "description": "Local, evidence-based static analysis of GitHub OAuth, GitHub App permissions and Google Gmail, Drive and Calendar OAuth scopes.",
   "type": "module",
   "bin": {
@@ -40,8 +40,12 @@
     "lint": "eslint .",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "check": "npm run typecheck && npm run lint && npm run coverage && npm run build",
-    "smoke": "node dist/cli/main.js --version"
+    "check": "npm run typecheck && npm run lint && npm run coverage && npm run test:release && npm run build",
+    "smoke": "node dist/cli/main.js --version",
+    "test:release": "node --test scripts/release.test.mjs",
+    "package:check": "node scripts/package-check.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check && npm run package:check"
   },
   "dependencies": {
     "picomatch": "^4.0.3",
@@ -56,10 +60,28 @@
     "ajv-draft-04": "^1.0.0",
     "eslint": "^10.13.0",
     "typescript-eslint": "^8.72.1",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "yaml": "^2.9.1"
   },
   "types": "dist/index.d.ts",
   "overrides": {
     "minimatch": "^11.0.3"
+  },
+  "homepage": "https://github.com/sinzbtw/scopetrace#readme",
+  "bugs": {
+    "url": "https://github.com/sinzbtw/scopetrace/issues"
+  },
+  "keywords": [
+    "oauth",
+    "permissions",
+    "static-analysis",
+    "sarif",
+    "github",
+    "google-oauth",
+    "least-privilege"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

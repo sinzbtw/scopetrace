@@ -33,3 +33,7 @@ Before releases: tests, typecheck, lint, build, dependency audit, staged-file an
 GitHub App analysis uses an explicitly configured installation/user token kind and one declaration. It does not read credentials, contact GitHub, infer effective grants, inspect webhook subscriptions or prove that a write-to-read downgrade is safe. Conditional workflow rights and implicit metadata are handled conservatively.
 
 Google OAuth scanning reads no tokens, executes no SDK/project modules and makes no network calls. Query/auth/body values and resource identifiers never enter reports. Scope sensitivity is dated reference metadata, not a determination of regulatory compliance or required verification. Resource context is a user assertion; service-account delegation, incremental consent and effective token identity are not verified.
+
+## Registry publication
+
+The configured npm identity is @nesinz/scopetrace, not the unrelated unscoped package. Automated publishing uses GitHub OIDC from npm-publish.yml in environment npm. Test/build jobs have no id-token permission. The final job publishes only its own verified archive with lifecycle scripts disabled and provenance enabled; it installs no project dependencies. No npm automation token belongs in GitHub Secrets. First account registration/interactive bootstrap requires the owner; [publishing](docs/publishing.md) records that boundary and the activation flag.
