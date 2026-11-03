@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — 2026-11-04
+
+- Add compare CLI/API for committed ScopeTrace declarations from local refs or fetched PR heads, including unique merge-base comparisons.
+- Detect added, expanded, reduced, removed and redundant-equivalent privileges for GitHub OAuth, App read/write and Google OAuth, preserving confidence/sensitivity and unknown cases.
+- Independent permission-diff JSON schema 1.0.0, terminal/Markdown reports, escalation warnings and optional strict unknown-review gate.
+- Read-only pinned PR workflows attach change summaries and require review without running application code or using write tokens.
+- Bounded offline Git plumbing, no checkout/fetch/hooks/filters, symlink rejection, secret redaction, installed-package checks and Git history regression tests.
+- README RU/EN and comparison guides updated; existing scan contracts and SARIF remain compatible.
+
 ## 0.4.2 — 2026-11-03
 
 - Activate automatic registry releases after the owner-verified @nesinz/scopetrace bootstrap and trusted-publisher setup.

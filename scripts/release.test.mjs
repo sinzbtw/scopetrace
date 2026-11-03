@@ -55,10 +55,10 @@ test('downloaded archive must match identity, source commit, SHA-256 and SHA-512
  const dir = fs.mkdtempSync(path.join(parent, 'release-'));
  try {
   const pkg = base().pkg, bytes = Buffer.from('synthetic tarball bytes'), sourceCommit = 'a'.repeat(40);
-  const manifest = { packageName: pkg.name, version: pkg.version, sourceCommit, filename: 'nesinz-scopetrace-0.4.1.tgz', sha256: createHash('sha256').update(bytes).digest('hex'), integrity: 'sha512-' + createHash('sha512').update(bytes).digest('base64') };
+  const manifest = { packageName: pkg.name, version: pkg.version, sourceCommit, filename: pkg.name.replace(/^@/, '').replace('/', '-') + '-' + pkg.version + '.tgz', sha256: createHash('sha256').update(bytes).digest('hex'), integrity: 'sha512-' + createHash('sha512').update(bytes).digest('base64') };
   fs.writeFileSync(path.join(dir, manifest.filename), bytes);
   assert.equal(verifyArtifact(dir, manifest, pkg, sourceCommit), path.join(dir, manifest.filename));
-  for (const patch of [{ sourceCommit: 'b'.repeat(40) }, { packageName: 'scopetrace' }, { version: '0.5.0' }, { filename: '../other.tgz' }, { sha256: '0'.repeat(64) }, { integrity: 'sha512-wrong' }]) assert.throws(() => verifyArtifact(dir, { ...manifest, ...patch }, pkg, sourceCommit));
+  for (const patch of [{ sourceCommit: 'b'.repeat(40) }, { packageName: 'scopetrace' }, { version: pkg.version + '-mismatch' }, { filename: '../other.tgz' }, { filename: 'other-' + pkg.version + '.tgz' }, { sha256: '0'.repeat(64) }, { integrity: 'sha512-wrong' }]) assert.throws(() => verifyArtifact(dir, { ...manifest, ...patch }, pkg, sourceCommit));
   fs.appendFileSync(path.join(dir, manifest.filename), 'tampered');assert.throws(() => verifyArtifact(dir, manifest, pkg, sourceCommit), /SHA-256/);
  } finally {
   assert.ok(path.resolve(dir).startsWith(parent + path.sep));fs.rmSync(dir, { recursive: true, force: true });
@@ -109,4 +109,21 @@ test('async registry processing stays pending, but visible integrity mismatch fa
  assert.equal(publicationState({ versions: { '0.4.2': { dist: { integrity: manifest.integrity } } }, 'dist-tags': { latest: '0.4.1' } }, manifest), 'pending');
  assert.equal(publicationState({ versions: { '0.4.2': { dist: { integrity: manifest.integrity } } }, 'dist-tags': { latest: '0.4.2' } }, manifest), 'published');
  assert.throws(() => publicationState({ versions: { '0.4.2': { dist: { integrity: 'sha512-wrong' } } } }, manifest), /integrity/);
+});
+
+for (const file of ['examples/github-permission-diff.yml', '.github/workflows/permission-diff.yml']) test('read-only pinned PR comparison workflow: ' + file, () => {
+ const text = fs.readFileSync(file, 'utf8'), workflow = YAML.parse(text);
+ assert.ok(Object.hasOwn(workflow.on, 'pull_request'));assert.deepEqual(workflow.permissions, { contents: 'read' });
+ assert.doesNotMatch(text, /pull_request_target|secrets\.|pull-requests: write|id-token: write/);
+ const steps = workflow.jobs.permissions.steps;
+ const app = steps.find(s => s.with?.path === 'app');assert.equal(app.with['fetch-depth'], 0);assert.equal(app.with['persist-credentials'], false);
+ const tool = steps.find(s => s.with?.path === 'tool');assert.match(tool.with.ref, /^[0-9a-f]{40}$/);
+ const compare = steps.find(s => s.id === 'compare');assert.equal(compare['working-directory'], 'app');
+ assert.match(compare.env.BASE_REF, /pull_request.base.sha/);assert.match(compare.env.HEAD_REF, /pull_request.head.sha/);
+ assert.match(compare.run, /--merge-base/);assert.match(compare.run, /--fail-on medium/);assert.match(compare.run, /--fail-on-unknown/);
+ assert.ok(text.indexOf('GITHUB_STEP_SUMMARY') < text.indexOf('::warning'));
+ for (const step of steps) {
+  if (step.uses) assert.match(step.uses, /@[0-9a-f]{40}$/);
+  if (/npm ci|npm run build/.test(step.run ?? '')) assert.equal(step['working-directory'], 'tool');
+ }
 });

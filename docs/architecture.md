@@ -41,3 +41,7 @@ The Google catalog keeps exact documented alternatives and conditions rather tha
 ## SARIF
 
 reporters/sarif.ts adapts the same Report without changing provider evaluation or CI gating. Structured findings preserve confidence and authorization metadata. Stable provider/catalog/category/severity/confidence rule variants keep GitHub precision honest. Relative URI encoding and source-order fingerprints are independent of source snippets and absolute roots. Declaration findings use a config-file anchor without a fabricated line. Observed/not-applicable findings remain run metadata instead of alerts. See [SARIF](sarif.md).
+
+## Permission comparison
+
+compare is separate from source scanning: readonly bounded Git plumbing reads one strict JSON declaration in each selected commit. The pure comparison engine retains exact declaration edits while applying provider-specific grant inclusion; it never compares GitHub permissions with Google scopes. Unknown inputs/context remain explicit and a separate review gate can block them. The independent comparison report, renderers, schema and PR workflow preserve existing scan/JSON/SARIF contracts. See [comparison](comparison.md).

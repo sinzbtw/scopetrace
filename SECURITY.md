@@ -37,3 +37,7 @@ Google OAuth scanning reads no tokens, executes no SDK/project modules and makes
 ## Registry publication
 
 The configured npm identity is @nesinz/scopetrace, not the unrelated unscoped package. Automated publishing uses GitHub OIDC from npm-publish.yml in environment npm. Test/build jobs have no id-token permission. The final job publishes only its own verified archive with lifecycle scripts disabled and provenance enabled; it installs no project dependencies. No npm automation token belongs in GitHub Secrets. First account registration/interactive bootstrap requires the owner; [publishing](docs/publishing.md) records that boundary and the activation flag.
+
+## Git permission comparison
+
+compare reads only the selected committed JSON declarations with a trusted Git executable outside the repository. Lazy fetch, replacements, paging and fsmonitor are disabled; no checkout, filters, hooks or analyzed project code are run. Blob size, mode, refs, paths, child output and time are bounded. Unsupported declarations are redacted/uncertain; the strict PR policy separately gates incomplete comparisons. It does not establish actual token grants or revocation. [Comparison boundaries](docs/comparison.md).

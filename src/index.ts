@@ -12,3 +12,8 @@ export { googleCatalog } from './providers/google/index.js';
 export { toSarif } from './reporters/sarif.js';
 export type { SarifOptions } from './reporters/sarif.js';
 export type { Format } from './reporters/index.js';
+
+export { comparePermissions, shouldFailComparison, googleScopeCovers } from './compare/engine.js';
+export { compareGit } from './compare/git.js';
+export { renderComparison } from './compare/reporters.js';
+export type * from './compare/types.js';

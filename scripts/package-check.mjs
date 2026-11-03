@@ -1,3 +1,4 @@
+import { Ajv2020 } from 'ajv/dist/2020.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -13,7 +14,7 @@ const npm = args => execFileSync(process.execPath, [process.env.npm_execpath, ..
 const out = path.resolve('work/npm');fs.mkdirSync(out, { recursive: true });
 const packed = npmResult(npm(['pack', '--ignore-scripts', '--json', '--pack-destination', out]), pkg.name);
 if (packed.version !== pkg.version) throw new Error('Packed version mismatch.');
-const required = ['package.json', 'dist/index.js', 'dist/index.d.ts', 'dist/cli/main.js', 'rules/github-oauth.json', 'rules/github-app.json', 'rules/google-oauth.json', 'schemas/report.schema.json', 'schemas/github-app-report.schema.json', 'schemas/google-oauth-report.schema.json', 'README.md', 'README.ru.md', 'LICENSE', 'SECURITY.md', 'CODE_OF_CONDUCT.md', 'docs/publishing.md', 'docs/publishing.ru.md'];
+const required = ['rules/google-scope-relations.json', 'schemas/comparison-report.schema.json', 'docs/comparison.md', 'docs/comparison.ru.md', 'package.json', 'dist/index.js', 'dist/index.d.ts', 'dist/cli/main.js', 'rules/github-oauth.json', 'rules/github-app.json', 'rules/google-oauth.json', 'schemas/report.schema.json', 'schemas/github-app-report.schema.json', 'schemas/google-oauth-report.schema.json', 'README.md', 'README.ru.md', 'LICENSE', 'SECURITY.md', 'CODE_OF_CONDUCT.md', 'docs/publishing.md', 'docs/publishing.ru.md'];
 for (const name of required) if (!packed.files.some(f => f.path === name)) throw new Error('Package missing: ' + name);
 for (const file of packed.files) {
  if (/^(?:src|tests|scripts|node_modules|work|coverage|\.git)\//.test(file.path) || /(?:^|\/)(?:\.npmrc|\.env(?:\..*)?|.*\.(?:pem|key)|package-lock\.json)$/.test(file.path)) throw new Error('Forbidden packaged path: ' + file.path);
@@ -47,6 +48,23 @@ for (const [fixture, provider, schema] of [['basic', 'github-oauth', '1.0.0'], [
  if (JSON.stringify(restored) !== JSON.stringify(report.findings)) throw new Error('Finding confidence/evidence lost.');
  console.log('Installed ' + provider + ': JSON, SARIF, public API, metadata and exit gate passed.');
 }
+const comparisonSchema = new Ajv2020({ strict: true }).compile(JSON.parse(fs.readFileSync(path.join(installed, 'schemas/comparison-report.schema.json'), 'utf8')));
+const oldConfig = api.configSchema.parse({ provider: 'github-oauth', declaredScopes: ['user:email'] });
+const newConfig = api.configSchema.parse({ provider: 'github-oauth', declaredScopes: ['user'] });
+const pureComparison = api.comparePermissions(oldConfig, newConfig);
+if (!comparisonSchema(pureComparison) || pureComparison.summary.expanded !== 1 || !api.shouldFailComparison(pureComparison, 'high')) throw new Error('Packed comparison API/schema failed.');
+const fixture = path.join(prefix, 'compare-fixture');fs.mkdirSync(fixture);
+const git = args => execFileSync('git', ['-c', 'core.autocrlf=false', '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=' + path.join(fixture, '.hooks-disabled'), '-C', fixture, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+git(['init', '--initial-branch=main']);git(['config', 'user.name', 'ScopeTrace package check']);git(['config', 'user.email', 'fixture@example.invalid']);
+fs.writeFileSync(path.join(fixture, 'scopetrace.config.json'), JSON.stringify(oldConfig));git(['add', 'scopetrace.config.json']);git(['commit', '-m', 'Before']);const baseCommit = git(['rev-parse', 'HEAD']);
+fs.writeFileSync(path.join(fixture, 'scopetrace.config.json'), JSON.stringify(newConfig));git(['add', 'scopetrace.config.json']);git(['commit', '-m', 'After']);
+const compared = spawnSync(process.execPath, [cli, 'compare', '--base', baseCommit, '--format', 'json', '--fail-on', 'high'], { cwd: fixture, encoding: 'utf8' });
+if (compared.status !== 1 || compared.stderr) throw new Error('Packed Git comparison CLI/gate failed.');
+const comparison = JSON.parse(compared.stdout);
+if (!comparisonSchema(comparison) || comparison.summary.expanded !== 1 || comparison.toolVersion !== pkg.version) throw new Error('Packed Git comparison report failed.');
+if (JSON.stringify(await api.compareGit(fixture, { base: baseCommit })) !== JSON.stringify(comparison)) throw new Error('Packed Git API differs from CLI.');
+if (!api.renderComparison(comparison, 'markdown').includes('ACCESS INCREASE')) throw new Error('Packed comparison Markdown failed.');
+console.log('Installed comparison: committed Git snapshots, escalation gate, independent schema, public API and Markdown passed.');
 for (const file of [...fs.readdirSync(installed).filter(f => f.endsWith('.md')), ...fs.readdirSync(path.join(installed, 'docs')).filter(f => f.endsWith('.md')).map(f => 'docs/' + f)]) {
  for (const match of fs.readFileSync(path.join(installed, file), 'utf8').matchAll(/\]\(([^)]+)\)/g)) {
   const href = match[1];if (/^https?:/.test(href) || href.startsWith('#')) continue;
@@ -54,7 +72,7 @@ for (const file of [...fs.readdirSync(installed).filter(f => f.endsWith('.md')),
  }
 }
 const consumer = path.join(prefix, 'consumer.mts');
-fs.writeFileSync(consumer, 'import { toSarif, type Report } from ' + JSON.stringify(pkg.name) + ';\ndeclare const report: Report;\nconst document = toSarif(report);\nconsole.log(document.version);\n');
+fs.writeFileSync(consumer, 'import { toSarif, comparePermissions, compareGit, renderComparison, configSchema, type ComparisonReport, type Report } from ' + JSON.stringify(pkg.name) + ';\ndeclare const report: Report;\nconst document = toSarif(report);\nconsole.log(document.version);\nconst diff: ComparisonReport = comparePermissions(configSchema.parse({provider: "github-oauth", declaredScopes: []}), null);\nrenderComparison(diff, "json");\nvoid compareGit;\n');
 execFileSync(process.execPath, [path.join(root, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--target', 'ES2023', '--module', 'NodeNext', consumer], { stdio: 'pipe' });
 const manifest = { packageName: pkg.name, version: pkg.version, filename: packed.filename, sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), sha256: createHash('sha256').update(bytes).digest('hex'), integrity };
 // npm 12 rejects even dry-run for an existing version. Only skip that network

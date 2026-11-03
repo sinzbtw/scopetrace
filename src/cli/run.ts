@@ -1,3 +1,7 @@
+import { compareGit } from '../compare/git.js';
+import { renderComparison } from '../compare/reporters.js';
+import { shouldFailComparison } from '../compare/engine.js';
+import type { ComparisonFormat } from '../compare/types.js';
 import { lstat, open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -15,6 +19,9 @@ Usage:
   scopetrace init [--provider github-oauth|github-app|google-oauth]
   scopetrace scan [--config FILE] [--format text|json|markdown|sarif] [--output FILE]
                   [--fail-on info|low|medium|high]
+  scopetrace compare --base REF [--head REF | --pr NUMBER] [--merge-base]
+                     [--config FILE] [--format text|json|markdown] [--output FILE]
+                     [--fail-on info|low|medium|high] [--fail-on-unknown]
   scopetrace rules [--provider github-oauth|github-app|google-oauth]
   scopetrace --help
   scopetrace --version
@@ -23,6 +30,8 @@ Run scan from the project root. Config paths must stay inside it.
 Output files are created exclusively: existing files are never overwritten.
 --fail-on blocks insufficient findings at or above the severity with medium/high confidence.
 Exit codes: 0 successful scan, 1 threshold met, 2 execution/configuration error.
+Compare gates privilege increases; --fail-on-unknown requires review of incomplete comparisons.
+Compare uses committed JSON declarations and locally available Git objects; it never fetches.
 Scan is local: no tokens, network calls or execution of project code.
 `;
 export interface CliIO { stdout: (text: string) => void; stderr: (text: string) => void }
@@ -42,16 +51,17 @@ export async function runCli(args: string[], cwd: string, io: CliIO): Promise<nu
  try {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, strict: true, options: {
    help: { type: 'boolean', short: 'h' }, version: { type: 'boolean', short: 'v' },
-   provider: { type: 'string' }, config: { type: 'string' }, format: { type: 'string' }, output: { type: 'string' }, 'fail-on': { type: 'string' }
+   provider: { type: 'string' }, config: { type: 'string' }, format: { type: 'string' }, output: { type: 'string' }, 'fail-on': { type: 'string' }, base: { type: 'string' }, head: { type: 'string' }, pr: { type: 'string' }, 'merge-base': { type: 'boolean' }, 'fail-on-unknown': { type: 'boolean' }
   } });
   if (values.help) { io.stdout(help); return 0; }
   if (values.version) { io.stdout(VERSION + '\n'); return 0; }
   const command = positionals[0];
   if (!command && args.length === 0) { io.stdout(help); return 0; }
-  if (positionals.length !== 1 || !['init', 'scan', 'rules'].includes(command ?? '')) throw new Error('Expected one command: init, scan or rules. See --help.');
-  if (command !== 'scan' && ['config', 'format', 'output', 'fail-on'].some(k => k in values)) throw new Error('Scan options are only valid with scan.');
+  if (positionals.length !== 1 || !['init', 'scan', 'rules', 'compare'].includes(command ?? '')) throw new Error('Expected one command: init, scan, rules or compare. See --help.');
+  if (command !== 'compare' && ['base', 'head', 'pr', 'merge-base', 'fail-on-unknown'].some(k => k in values)) throw new Error('Comparison options are only valid with compare.');
+  if (command !== 'scan' && command !== 'compare' && ['config', 'format', 'output', 'fail-on'].some(k => k in values)) throw new Error('Scan options are only valid with scan.');
   if (values.provider && !['github-oauth', 'github-app', 'google-oauth'].includes(values.provider)) throw new Error('Provider must be github-oauth, github-app or google-oauth.');
-  if (command === 'scan' && values.provider) throw new Error('Select the scan provider in the JSON config.');
+  if (['scan', 'compare'].includes(command!) && values.provider) throw new Error('Select the scan provider in the JSON config.');
   if (command === 'init') {
    await writeNew(path.join(cwd, 'scopetrace.config.json'), JSON.stringify(values.provider === 'google-oauth' ? defaultGoogleConfig : values.provider === 'github-app' ? defaultAppConfig : defaultConfig, null, 2) + '\n');
    io.stdout('Created scopetrace.config.json. Set the declarations and review include patterns.\n'); return 0;
@@ -74,6 +84,17 @@ export async function runCli(args: string[], cwd: string, io: CliIO): Promise<nu
   if (!['text', 'json', 'markdown', 'sarif'].includes(format)) throw new Error('Format must be text, json, markdown or sarif.');
   const threshold = values['fail-on'];
   if (threshold && !['info', 'low', 'medium', 'high'].includes(threshold)) throw new Error('Invalid --fail-on severity.');
+  if (command === 'compare') {
+   if (!values.base) throw new Error('Compare requires --base with an explicitly selected local Git ref.');
+   if (format === 'sarif') throw new Error('Compare supports text, json or markdown; scan SARIF output remains unchanged.');
+   if (values.pr !== undefined && !/^[1-9]\d{0,9}$/.test(values.pr)) throw new Error('PR must be a positive integer.');
+   const report = await compareGit(cwd, { base: values.base,
+    ...(values.head !== undefined ? { head: values.head } : {}), ...(values.pr !== undefined ? { pullRequest: Number(values.pr) } : {}),
+    ...(values['merge-base'] !== undefined ? { mergeBase: values['merge-base'] } : {}), ...(values.config !== undefined ? { config: values.config } : {}) });
+   const output = renderComparison(report, format as ComparisonFormat);
+   if (values.output) await writeNew(path.resolve(cwd, values.output), output);else io.stdout(output);
+   return shouldFailComparison(report, threshold as Severity | undefined, values['fail-on-unknown'] ?? false) ? 1 : 0;
+  }
   const config = await loadConfig(cwd, values.config);
   const result = await scanProject(cwd, config);
   const report = evaluate(result, config);

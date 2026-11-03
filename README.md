@@ -6,7 +6,7 @@
 
 Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
-[MIT license](LICENSE) · Node.js 22+ · Version 0.4.2
+[MIT license](LICENSE) · Node.js 22+ · Version 0.5.0
 
 ## Why ScopeTrace
 
@@ -22,6 +22,7 @@ This independent project is not affiliated with other products using the name Sc
 - Separate catalogs: 13 GitHub OAuth rules, 26 GitHub App rules and 22 Google OAuth rules, including conditional access and dated sensitivity metadata.
 - File/line/column evidence, stable finding IDs, rationale, confidence and documentation.
 - Terminal, JSON, Markdown and SARIF 2.1.0 reports; confidence-aware CI thresholds and GitHub Code Scanning workflow.
+- Committed branch/PR permission diffs with explicit escalation warnings and review gates.
 - Local bounded traversal, secret-file exclusions and symlink/junction skipping.
 
 ## Analysis limits
@@ -172,6 +173,17 @@ This repository also runs [Code Scanning](.github/workflows/code-scanning.yml) o
 Export with `scopetrace scan --format sarif --output report.sarif`. Copy the [Code Scanning workflow](examples/github-code-scanning.yml) into your application's .github/workflows and commit its config. The workflow uploads before enforcing the permission gate and uses a separate, reviewed tool checkout.
 
 All three providers retain confidence, alternatives and App/Google metadata. Possible excess and unknown cases stay review notes; observed/not-applicable findings remain metadata rather than alerts. Operation locations can annotate added/edited PR lines; declaration-only findings use a file-level config anchor. See the [SARIF guide](docs/sarif.md) for mapping, fingerprints, permissions, fork PRs, categories and Code Scanning availability.
+
+## Branch and Pull Request permission changes
+
+Use the new compare command to review committed declaration changes without checking out or executing either version:
+
+~~~sh
+scopetrace compare --base origin/main --head HEAD --merge-base --format markdown
+scopetrace compare --base origin/main --head HEAD --merge-base --fail-on medium --fail-on-unknown
+~~~
+
+The report distinguishes added, expanded, reduced, removed, equivalent and unknown privileges across all three providers. Read → write and documented broader scopes produce access-increase warnings; redundant scopes do not. JSON uses a separate permission-diff 1.0.0 schema. Existing scan formats and gates are unchanged. The [PR workflow](examples/github-permission-diff.yml) attaches the change report to a check summary and requires review for increases/uncertainty with read-only permissions. See the [comparison guide](docs/comparison.md), including the local --pr shortcut, explicit fetch/history requirements and declaration-only limits.
 
 ## npm releases
 

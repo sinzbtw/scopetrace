@@ -67,6 +67,7 @@ export function publicationState(document, manifest) {
 export function verifyArtifact(directory, manifest, pkg, sha) {
  assert(manifest.packageName === pkg.name && manifest.version === pkg.version && manifest.sourceCommit === sha, 'Artifact identity does not match the verified source.');
  assert(/^[a-z0-9-]+-\d+\.\d+\.\d+\.tgz$/.test(manifest.filename) && path.basename(manifest.filename) === manifest.filename, 'Invalid artifact filename.');
+ assert(manifest.filename === pkg.name.replace(/^@/, '').replace('/', '-') + '-' + pkg.version + '.tgz', 'Artifact filename must match the scoped package and version.');
  const file = path.join(directory, manifest.filename);
  const stat = fs.lstatSync(file);
  assert(stat.isFile() && !stat.isSymbolicLink(), 'Artifact must be a regular file.');

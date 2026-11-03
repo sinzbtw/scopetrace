@@ -1,0 +1,87 @@
+{
+  "version": "2026-11-04.1",
+  "verified": "2026-11-04",
+  "description": "Selected documented whole-scope inclusions for declaration comparison. This is not the operation-conditioned narrower-candidate catalog. No URI-prefix implication. Drive app-data/file and Calendar app-created scopes are not conflated.",
+  "docs": [
+    "https://developers.google.com/workspace/gmail/api/auth/scopes",
+    "https://developers.google.com/workspace/drive/api/guides/api-specific-auth",
+    "https://developers.google.com/workspace/calendar/api/auth"
+  ],
+  "implies": {
+    "https://mail.google.com/": [
+      "https://www.googleapis.com/auth/gmail.modify",
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.compose",
+      "https://www.googleapis.com/auth/gmail.send",
+      "https://www.googleapis.com/auth/gmail.metadata",
+      "https://www.googleapis.com/auth/gmail.labels"
+    ],
+    "https://www.googleapis.com/auth/gmail.modify": [
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.send",
+      "https://www.googleapis.com/auth/gmail.metadata",
+      "https://www.googleapis.com/auth/gmail.labels"
+    ],
+    "https://www.googleapis.com/auth/gmail.readonly": [
+      "https://www.googleapis.com/auth/gmail.metadata"
+    ],
+    "https://www.googleapis.com/auth/gmail.compose": [
+      "https://www.googleapis.com/auth/gmail.send"
+    ],
+    "https://www.googleapis.com/auth/drive": [
+      "https://www.googleapis.com/auth/drive.readonly",
+      "https://www.googleapis.com/auth/drive.metadata",
+      "https://www.googleapis.com/auth/drive.metadata.readonly",
+      "https://www.googleapis.com/auth/drive.file"
+    ],
+    "https://www.googleapis.com/auth/drive.readonly": [
+      "https://www.googleapis.com/auth/drive.metadata.readonly"
+    ],
+    "https://www.googleapis.com/auth/drive.metadata": [
+      "https://www.googleapis.com/auth/drive.metadata.readonly"
+    ],
+    "https://www.googleapis.com/auth/calendar": [
+      "https://www.googleapis.com/auth/calendar.readonly",
+      "https://www.googleapis.com/auth/calendar.events",
+      "https://www.googleapis.com/auth/calendar.events.readonly",
+      "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+      "https://www.googleapis.com/auth/calendar.calendars.readonly",
+      "https://www.googleapis.com/auth/calendar.freebusy",
+      "https://www.googleapis.com/auth/calendar.events.owned",
+      "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+      "https://www.googleapis.com/auth/calendar.app.created"
+    ],
+    "https://www.googleapis.com/auth/calendar.readonly": [
+      "https://www.googleapis.com/auth/calendar.events.readonly",
+      "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+      "https://www.googleapis.com/auth/calendar.calendars.readonly",
+      "https://www.googleapis.com/auth/calendar.freebusy"
+    ],
+    "https://www.googleapis.com/auth/calendar.events": [
+      "https://www.googleapis.com/auth/calendar.events.readonly"
+    ],
+    "https://www.googleapis.com/auth/calendar.events.owned": [
+      "https://www.googleapis.com/auth/calendar.events.owned.readonly"
+    ],
+    "https://www.googleapis.com/auth/calendar.calendarlist": [
+      "https://www.googleapis.com/auth/calendar.calendarlist.readonly"
+    ],
+    "https://www.googleapis.com/auth/calendar.calendars": [
+      "https://www.googleapis.com/auth/calendar.calendars.readonly"
+    ]
+  },
+  "discoveryRevisions": {
+    "gmail": "20261026",
+    "drive": "20261028",
+    "calendar": "20261030"
+  },
+  "exceptions": [
+    "calendar.events does not globally cover calendar.events.owned: colors.get accepts the latter but not the former.",
+    "Drive app-data/file and Calendar app-created relationships are not inferred from URI spelling or operation-conditioned candidate lists."
+  ],
+  "discoveryDocs": {
+    "gmail": "https://gmail.googleapis.com/$discovery/rest?version=v1",
+    "drive": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+    "calendar": "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
+  }
+}

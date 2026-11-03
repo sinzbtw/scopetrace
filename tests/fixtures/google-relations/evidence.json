@@ -1,0 +1,1572 @@
+{
+  "verified": "2026-11-04",
+  "description": "Official Discovery method/scope incidence data, used together with provider scope descriptions. Method acceptance alone is not a general scope hierarchy.",
+  "services": {
+    "gmail": {
+      "url": "https://gmail.googleapis.com/$discovery/rest?version=v1",
+      "revision": "20261026",
+      "methods": [
+        {
+          "id": "gmail.users.getProfile",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.watch",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.stop",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.drafts.send",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.drafts.update",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.drafts.delete",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.drafts.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.drafts.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.drafts.create",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.labels.delete",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.labels",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.labels.create",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.labels",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.labels.patch",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.labels",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.labels.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.labels",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.labels.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.labels",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.labels.update",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.labels",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.history.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.updateVacation",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.updateLanguage",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.getVacation",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.getLanguage",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.updateImap",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.getImap",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.getPop",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.updateAutoForwarding",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.updatePop",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.getAutoForwarding",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.identities.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.identities.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.identities.patch",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.identities.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.identities.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.keypairs.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.keypairs.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.keypairs.disable",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.keypairs.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.keypairs.obliterate",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.cse.keypairs.enable",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.delegates.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.delegates.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.delegates.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.delegates.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.forwardingAddresses.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.forwardingAddresses.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.forwardingAddresses.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.forwardingAddresses.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.verify",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.patch",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.smimeInfo.insert",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.smimeInfo.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.smimeInfo.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.smimeInfo.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.sendAs.smimeInfo.setDefault",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic",
+            "https://www.googleapis.com/auth/gmail.settings.sharing"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.filters.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.filters.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.filters.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.settings.filters.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/gmail.settings.basic"
+          ]
+        },
+        {
+          "id": "gmail.users.threads.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.threads.delete",
+          "scopes": [
+            "https://mail.google.com/"
+          ]
+        },
+        {
+          "id": "gmail.users.threads.trash",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.threads.modify",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.threads.untrash",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.threads.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.action",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.metadata",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.send",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+            "https://www.googleapis.com/auth/gmail.compose",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.send"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.import",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.insert",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.trash",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.delete",
+          "scopes": [
+            "https://mail.google.com/"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.action",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.metadata",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.batchModify",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.batchDelete",
+          "scopes": [
+            "https://mail.google.com/"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.list",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.metadata",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.insert",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.insert",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.untrash",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.modify",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.modify"
+          ]
+        },
+        {
+          "id": "gmail.users.messages.attachments.get",
+          "scopes": [
+            "https://mail.google.com/",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.action",
+            "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+            "https://www.googleapis.com/auth/gmail.modify",
+            "https://www.googleapis.com/auth/gmail.readonly"
+          ]
+        }
+      ]
+    },
+    "drive": {
+      "url": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+      "revision": "20261028",
+      "methods": [
+        {
+          "id": "drive.drives.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.drives.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.drives.hide",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.drives.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.drives.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.drives.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.drives.unhide",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.replies.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.replies.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.replies.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.replies.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.replies.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.permissions.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.permissions.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.permissions.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.permissions.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.permissions.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.approvals.approve",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.approvals.comment",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.approvals.cancel",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.approvals.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.approvals.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.approvals.decline",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.approvals.start",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.approvals.reassign",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.comments.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.comments.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.comments.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.comments.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.comments.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.operations.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.about.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.channels.stop",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.revisions.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.revisions.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.revisions.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.revisions.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.accessproposals.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.accessproposals.resolve",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.accessproposals.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.apps.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.apps.readonly",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.apps.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive.apps.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.scripts"
+          ]
+        },
+        {
+          "id": "drive.files.export",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.download",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.emptyTrash",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.files.copy",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.photos.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.files.listLabels",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.generateIds",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.files.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file"
+          ]
+        },
+        {
+          "id": "drive.files.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.modifyLabels",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.metadata"
+          ]
+        },
+        {
+          "id": "drive.files.watch",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.files.generateCseToken",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.teamdrives.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.teamdrives.create",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.teamdrives.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.teamdrives.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.teamdrives.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive"
+          ]
+        },
+        {
+          "id": "drive.changes.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.changes.watch",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        },
+        {
+          "id": "drive.changes.getStartPageToken",
+          "scopes": [
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/drive.appdata",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive.meet.readonly",
+            "https://www.googleapis.com/auth/drive.metadata",
+            "https://www.googleapis.com/auth/drive.metadata.readonly",
+            "https://www.googleapis.com/auth/drive.photos.readonly",
+            "https://www.googleapis.com/auth/drive.readonly"
+          ]
+        }
+      ]
+    },
+    "calendar": {
+      "url": "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+      "revision": "20261030",
+      "methods": [
+        {
+          "id": "calendar.calendarList.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendarlist",
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.calendarList.insert",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.calendarlist"
+          ]
+        },
+        {
+          "id": "calendar.calendarList.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.calendarlist",
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.calendarList.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendarlist"
+          ]
+        },
+        {
+          "id": "calendar.calendarList.watch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.calendarlist",
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.calendarList.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendarlist"
+          ]
+        },
+        {
+          "id": "calendar.calendarList.patch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendarlist"
+          ]
+        },
+        {
+          "id": "calendar.calendars.transferOwnership",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ]
+        },
+        {
+          "id": "calendar.calendars.insert",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ]
+        },
+        {
+          "id": "calendar.calendars.patch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ]
+        },
+        {
+          "id": "calendar.calendars.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ]
+        },
+        {
+          "id": "calendar.calendars.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendars",
+            "https://www.googleapis.com/auth/calendar.calendars.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.calendars.clear",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ]
+        },
+        {
+          "id": "calendar.calendars.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendars"
+          ]
+        },
+        {
+          "id": "calendar.channels.stop",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls",
+            "https://www.googleapis.com/auth/calendar.acls.readonly",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendarlist",
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.events.owned",
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+            "https://www.googleapis.com/auth/calendar.events.public.readonly",
+            "https://www.googleapis.com/auth/calendar.events.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly",
+            "https://www.googleapis.com/auth/calendar.settings",
+            "https://www.googleapis.com/auth/calendar.settings.readonly"
+          ]
+        },
+        {
+          "id": "calendar.events.insert",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.events.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.events.owned",
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+            "https://www.googleapis.com/auth/calendar.events.public.readonly",
+            "https://www.googleapis.com/auth/calendar.events.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.events.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.events.owned",
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+            "https://www.googleapis.com/auth/calendar.events.public.readonly",
+            "https://www.googleapis.com/auth/calendar.events.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.events.watch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.events.owned",
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+            "https://www.googleapis.com/auth/calendar.events.public.readonly",
+            "https://www.googleapis.com/auth/calendar.events.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.events.move",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.events.quickAdd",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.events.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.events.import",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.events.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.events.instances",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.events.owned",
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+            "https://www.googleapis.com/auth/calendar.events.public.readonly",
+            "https://www.googleapis.com/auth/calendar.events.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.events.patch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar.events.owned"
+          ]
+        },
+        {
+          "id": "calendar.settings.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.readonly",
+            "https://www.googleapis.com/auth/calendar.settings",
+            "https://www.googleapis.com/auth/calendar.settings.readonly"
+          ]
+        },
+        {
+          "id": "calendar.settings.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.readonly",
+            "https://www.googleapis.com/auth/calendar.settings",
+            "https://www.googleapis.com/auth/calendar.settings.readonly"
+          ]
+        },
+        {
+          "id": "calendar.settings.watch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.readonly",
+            "https://www.googleapis.com/auth/calendar.settings",
+            "https://www.googleapis.com/auth/calendar.settings.readonly"
+          ]
+        },
+        {
+          "id": "calendar.acl.patch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls"
+          ]
+        },
+        {
+          "id": "calendar.acl.insert",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls"
+          ]
+        },
+        {
+          "id": "calendar.acl.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls",
+            "https://www.googleapis.com/auth/calendar.acls.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.acl.watch",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls",
+            "https://www.googleapis.com/auth/calendar.acls.readonly"
+          ]
+        },
+        {
+          "id": "calendar.acl.delete",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls"
+          ]
+        },
+        {
+          "id": "calendar.acl.list",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls",
+            "https://www.googleapis.com/auth/calendar.acls.readonly"
+          ]
+        },
+        {
+          "id": "calendar.acl.update",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.acls"
+          ]
+        },
+        {
+          "id": "calendar.colors.get",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.app.created",
+            "https://www.googleapis.com/auth/calendar.calendarlist",
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.events.owned",
+            "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+            "https://www.googleapis.com/auth/calendar.events.public.readonly",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        },
+        {
+          "id": "calendar.freebusy.query",
+          "scopes": [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/calendar.events.freebusy",
+            "https://www.googleapis.com/auth/calendar.freebusy",
+            "https://www.googleapis.com/auth/calendar.readonly"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,66 @@
+# Compare application data with a separately pinned, reviewed ScopeTrace build.
+name: ScopeTrace permission changes
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Local base branch, tag or commit (manual runs)
+        type: string
+        required: true
+        default: v0.4.2
+      head:
+        description: Local head branch, tag or commit (manual runs)
+        type: string
+        required: true
+        default: main
+permissions:
+  contents: read
+jobs:
+  permissions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout application data and complete history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: app
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Checkout reviewed analyzer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: sinzbtw/scopetrace
+          ref: 68c8d04e874e75862b25f6046c42cf9a2c7f01d6
+          path: tool
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+        working-directory: tool
+      - run: npm run build
+        working-directory: tool
+      - name: Compare committed permission declarations
+        id: compare
+        working-directory: app
+        shell: bash
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha || inputs.base }}
+          HEAD_REF: ${{ github.event.pull_request.head.sha || inputs.head }}
+        run: |
+          set +e
+          node ../tool/dist/cli/main.js compare --base "$BASE_REF" --head "$HEAD_REF" --merge-base --config .github/scopetrace.config.json --format markdown --output "$RUNNER_TEMP/permissions.md" --fail-on medium --fail-on-unknown
+          status=$?
+          set -e
+          if [ "$status" -gt 1 ]; then exit "$status"; fi
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+      - name: Attach permission change report to the check
+        if: always() && steps.compare.outputs.exit_code != ''
+        shell: bash
+        run: cat "$RUNNER_TEMP/permissions.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Require review of access increases or uncertainty
+        if: always() && steps.compare.outputs.exit_code == '1'
+        run: |
+          echo '::warning title=ScopeTrace permission review::Review permission increases and unknown cases in the job summary.'
+          exit 1

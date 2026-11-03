@@ -28,3 +28,7 @@ Adds offline validation against the official vendored OASIS SARIF 2.1.0 Errata 0
 ## 0.4.1
 
 Adds native release-policy tests for scoped registry identity, version/tag/repository guards, disabled publishing, immutable version integrity, latest rollback and artifact tampering. Package checks install the exact tarball, exercise all providers and JSON/SARIF gates, verify exported TypeScript declarations and packaged Markdown links, inspect allowed paths, and run npm publish --dry-run. Workflow tests assert least-privilege OIDC isolation and pinned Actions. A dry run does not verify the npm owner trust relationship or constitute a registry publish.
+
+## 0.5.0
+
+Adds declaration-semantic tests and real local Git fixtures for branch tips, merge bases/ambiguity, PR refs, dirty copies, config creation/deletion, malformed/oversized/link blobs, replaced objects, untrusted Git executables and disabled lazy transports. Installed-archive checks validate the new JSON schema, public comparison API/types, compiled Git CLI and escalation gate. Read-only PR workflow contracts and a built comparison run join the existing Windows/Linux matrix.
