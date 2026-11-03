@@ -6,7 +6,7 @@
 
 Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
-[MIT license](LICENSE) · Node.js 22+ · Version 0.4.1
+[MIT license](LICENSE) · Node.js 22+ · Version 0.4.2
 
 ## Why ScopeTrace
 
@@ -36,7 +36,14 @@ Potential excess always has low confidence. Review exclusions, unknown calls and
 
 ## Install
 
-The registry identity is **@nesinz/scopetrace**; the CLI command remains **scopetrace**. First publication requires owner setup: see the [npm publishing guide](docs/publishing.md). Do not install the unrelated unscoped npm package. Until setup is complete, build the public source:
+Install **@nesinz/scopetrace** from npm; the CLI command remains **scopetrace**. The unscoped npm package is unrelated.
+
+```sh
+npm install --global @nesinz/scopetrace --ignore-scripts
+scopetrace --version
+```
+
+Releases use GitHub OIDC and provenance; see the [npm publishing guide](docs/publishing.md). You can also build the public source:
 
 ```sh
 git clone https://github.com/sinzbtw/scopetrace.git
@@ -46,7 +53,7 @@ npm run build
 node dist/cli/main.js --help
 ```
 
-CLI runtime: Node.js 22+. Development checks: Node.js 22.13+ or a current 24/26 release. Optionally install the built checkout as a command with `npm install --global . --ignore-scripts`. After the scoped package is available, install it with `npm install --global @nesinz/scopetrace --ignore-scripts`.
+CLI runtime: Node.js 22+. Development checks: Node.js 22.13+ or a current 24/26 release. Optionally install the built checkout as a command with `npm install --global . --ignore-scripts`. Registry installs use the compiled distribution and need no build step.
 
 ## Quick start
 

@@ -6,7 +6,7 @@
 
 Локальный статический анализ **scopes GitHub OAuth Apps**, **read/write permissions GitHub Apps** и **Google OAuth scopes (Gmail, Drive, Calendar)** в JavaScript и TypeScript. Сопоставление объявленных прав с поддерживаемыми API-операциями: позиции в коде, обоснования и официальная документация.
 
-[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.4.1
+[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.4.2
 
 ## Зачем нужен ScopeTrace
 
@@ -36,7 +36,14 @@
 
 ## Установка
 
-Наше имя в реестре — **@nesinz/scopetrace**, команда CLI — **scopetrace**. Для первой публикации нужна настройка владельцем: [инструкция npm](docs/publishing.ru.md). Не устанавливайте чужой npm-пакет без scope. Пока настройка не завершена, соберите публичные исходники:
+Установите **@nesinz/scopetrace** из npm; команда CLI остаётся **scopetrace**. Пакет без scope принадлежит другому издателю.
+
+```sh
+npm install --global @nesinz/scopetrace --ignore-scripts
+scopetrace --version
+```
+
+Релизы используют GitHub OIDC и provenance: [инструкция npm](docs/publishing.ru.md). Также можно собрать публичные исходники:
 
 ```sh
 git clone https://github.com/sinzbtw/scopetrace.git
@@ -46,7 +53,7 @@ npm run build
 node dist/cli/main.js --help
 ```
 
-Для CLI нужен Node.js 22+. Для проверок разработки — Node.js 22.13+ либо актуальная версия 24/26. При желании установите собранную копию как команду через `npm install --global . --ignore-scripts`. После появления scoped-пакета используйте `npm install --global @nesinz/scopetrace --ignore-scripts`.
+Для CLI нужен Node.js 22+. Для проверок разработки — Node.js 22.13+ либо актуальная версия 24/26. При желании установите собранную копию как команду через `npm install --global . --ignore-scripts`. При установке из реестра используется готовая сборка, отдельная компиляция не нужна.
 
 ## Быстрый старт
 

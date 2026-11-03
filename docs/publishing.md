@@ -4,7 +4,7 @@ Registry identity: **@nesinz/scopetrace**. The CLI is still **scopetrace**. The 
 
 ## Current activation boundary
 
-The repository is prepared for npm, but an npm account/package owner must perform the initial registration and configure the trust relationship. A successful dry run is not a successful registry publication. NPM_PUBLISH_ENABLED stays false until ownership and trust are confirmed. The existing v0.4.0 GitHub tag is unchanged; this packaging update prepares 0.4.1.
+The owner registered @nesinz/scopetrace with the checked 0.4.1 bootstrap archive and configured GitHub trust for npm-publish.yml/environment npm. Package settings require 2FA and disallow ordinary tokens. Version 0.4.2 exercises the automated OIDC path. The existing v0.4.0 GitHub tag is unchanged. A successful dry run is not a registry publish; registry metadata and the publish job determine the final result. NPM_PUBLISH_ENABLED is the explicit activation switch and can be set false to stop future publishes.
 
 ## What the workflow does
 

@@ -12,7 +12,7 @@ scopetrace scan --format json
 scopetrace scan --fail-on high
 ```
 
-Используйте собранные исходники или архив с реализацией 0.3: старые релизы не поддерживают этот провайдер. Новая идентичность npm — @nesinz/scopetrace; первая публикация требует [настройки владельцем](publishing.ru.md).
+Используйте собранные исходники или архив с реализацией 0.3: старые релизы не поддерживают этот провайдер. Имя npm — @nesinz/scopetrace; [публикация и Trusted Publishing](publishing.ru.md).
 
 ```json
 {

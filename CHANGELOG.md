@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2 — 2026-11-03
+
+- Activate automatic registry releases after the owner-verified @nesinz/scopetrace bootstrap and trusted-publisher setup.
+- Publish the checked archive through GitHub OIDC with provenance and token-based publishing disabled.
+- Document the scoped registry installation command and retain all existing provider/report behavior.
+
 ## 0.4.1 — 2026-11-03
 
 - Prepare public scoped npm identity @nesinz/scopetrace; CLI remains scopetrace. The occupied unscoped npm package is unrelated.
