@@ -80,7 +80,7 @@ function metadata() {
  validateMetadata(pkg, JSON.parse(fs.readFileSync('package-lock.json', 'utf8')), config);
  return { pkg, config };
 }
-async function registryPackage(name) {
+export async function registryPackage(name) {
  const response = await fetch(REGISTRY + encodeURIComponent(name), { signal: AbortSignal.timeout(30000) });
  if (response.status === 404) return null;
  assert(response.ok, 'npm registry lookup failed; refusing to treat this as an absent package.');

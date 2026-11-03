@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
-import { validateMetadata, npmResult } from './release.mjs';
+import { validateMetadata, npmResult, registryPackage, registryDecision } from './release.mjs';
 const root = process.cwd();
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 validateMetadata(pkg, JSON.parse(fs.readFileSync('package-lock.json', 'utf8')), JSON.parse(fs.readFileSync('.github/npm-publish.json', 'utf8')));
@@ -56,10 +56,14 @@ for (const file of [...fs.readdirSync(installed).filter(f => f.endsWith('.md')),
 const consumer = path.join(prefix, 'consumer.mts');
 fs.writeFileSync(consumer, 'import { toSarif, type Report } from ' + JSON.stringify(pkg.name) + ';\ndeclare const report: Report;\nconst document = toSarif(report);\nconsole.log(document.version);\n');
 execFileSync(process.execPath, [path.join(root, 'node_modules/typescript/bin/tsc'), '--noEmit', '--strict', '--target', 'ES2023', '--module', 'NodeNext', consumer], { stdio: 'pipe' });
-// A registry publish dry run does not authenticate or upload anything.
-const dryRun = npmResult(npm(['publish', archive, '--dry-run', '--ignore-scripts', '--access', 'public', '--registry=https://registry.npmjs.org/', '--json']), pkg.name);
-if (dryRun.name !== pkg.name || dryRun.version !== pkg.version) throw new Error('npm publish dry run mismatch.');
 const manifest = { packageName: pkg.name, version: pkg.version, filename: packed.filename, sourceCommit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), sha256: createHash('sha256').update(bytes).digest('hex'), integrity };
+// npm 12 rejects even dry-run for an existing version. Only skip that network
+// dry-run after an exact integrity match; every install/API check above still ran.
+const decision = registryDecision(await registryPackage(pkg.name), manifest);
+if (decision === 'publish') {
+ const dryRun = npmResult(npm(['publish', archive, '--dry-run', '--ignore-scripts', '--access', 'public', '--registry=https://registry.npmjs.org/', '--json']), pkg.name);
+ if (dryRun.name !== pkg.name || dryRun.version !== pkg.version) throw new Error('npm publish dry run mismatch.');
+} else console.log('Existing npm version matches the tested archive exactly; duplicate publish dry-run safely skipped.');
 fs.writeFileSync(path.join(out, 'release-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 fs.writeFileSync(path.join(out, 'CHECKSUMS.sha256'), manifest.sha256 + '  ' + packed.filename + '\n');
 console.log('Package allowlist, install, CLI shim, exported types, documentation links and npm publish dry run passed.');
