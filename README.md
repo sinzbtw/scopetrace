@@ -99,6 +99,8 @@ For Google OAuth, use `scopetrace init --provider google-oauth`. See the [Google
 
 Unknown keys/providers, invalid limits and traversal patterns are rejected. Use relative forward-slash globs on every platform. Config must be JSON inside the root, at most 64 KiB. Unknown scope names produce redacted unknown findings.
 
+Configuration reads use one validated file descriptor and a bounded buffer, rejecting detected replacement, growth or truncation during reading. Scan still assumes a stable checkout; these checks are not an OS sandbox against concurrent filesystem changes.
+
 Visibility accepts unknown (default), public or private. An explicit value is your assertion about **all modeled repository reads** in this scan. Use separate scans for mixed visibility. Public reads establish no scope need; modeled private reads require repo with medium confidence because visibility is user-supplied. Without that assertion they remain unknown.
 
 Without include/exclude, all supported extensions are selected except test/spec files. The starter config narrows selection to src/. Dependencies, VCS data, build outputs, environment files and private-key names remain excluded regardless of include patterns.
@@ -166,7 +168,7 @@ Categories: observed, possibly_excessive, insufficient, unknown, not_applicable.
 
 [CodeQL](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/codeql.yml) analyzes JavaScript/TypeScript with the security-extended suite on pushes to main, pull requests and a weekly schedule, without installing dependencies or running project code. Synthetic fixtures and generated directories are excluded. Results appear in GitHub Code Scanning alongside ScopeTrace's own permission reports.
 
-[Dependabot](https://github.com/sinzbtw/scopetrace/blob/main/.github/dependabot.yml) checks npm dependencies and GitHub Actions every Monday. Minor/patch npm updates are grouped, Vitest packages are updated together, and other major npm upgrades get separate PRs. Action updates and security updates have their own groups. Updates require review and passing checks; there is no automatic merge.
+[Dependabot](https://github.com/sinzbtw/scopetrace/blob/main/.github/dependabot.yml) checks npm dependencies and GitHub Actions every Monday. Minor/patch npm updates are grouped, Vitest packages are updated together, and other major npm upgrades get separate PRs. Major TypeScript and @types/node version updates are excluded: compiler API migrations need dedicated review, and Node declarations follow the minimum supported runtime. Action updates and security updates have their own groups. Updates require review and passing checks; there is no automatic merge.
 
 For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. The [read-only gate example](examples/github-actions.yml) and [Code Scanning example](examples/github-code-scanning.yml) pin reviewed implementation commits. Update pins only after review. Both build a pinned analyzer separately from the application being checked.
 
