@@ -6,7 +6,7 @@
 
 Локальный статический анализ **scopes GitHub OAuth Apps**, **read/write permissions GitHub Apps** и **Google OAuth scopes (Gmail, Drive, Calendar)** в JavaScript и TypeScript. Сопоставление объявленных прав с поддерживаемыми API-операциями: позиции в коде, обоснования и официальная документация.
 
-[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.5.0
+[Лицензия MIT](LICENSE) · Node.js 22+ · Версия 0.5.1
 
 ## Зачем нужен ScopeTrace
 

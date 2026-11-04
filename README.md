@@ -6,7 +6,7 @@
 
 Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
-[MIT license](LICENSE) · Node.js 22+ · Version 0.5.0
+[MIT license](LICENSE) · Node.js 22+ · Version 0.5.1
 
 ## Why ScopeTrace
 

@@ -2,7 +2,7 @@
 
 ## Supported release
 
-Security fixes target 0.3.x; users on earlier release lines should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
+Security fixes target 0.5.x; users on earlier release lines should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
 
 ## Private reporting
 

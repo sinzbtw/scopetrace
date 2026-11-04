@@ -29,7 +29,7 @@ describe('SARIF 2.1.0 contract', () => {
   const { findings, ...metadata } = r;
   const sarif = toSarif(r), run = sarif.runs[0]!;
   expect(validate(sarif), JSON.stringify(validate.errors)).toBe(true);
-  expect(run.tool.driver).toMatchObject({ name: 'ScopeTrace', version: '0.5.0' });
+  expect(run.tool.driver).toMatchObject({ name: 'ScopeTrace', version: '0.5.1' });
   expect(run.columnKind).toBe('utf16CodeUnits');
   expect(run).not.toHaveProperty('automationDetails');
   expect(run.results.length + run.properties.scopetrace.nonAlertFindings.length).toBe(findings.length);

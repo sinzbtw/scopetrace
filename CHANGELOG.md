@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.5.1 — 2026-11-04
+
 - Bound configuration reads to 64 KiB through a validated file descriptor, rejecting detected replacement, growth and truncation.
 - Validate source-file identity and changes through open descriptors; preserve atomic exclusive report creation and verify release archives without reopening their paths for hashing.
 - Simplify maintainer release documentation, remove setup-session notes and refresh installation and validation guides.

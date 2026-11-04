@@ -1,6 +1,6 @@
 {
   "name": "@nesinz/scopetrace",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Local static analysis and branch/PR permission diffs for GitHub OAuth, GitHub Apps and Google OAuth (Gmail, Drive, Calendar), with SARIF.",
   "type": "module",
   "bin": {
