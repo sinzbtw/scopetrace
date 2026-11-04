@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "picomatch": "^4.0.3",
-    "typescript": "~5.9.3",
+    "typescript": "~7.0.2",
     "zod": "^4.1.12"
   },
   "devDependencies": {
