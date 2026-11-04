@@ -2,7 +2,7 @@
 
 # ScopeTrace
 
-[![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![CodeQL](https://github.com/sinzbtw/scopetrace/actions/workflows/codeql.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/codeql.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Локальный статический анализ **scopes GitHub OAuth Apps**, **read/write permissions GitHub Apps** и **Google OAuth scopes (Gmail, Drive, Calendar)** в JavaScript и TypeScript. Сопоставление объявленных прав с поддерживаемыми API-операциями: позиции в коде, обоснования и официальная документация.
 
@@ -163,6 +163,10 @@ ID показан схематично: реальные значения зав
 ## CI/CD
 
 [CI](.github/workflows/ci.yml) проверяет Windows/Linux на Node.js 22/24/26: типизацию, ESLint, unit/integration-тесты с покрытием, сборку и запуск/gate собранного CLI для всех трёх моделей. Права ограничены чтением, Actions закреплены по SHA.
+
+[CodeQL](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/codeql.yml) проверяет JavaScript/TypeScript набором security-extended при push в main, в pull requests и еженедельно, без установки зависимостей и запуска кода проекта. Синтетические fixtures и генерируемые каталоги исключены. Результаты видны в GitHub Code Scanning вместе с собственными отчётами ScopeTrace о правах.
+
+[Dependabot](https://github.com/sinzbtw/scopetrace/blob/main/.github/dependabot.yml) проверяет npm-зависимости и GitHub Actions каждый понедельник. Minor/patch-обновления npm группируются, пакеты Vitest обновляются вместе, остальные major-обновления npm получают отдельные PR. Обновления Actions и исправления уязвимостей имеют свои группы. Обновления требуют ревью и успешных проверок; автоматического слияния нет.
 
 Для стороннего репозитория соберите исходники на проверенном **полном SHA коммита** и запустите CLI против своей копии. [Пример gate с правами чтения](examples/github-actions.yml) и [пример Code Scanning](examples/github-code-scanning.yml) закрепляют проверенные коммиты реализации. Меняйте pin после ревью. Оба отдельно собирают закреплённый анализатор и проверяют исходники приложения.
 

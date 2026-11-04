@@ -127,3 +127,26 @@ for (const file of ['examples/github-permission-diff.yml', '.github/workflows/pe
   if (/npm ci|npm run build/.test(step.run ?? '')) assert.equal(step['working-directory'], 'tool');
  }
 });
+
+test('CodeQL scans untrusted PR source without project execution or publication permissions', () => {
+ const text = fs.readFileSync('.github/workflows/codeql.yml', 'utf8'), workflow = YAML.parse(text);
+ assert.deepEqual(Object.keys(workflow.on).sort(), ['pull_request', 'push', 'schedule', 'workflow_dispatch']);
+ assert.deepEqual(workflow.on.push.branches, ['main']);assert.deepEqual(workflow.on.pull_request.branches, ['main']);
+ assert.equal(workflow.on.schedule.length, 1);
+ assert.deepEqual(workflow.permissions, { contents: 'read' });
+ assert.equal(Object.keys(workflow.jobs).length, 1);
+ const job = workflow.jobs.analyze;
+ assert.deepEqual(job.permissions, { contents: 'read', actions: 'read', 'security-events': 'write' });
+ assert.ok(job['timeout-minutes'] > 0 && job['timeout-minutes'] <= 30);
+ assert.equal(job.steps.length, 3);
+ const [checkout, init, analyze] = job.steps;
+ assert.match(checkout.uses, /^actions\/checkout@[0-9a-f]{40}$/);assert.equal(checkout.with['persist-credentials'], false);
+ assert.match(init.uses, /^github\/codeql-action\/init@[0-9a-f]{40}$/);
+ assert.equal(analyze.uses, init.uses.replace('/init@', '/analyze@'));
+ assert.equal(init.with.languages, 'javascript-typescript');assert.equal(init.with['build-mode'], 'none');
+ assert.equal(init.with.queries, 'security-extended');
+ assert.deepEqual(YAML.parse(init.with.config)['paths-ignore'], ['tests/fixtures', 'work', 'dist', 'coverage']);
+ assert.equal(analyze.with.category, '/language:javascript-typescript');
+ assert.ok(job.steps.every(step => !Object.hasOwn(step, 'run')));
+ assert.doesNotMatch(text, /pull_request_target|secrets\.|id-token:|contents: write|pull-requests: write/);
+});

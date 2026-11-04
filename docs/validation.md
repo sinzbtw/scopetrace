@@ -11,6 +11,10 @@ npm audit --audit-level=moderate
 
 check runs TypeScript typechecking, ESLint, coverage tests, release/workflow policy tests and the build. CI repeats validation on Windows/Linux with Node.js 22, 24 and 26, then exercises the built CLI. Current coverage and job results are recorded in [CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml).
 
+[CodeQL](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/codeql.yml) separately analyzes JavaScript/TypeScript with security-extended queries on main pushes, pull requests, weekly scheduled runs and manual dispatch. It uses build-mode none with no project installation or execution, excludes synthetic fixtures and generated directories, and uploads to GitHub Code Scanning. It complements ScopeTrace's own permission analysis.
+
+[Dependabot](https://github.com/sinzbtw/scopetrace/blob/main/.github/dependabot.yml) checks npm and GitHub Actions weekly. Vitest packages are grouped together; other minor/patch npm updates are grouped while major upgrades remain separate. Actions and security updates use separate groups. Maintainers enable Dependabot alerts and security updates in the repository's code security settings, review each update and require checks to pass before merging.
+
 ## Analysis and report contracts
 
 Tests cover supported AST bindings, aliases, shadowing, dynamic/unsupported calls, permission hierarchies, App read/write and token kinds, conditional Google scope requirements, sensitivity metadata and explicit uncertainty. Filesystem tests cover traversal limits, links, bounded reads and redaction. Fixtures use synthetic data and are parsed without execution.

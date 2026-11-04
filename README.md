@@ -2,7 +2,7 @@
 
 # ScopeTrace
 
-[![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/ci.yml) [![CodeQL](https://github.com/sinzbtw/scopetrace/actions/workflows/codeql.yml/badge.svg)](https://github.com/sinzbtw/scopetrace/actions/workflows/codeql.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
@@ -163,6 +163,10 @@ Categories: observed, possibly_excessive, insufficient, unknown, not_applicable.
 ## CI/CD
 
 [CI](.github/workflows/ci.yml) checks Windows/Linux on Node.js 22/24/26: typecheck, ESLint, unit/integration coverage tests, build and built CLI smoke/gate tests for all three models. Permissions are read-only and Actions are pinned.
+
+[CodeQL](https://github.com/sinzbtw/scopetrace/blob/main/.github/workflows/codeql.yml) analyzes JavaScript/TypeScript with the security-extended suite on pushes to main, pull requests and a weekly schedule, without installing dependencies or running project code. Synthetic fixtures and generated directories are excluded. Results appear in GitHub Code Scanning alongside ScopeTrace's own permission reports.
+
+[Dependabot](https://github.com/sinzbtw/scopetrace/blob/main/.github/dependabot.yml) checks npm dependencies and GitHub Actions every Monday. Minor/patch npm updates are grouped, Vitest packages are updated together, and other major npm upgrades get separate PRs. Action updates and security updates have their own groups. Updates require review and passing checks; there is no automatic merge.
 
 For another repository, build this source at a reviewed **full commit SHA** and run its CLI against your checkout. The [read-only gate example](examples/github-actions.yml) and [Code Scanning example](examples/github-code-scanning.yml) pin reviewed implementation commits. Update pins only after review. Both build a pinned analyzer separately from the application being checked.
 
