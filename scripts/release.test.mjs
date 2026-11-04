@@ -50,7 +50,7 @@ test('numeric stable version comparison prevents latest rollback', () => {
  assert.equal(registryDecision({ versions: { '0.4.1': { dist: { integrity: manifest.integrity } } } }, manifest), 'already-published');
  assert.throws(() => registryDecision({ versions: { '0.4.1': { dist: { integrity: 'sha512-other' } } } }, manifest), /different contents/);
 });
-test('downloaded archive must match identity, source commit, SHA-256 and SHA-512', () => {
+test('downloaded archive must match identity, source commit, SHA-256 and SHA-512', t => {
  const parent = path.resolve('work/tests');fs.mkdirSync(parent, { recursive: true });
  const dir = fs.mkdtempSync(path.join(parent, 'release-'));
  try {
@@ -60,6 +60,17 @@ test('downloaded archive must match identity, source commit, SHA-256 and SHA-512
   assert.equal(verifyArtifact(dir, manifest, pkg, sourceCommit), path.join(dir, manifest.filename));
   for (const patch of [{ sourceCommit: 'b'.repeat(40) }, { packageName: 'scopetrace' }, { version: pkg.version + '-mismatch' }, { filename: '../other.tgz' }, { filename: 'other-' + pkg.version + '.tgz' }, { sha256: '0'.repeat(64) }, { integrity: 'sha512-wrong' }]) assert.throws(() => verifyArtifact(dir, { ...manifest, ...patch }, pkg, sourceCommit));
   fs.appendFileSync(path.join(dir, manifest.filename), 'tampered');assert.throws(() => verifyArtifact(dir, manifest, pkg, sourceCommit), /SHA-256/);
+  const file = path.join(dir, manifest.filename), originalLstat = fs.lstatSync;
+  fs.writeFileSync(file, bytes);
+  let replaced = false;
+  const mock = t.mock.method(fs, 'lstatSync', (...args) => {
+   if (args[0] === file && !replaced) {
+    replaced = true;fs.renameSync(file, path.join(dir, 'original.tgz'));fs.writeFileSync(file, bytes);
+   }
+   return originalLstat(...args);
+  });
+  assert.throws(() => verifyArtifact(dir, manifest, pkg, sourceCommit), /Artifact changed/);
+  assert.equal(replaced, true);mock.mock.restore();
  } finally {
   assert.ok(path.resolve(dir).startsWith(parent + path.sep));fs.rmSync(dir, { recursive: true, force: true });
  }

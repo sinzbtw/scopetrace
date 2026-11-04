@@ -1,4 +1,5 @@
-import { lstat, readFile, realpath } from 'node:fs/promises';
+import { constants } from 'node:fs';
+import { lstat, open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
 import { appCatalog } from '../providers/github-app/index.js';
@@ -71,10 +72,26 @@ export async function loadConfig(root: string, filename = 'scopetrace.config.jso
  const base = await realpath(root);
  const target = path.resolve(base, filename);
  if (!within(base, target) || path.extname(target).toLowerCase() !== '.json') throw new Error('Config must be a JSON file inside the project root.');
- const meta = await lstat(target);
- if (!meta.isFile() || meta.isSymbolicLink() || meta.size > 65536 || !within(base, await realpath(target))) throw new Error('Config must be a regular JSON file of at most 64 KiB inside the root.');
+ const invalidFile = () => new Error('Config must be a regular JSON file of at most 64 KiB inside the root.');
+ const handle = await open(target, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0) | (constants.O_NONBLOCK ?? 0)).catch(() => { throw invalidFile(); });
+ let text: string;
+ try {
+  // Validate the opened file, then bound actual reads even if its size changes.
+  const opened = await handle.stat(), named = await lstat(target);
+  if (!opened.isFile() || !named.isFile() || named.isSymbolicLink() || opened.dev !== named.dev || opened.ino !== named.ino || opened.size > 65536 || !within(base, await realpath(target))) throw invalidFile();
+  const buffer = Buffer.alloc(65537);
+  let offset = 0;
+  while (offset < buffer.length) {
+   const { bytesRead } = await handle.read(buffer, offset, buffer.length - offset, offset);
+   if (bytesRead === 0) break;
+   offset += bytesRead;
+  }
+  const after = await handle.stat();
+  if (offset > 65536 || offset < opened.size || after.size !== offset || after.mtimeMs !== opened.mtimeMs || after.ctimeMs !== opened.ctimeMs) throw invalidFile();
+  text = buffer.subarray(0, offset).toString('utf8');
+ } finally { await handle.close(); }
  let input: unknown;
- try { input = JSON.parse(await readFile(target, 'utf8')); } catch { throw new Error('Config is not valid JSON.'); }
+ try { input = JSON.parse(text); } catch { throw new Error('Config is not valid JSON.'); }
  const parsed = configSchema.safeParse(input);
  if (!parsed.success) throw new Error('Invalid config: ' + parsed.error.issues.map(i => i.path.slice(0, 2).join('.') + ': ' + i.code).join('; '));
  return parsed.data;

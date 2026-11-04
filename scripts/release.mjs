@@ -69,9 +69,17 @@ export function verifyArtifact(directory, manifest, pkg, sha) {
  assert(/^[a-z0-9-]+-\d+\.\d+\.\d+\.tgz$/.test(manifest.filename) && path.basename(manifest.filename) === manifest.filename, 'Invalid artifact filename.');
  assert(manifest.filename === pkg.name.replace(/^@/, '').replace('/', '-') + '-' + pkg.version + '.tgz', 'Artifact filename must match the scoped package and version.');
  const file = path.join(directory, manifest.filename);
- const stat = fs.lstatSync(file);
- assert(stat.isFile() && !stat.isSymbolicLink(), 'Artifact must be a regular file.');
- const bytes = fs.readFileSync(file);
+ const fd = fs.openSync(file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW ?? 0) | (fs.constants.O_NONBLOCK ?? 0));
+ let bytes;
+ try {
+  // Hash the same regular file that was opened and checked, not a reopened path.
+  const opened = fs.fstatSync(fd), named = fs.lstatSync(file);
+  assert(opened.isFile() && named.isFile() && !named.isSymbolicLink(), 'Artifact must be a regular file.');
+  assert(opened.dev === named.dev && opened.ino === named.ino, 'Artifact changed during verification.');
+  bytes = fs.readFileSync(fd);
+  const after = fs.fstatSync(fd);
+  assert(bytes.length === opened.size && after.size === opened.size && after.mtimeMs === opened.mtimeMs && after.ctimeMs === opened.ctimeMs, 'Artifact changed during verification.');
+ } finally { fs.closeSync(fd); }
  assert(createHash('sha256').update(bytes).digest('hex') === manifest.sha256, 'Artifact SHA-256 mismatch.');
  assert('sha512-' + createHash('sha512').update(bytes).digest('base64') === manifest.integrity, 'Artifact integrity mismatch.');
  return file;

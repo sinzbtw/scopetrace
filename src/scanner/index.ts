@@ -35,24 +35,32 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
    if (blocked.has(entry.name) || secretName.test(entry.name) || exclude(relative) || exclude(relative + '/')) continue;
    if (entry.symbolic) { notice('symlink-skipped', 'A symbolic link or junction was skipped.'); continue; }
    try {
-    const stat = await lstat(full);
-    if (stat.isSymbolicLink() || !within(base, await realpath(full))) { notice('boundary-skipped', 'A path failed the project boundary check.'); continue; }
-    if (entry.directory && stat.isDirectory()) { await walk(full, depth + 1); continue; }
-    if (!entry.file || !stat.isFile() || !/\.(?:js|jsx|ts|tsx)$/i.test(entry.name) || !include(relative)) continue;
+    if (entry.directory) {
+     const stat = await lstat(full);
+     if (stat.isSymbolicLink() || !within(base, await realpath(full))) { notice('boundary-skipped', 'A path failed the project boundary check.'); continue; }
+     if (stat.isDirectory()) await walk(full, depth + 1);
+     continue;
+    }
+    if (!entry.file || !/\.(?:js|jsx|ts|tsx)$/i.test(entry.name) || !include(relative)) continue;
     if (result.filesScanned >= config.limits.maxFiles) { notice('file-limit', 'Source file limit reached.'); stopped = true; break; }
-    if (stat.size > config.limits.maxFileBytes) { notice('file-size-limit', 'A source file exceeded the byte limit.'); continue; }
-    if (totalBytes + stat.size > config.limits.maxTotalBytes) { notice('total-size-limit', 'Total source byte limit reached.'); stopped = true; break; }
-    const fd = await open(full, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
+    const fd = await open(full, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0) | (constants.O_NONBLOCK ?? 0));
     try {
-     const opened = await fd.stat();
-     if (!opened.isFile() || opened.size > config.limits.maxFileBytes || opened.ino !== stat.ino || !within(base, await realpath(full))) {
+     // Compare the open descriptor with the current path before reading bytes.
+     const opened = await fd.stat(), named = await lstat(full);
+     if (!opened.isFile() || !named.isFile() || named.isSymbolicLink() || opened.dev !== named.dev || opened.ino !== named.ino || !within(base, await realpath(full))) {
       notice('file-changed', 'A source file changed during the boundary check.'); continue;
      }
+     if (opened.size > config.limits.maxFileBytes) { notice('file-size-limit', 'A source file exceeded the byte limit.'); continue; }
+     if (totalBytes + opened.size > config.limits.maxTotalBytes) { notice('total-size-limit', 'Total source byte limit reached.'); stopped = true; break; }
      const buffer = Buffer.alloc(config.limits.maxFileBytes + 1);
      const { bytesRead } = await fd.read(buffer, 0, buffer.length, 0);
      if (bytesRead > config.limits.maxFileBytes) { notice('file-size-limit', 'A source file exceeded the byte limit.'); continue; }
      if (totalBytes + bytesRead > config.limits.maxTotalBytes) { notice('total-size-limit', 'Total source byte limit reached.'); stopped = true; break; }
      if (bytesRead < opened.size) { notice('short-read', 'A source file could not be read completely.'); continue; }
+     const after = await fd.stat();
+     if (after.size !== bytesRead || after.mtimeMs !== opened.mtimeMs || after.ctimeMs !== opened.ctimeMs) {
+      notice('file-changed', 'A source file changed while it was being read.'); continue;
+     }
      totalBytes += bytesRead;
      result.filesScanned++;
      try {

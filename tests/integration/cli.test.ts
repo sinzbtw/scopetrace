@@ -48,6 +48,14 @@ describe('CLI integration',()=>{
   expect((await run(['scan','--config','custom.json','--format','markdown','--output','report.md'],dir)).code).toBe(0);
   expect(await readFile(path.join(dir,'report.md'),'utf8')).toContain('# ScopeTrace report');
  });
+ it('allows only one of two concurrent exports to create the same output',async()=>{
+  const dir=await fixture();
+  await writeFile(path.join(dir,'scopetrace.config.json'),JSON.stringify({provider:'github-oauth',declaredScopes:[]}));
+  const results=await Promise.all([run(['scan','--output','report.json','--format','json'],dir),run(['scan','--output','report.json','--format','json'],dir)]);
+  expect(results.map(r=>r.code).sort()).toEqual([0,2]);
+  expect(results.find(r=>r.code===2)?.stderr).toContain('already exists');
+  expect(JSON.parse(await readFile(path.join(dir,'report.json'),'utf8')).provider).toBe('github-oauth');
+ });
  it('reports missing or malformed configuration without leaking snippets',async()=>{
   const dir=await fixture();
   expect((await run(['scan'],dir)).code).toBe(2);

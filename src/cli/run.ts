@@ -2,7 +2,7 @@ import { compareGit } from '../compare/git.js';
 import { renderComparison } from '../compare/reporters.js';
 import { shouldFailComparison } from '../compare/engine.js';
 import type { ComparisonFormat } from '../compare/types.js';
-import { lstat, open, realpath } from 'node:fs/promises';
+import { open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { defaultConfig, defaultAppConfig, defaultGoogleConfig, loadConfig } from '../config/index.js';
@@ -42,9 +42,11 @@ async function writeNew(filename: string, data: string): Promise<void> {
  // The parent must resolve exactly to prevent writing through directory symlinks.
  const normalize = (p: string) => process.platform === 'win32' ? p.toLowerCase() : p;
  if (normalize(path.resolve(parent)) !== normalize(path.dirname(absolute))) throw new Error('Output parent must not contain a symbolic link.');
- try { await lstat(absolute); throw new Error('Output file already exists; choose a new filename.'); }
- catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error; }
- const handle = await open(absolute, 'wx');
+ // Exclusive creation performs the existence check atomically with opening.
+ const handle = await open(absolute, 'wx').catch((error: NodeJS.ErrnoException) => {
+  if (error.code === 'EEXIST') throw new Error('Output file already exists; choose a new filename.');
+  throw error;
+ });
  try { await handle.writeFile(data, 'utf8'); } finally { await handle.close(); }
 }
 export async function runCli(args: string[], cwd: string, io: CliIO): Promise<number> {
