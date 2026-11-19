@@ -19,6 +19,8 @@ check runs TypeScript typechecking, ESLint, coverage tests, release/workflow pol
 
 Tests cover supported AST bindings, aliases, shadowing, dynamic/unsupported calls, permission hierarchies, App read/write and token kinds, conditional Google scope requirements, sensitivity metadata and explicit uncertainty. Filesystem tests cover traversal limits, links, bounded reads and redaction. Fixtures use synthetic data and are parsed without execution.
 
+Shared Octokit client regressions cover call-site evidence, explicit TypeScript ESM paths, excluded or ambiguous targets, alias mutation, and redaction for custom transports. The GitHub App fixture exercises the same path through the packed CLI and its permission gate.
+
 Deterministic filesystem regressions also exercise configuration growth/truncation during reading, replaced configuration/source paths, changed source content, descriptor closure and competing exclusive report exports. Configuration reads enforce the 64 KiB limit on bytes read from one checked descriptor. Release archive verification reads and hashes a checked descriptor; publication still assumes an isolated runner and stable artifact files until npm opens the archive.
 
 Provider JSON reports and permission comparisons are validated against their independent schemas. SARIF exports for all providers are checked offline against the vendored official OASIS SARIF 2.1.0 Errata 01 schema. Confidence, severity, evidence, relative URIs, fingerprints, exclusive output creation and CLI exit policies have regression coverage.

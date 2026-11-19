@@ -28,6 +28,8 @@ Potential excess is low-confidence advice. Public reads, unknown visibility, tok
 
 ## Extension and boundaries
 
+GitHub scans record named Octokit exports and imports while parsing validated files. The scanner matches explicit relative paths against its traversal inventory and reuses the bounded source snapshot for linked consumers. TypeScript `.js` imports can match unambiguous `.ts` or `.tsx` sources. Ambiguous paths and files outside the scan selection contribute no bindings. The TypeScript compiler host still performs no module resolution. The public `parseSource` function analyzes one file at a time.
+
 Add a distinct catalog, config discriminator and engine for another authorization model. Add mappings and official evidence to data rather than AST permission logic. Never dynamically load provider code from a scanned project.
 
 No interprocedural analysis, token tracking or GraphQL analysis. All calls use one declared model per scan. Traversal completeness is not whole-application completeness. Filesystem protections assume a stable untrusted checkout; they are not an OS sandbox against concurrent mutation. Output files use exclusive open; explicit export is the only scan-related write.

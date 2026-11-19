@@ -17,7 +17,7 @@ describe('CLI integration',()=>{
   const dir=await fixture();
   expect((await run([],dir)).stdout).toContain('Usage:');
   expect((await run(['--help'],dir)).code).toBe(0);
-  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.5.1');
+  expect((await run(['--version'],dir)).stdout.trim()).toBe('0.6.0');
   const rules=await run(['rules'],dir);expect(rules.code).toBe(0);expect(rules.stdout).toContain('gh.email.list');expect(rules.stdout).toContain('https://docs.github.com/');
  });
  it('initializes exclusively and rejects command/options errors',async()=>{
@@ -89,6 +89,8 @@ describe('CLI integration',()=>{
   expect(result.code).toBe(1);expect(result.stderr).toBe('');
   const report=JSON.parse(result.stdout);
   expect(report.provider).toBe('github-app');expect(report.schemaVersion).toBe('2.0.0');
+  expect(report.operations).toHaveLength(2);
+  expect(report.operations[1].location).toMatchObject({ file: 'src/app.ts', line: 3 });
   expect(report.findings.some((f:{category:string,declaredLevel:string,requiredLevel:string})=>f.category==='insufficient'&&f.declaredLevel==='read'&&f.requiredLevel==='write')).toBe(true);
   expect(report.findings.some((f:{suggestedLevel?:string})=>f.suggestedLevel==='read')).toBe(true);
   expect((await run(['scan','--format','markdown'],dir)).stdout).toContain('Provider: github-app');

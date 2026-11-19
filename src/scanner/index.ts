@@ -5,7 +5,9 @@ import picomatch from 'picomatch';
 import type { Config } from '../config/index.js';
 import { within } from '../config/index.js';
 import type { ScanResult } from '../types.js';
-import { parseSource } from './ast.js';
+import { analyzeSource } from './ast.js';
+import { linkOctokitModules, sourceExtension } from './octokit-modules.js';
+import type { OctokitModule } from './octokit-modules.js';
 
 const blocked = new Set(['node_modules', '.git', '.hg', '.svn', 'dist', 'build', 'coverage', '.next', '.env', '.ssh', '.aws', '.codex']);
 const secretName = /(?:^\.env(?:\.|$)|\.(?:pem|key|p12|pfx|crt|cer)$|^id_(?:rsa|ed25519|ecdsa)(?:\.|$))/i;
@@ -14,6 +16,10 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
  const result: ScanResult = { operations: [], notices: [], filesScanned: 0, complete: true };
  const include = picomatch(config.include, { dot: false });
  const exclude = picomatch(config.exclude, { dot: true });
+ const linkModules = config.provider !== 'google-oauth';
+ const modules = new Map<string, OctokitModule>();
+ const sourceEntries = new Set<string>();
+ const consumers = new Map<string, string>();
  let entries = 0, totalBytes = 0, stopped = false;
  const notice = (code: string, message: string) => { result.complete = false; result.notices.push({ code, message }); };
  async function walk(dir: string, depth: number): Promise<void> {
@@ -28,6 +34,12 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
    }
   } catch { notice('directory-unreadable', 'A directory could not be read.'); return; }
   collected.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+  if (linkModules && !stopped) {
+   const relativeDir = path.relative(base, dir).split(path.sep).join('/');
+   for (const entry of collected) {
+    if (sourceExtension.test(entry.name)) sourceEntries.add(path.posix.join(relativeDir, entry.name).toLowerCase());
+   }
+  }
   for (const entry of collected) {
    if (stopped) break;
    const full = path.join(dir, entry.name);
@@ -41,7 +53,7 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
      if (stat.isDirectory()) await walk(full, depth + 1);
      continue;
     }
-    if (!entry.file || !/\.(?:js|jsx|ts|tsx)$/i.test(entry.name) || !include(relative)) continue;
+    if (!entry.file || !sourceExtension.test(entry.name) || !include(relative)) continue;
     if (result.filesScanned >= config.limits.maxFiles) { notice('file-limit', 'Source file limit reached.'); stopped = true; break; }
     const fd = await open(full, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0) | (constants.O_NONBLOCK ?? 0));
     try {
@@ -64,16 +76,28 @@ export async function scanProject(root: string, config: Config): Promise<ScanRes
      totalBytes += bytesRead;
      result.filesScanned++;
      try {
-      const parsed = parseSource(buffer.subarray(0, bytesRead).toString('utf8'), relative, config.provider);
+      const module: OctokitModule | undefined = linkModules && !/\.d\.ts$/i.test(relative)
+       ? { exports: new Map(), writes: new Set(), uses: new Set() } : undefined;
+      const text = buffer.subarray(0, bytesRead).toString('utf8');
+      const parsed = analyzeSource(text, relative, config.provider, module ? { module } : undefined);
       result.operations.push(...parsed.operations);
       result.notices.push(...parsed.notices);
       if (parsed.notices.length) result.complete = false;
+      if (module && (module.exports.size || module.writes.size || module.uses.size)) modules.set(relative, module);
+      if (module?.uses.size) consumers.set(relative, text);
      } catch { notice('parser-limit', 'A source file could not be safely parsed.'); }
     } finally { await fd.close(); }
    } catch { notice('file-unreadable', 'A filesystem entry could not be safely read.'); }
   }
  }
  await walk(base, 0);
+ // Reparse only consumers of proven exports, using the original bounded source snapshot.
+ for (const [file, linkedImports] of linkOctokitModules(modules, sourceEntries)) {
+  try {
+   const parsed = analyzeSource(consumers.get(file)!, file, config.provider, { linkedImports });
+   result.operations.push(...parsed.operations);
+  } catch { notice('parser-limit', 'A source file could not be safely parsed.'); }
+ }
  if (result.filesScanned === 0) notice('no-files', 'No matching source files were analyzed; check include patterns.');
  result.operations.sort((a, b) => a.location.file < b.location.file ? -1 : a.location.file > b.location.file ? 1 : a.location.line - b.location.line || a.location.column - b.location.column);
  return result;

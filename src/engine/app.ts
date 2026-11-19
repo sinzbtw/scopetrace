@@ -99,7 +99,7 @@ export function evaluateApp(scan: ScanResult, config: AppConfig): AppReport {
    'Write covers read only for the same permission in the same domain; no cross-permission implication is inferred.',
    'All calls are compared with one declaration and configured token type. Actual credentials, installation repository selection and user access are not verified.',
    'Repository visibility applies to all modeled repository reads and is a user assertion. Metadata omission and organization membership intent can remain unknown.',
-   'Intrafile static calls only; dynamic routes, GraphQL, exported clients, App factories and wrappers are not resolved.',
+   'Static calls include direct named imports of shared Octokit clients in selected files. Dynamic routes, GraphQL, App factories and wrappers are outside the supported analysis.',
    'Webhook subscriptions can need permissions without API calls. Potential excess is always low-confidence manual review advice.',
    'Complete refers only to bounded traversal and parsing; it does not mean complete application behavior coverage.'
   ] }

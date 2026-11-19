@@ -2,7 +2,7 @@
 
 ## Supported release
 
-Security fixes target 0.5.x; users on earlier release lines should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
+Security fixes target 0.6.x; users on earlier release lines should upgrade. ScopeTrace is a static review aid, not an authorization verifier or a guarantee that reducing scopes is safe.
 
 ## Private reporting
 
@@ -12,7 +12,7 @@ If the private form is unavailable, open a public issue containing only a reques
 
 ## Threat model
 
-An attacker may control a stable repository's filenames, text, configuration, links and syntax. Scan performs no network calls, module resolution, code execution, package installation, lifecycle scripts, eval or dynamic loading of analyzed code. The CLI and installed dependencies are trusted software.
+An attacker may control a stable repository's filenames, text, configuration, links and syntax. Scan links selected Octokit bindings using its existing traversal inventory. It performs no runtime module resolution, additional reads driven by imports, network calls, code execution, package installation, lifecycle scripts, eval or dynamic loading of analyzed code. The CLI and installed dependencies are trusted software.
 
 JSON config is strict and bounded to 64 KiB. Traversal skips environment files, key names, dependencies, VCS metadata and build outputs. Source bytes, entries, file count and depth are bounded. Symlinks and junctions are skipped; real paths are checked against the root; opened regular-file identity is rechecked; reads use bounded buffers. Failures produce sanitized notices without source snippets.
 

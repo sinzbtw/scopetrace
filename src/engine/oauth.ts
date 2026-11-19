@@ -69,7 +69,7 @@ export function evaluateOAuth(scan: ScanResult, config: OAuthConfig): OAuthRepor
   analysis: { filesScanned: scan.filesScanned, complete: scan.complete, notices: scan.notices,
    limitations: [
     'Complete means traversal and parsing finished within the selected files; it never means all application behavior was analyzed.',
-    'Intrafile static calls only; wrappers, cross-file dataflow, dynamic routes, GraphQL, custom transports and other HTTP clients are not resolved.',
+    'Static calls include direct named imports of shared Octokit clients in selected files. Wrappers, dynamic routes, GraphQL, custom transports and other HTTP clients are outside the supported analysis.',
     'All detected operations are compared with one declared scope set; credential identity and reachability are not inferred.',
     'Repository visibility is a user assertion applying to all modeled repository reads.',
     'Scopes limit a token; user access, SSO, organization policies, granted scopes and runtime behavior are not verified.',

@@ -6,7 +6,7 @@
 
 Local static analysis of **GitHub OAuth App scopes**, **GitHub App read/write permissions** and **Google OAuth scopes (Gmail, Drive, Calendar)** in JavaScript and TypeScript. Compare declarations with supported API operations, with source locations, rationale and official documentation.
 
-[MIT license](LICENSE) · Node.js 22+ · Version 0.5.1
+[MIT license](LICENSE) · Node.js 22+ · Version 0.6.0
 
 ## Why ScopeTrace
 
@@ -18,6 +18,7 @@ This independent project is not affiliated with other products using the name Sc
 
 - TypeScript Compiler API AST analysis of JS/JSX/TS/TSX.
 - Imported Octokit constructors, aliases, CommonJS destructuring, REST methods and literal request routes.
+- Shared Octokit clients imported by name from another selected file, with evidence at the call site.
 - Global fetch with static GitHub URLs and HTTP methods.
 - Separate catalogs: 13 GitHub OAuth rules, 26 GitHub App rules and 22 Google OAuth rules, including conditional access and dated sensitivity metadata.
 - File/line/column evidence, stable finding IDs, rationale, confidence and documentation.
@@ -29,7 +30,9 @@ This independent project is not affiliated with other products using the name Sc
 
 Select **github-oauth**, **github-app** or **google-oauth**. These are separate models; Google support covers Gmail v1, Drive v3 and Calendar v3. Fine-grained PATs and GitHub Actions YAML declarations are not modeled or translated.
 
-Resolution is intrafile and limited to supported const aliases/literals. Wrappers, cross-file dataflow, dynamic templates, GraphQL, custom transports, other HTTP clients, pagination helpers, default imports, constructor factories and exported clients are outside the supported forms. Some unsupported forms cannot be recognized at all. Dynamic fetch targets are reported as candidates that may use another provider.
+The GitHub scanners can follow a direct named import such as `import { github } from './github.js'` when the selected module declares `export const github = new Octokit()`. Use explicit relative extensions. In TypeScript, a `.js` import can also match an unambiguous `.ts` or `.tsx` source. Both files must be selected by the scan. Recognizable shared clients with custom transport settings or visible writes through tracked aliases produce unknown findings.
+
+Other value resolution is limited to supported const aliases and literals within a file. Extensionless imports, barrel re-exports, path aliases, default imports, factories, wrappers, dynamic templates, GraphQL, other HTTP clients and pagination helpers are outside the supported forms. Dynamic fetch targets are reported as candidates that may use another provider.
 
 Every detected call is compared with one declared authorization model and grant set. The analyzer does not track token identity, validate reachability, inspect responses, verify actual grants or check user access, SSO and organization policies. Recognizable custom Octokit transports/base URLs become unknown. Repository visibility is never guessed.
 

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.6.0 — 2026-11-19
+
+- Recognize shared Octokit clients in GitHub OAuth and GitHub App scans when a selected source file imports a named `export const` over an explicit relative path. Report evidence at the call site, including TypeScript imports that use the emitted `.js` extension.
+- Preserve unknown results for custom Octokit transports and clients with visible writes through tracked aliases. Skip ambiguous paths and resolve imports only against selected, checked sources.
+- Update the Vitest and typescript-eslint development dependencies and the pinned CodeQL Actions.
+
 ## 0.5.1 — 2026-11-04
 
 - Bound configuration reads to 64 KiB through a validated file descriptor, rejecting detected replacement, growth and truncation.
